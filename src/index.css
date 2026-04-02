@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+body {
+  background-color: #f9fafb;
+}
+
+@layer utilities {
+  .animate-in {
+    animation: animate-in 0.2s ease-out;
+  }
+  .slide-in-from-bottom-5 {
+    --tw-enter-translate-y: 1.25rem;
+  }
+}
