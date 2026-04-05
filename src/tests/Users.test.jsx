@@ -4,7 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import Users from '../pages/Users';
 import { UsersProvider } from '../context/UsersContext';
 import { ToastProvider } from '../context/ToastContext';
+import { AuthProvider, useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
+
+vi.mock('../context/AuthContext', async () => {
+  const actual = await vi.importActual('../context/AuthContext');
+  return {
+    ...actual,
+    useAuth: vi.fn()
+  };
+});
 
 vi.mock('../services/api');
 
@@ -22,9 +31,11 @@ const renderWithProviders = (component) => {
   return render(
     <BrowserRouter>
       <ToastProvider>
-        <UsersProvider>
-          {component}
-        </UsersProvider>
+        <AuthProvider>
+          <UsersProvider>
+            {component}
+          </UsersProvider>
+        </AuthProvider>
       </ToastProvider>
     </BrowserRouter>
   );
@@ -32,6 +43,10 @@ const renderWithProviders = (component) => {
 
 describe('Users Page CRUD Integration', () => {
   beforeEach(() => {
+    useAuth.mockReturnValue({
+      user: { role: 'admin' },
+      loading: false
+    });
     api.get.mockResolvedValue(mockUsersData);
     vi.clearAllMocks();
   });

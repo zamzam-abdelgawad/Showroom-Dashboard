@@ -7,9 +7,9 @@ describe('UserFormModal Component', () => {
     render(<UserFormModal isOpen={true} onClose={() => {}} onSubmit={() => {}} />);
     
     expect(screen.getByText(/Add New User/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/John/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Doe/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/john.doe@example.com/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("John")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Doe")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("john.doe@example.com")).toBeInTheDocument();
   });
 
   it('validates empty inputs on submit', async () => {
@@ -26,9 +26,9 @@ describe('UserFormModal Component', () => {
     const handleSubmit = vi.fn();
     render(<UserFormModal isOpen={true} onClose={() => {}} onSubmit={handleSubmit} />);
     
-    fireEvent.change(screen.getByPlaceholderText(/John/i), { target: { value: 'Jane' } });
-    fireEvent.change(screen.getByPlaceholderText(/Doe/i), { target: { value: 'Smith' } });
-    fireEvent.change(screen.getByPlaceholderText(/john.doe@example.com/i), { target: { value: 'jane@smith.com' } });
+    fireEvent.change(screen.getByPlaceholderText("John"), { target: { value: 'Jane' } });
+    fireEvent.change(screen.getByPlaceholderText("Doe"), { target: { value: 'Smith' } });
+    fireEvent.change(screen.getByPlaceholderText("john.doe@example.com"), { target: { value: 'jane@smith.com' } });
     
     fireEvent.click(screen.getByRole('button', { name: /Create User/i }));
 

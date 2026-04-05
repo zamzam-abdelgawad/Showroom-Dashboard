@@ -38,7 +38,7 @@ describe('Login Component', () => {
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
-      expect(screen.getByText(/Invalid email or password/i)).toBeInTheDocument();
+      expect(screen.getByText(/Invalid credentials/i)).toBeInTheDocument();
     });
   });
 

@@ -1,12 +1,21 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, Car } from "lucide-react";
+import { LayoutDashboard, Users, Car, ClipboardList, UserCircle, Users2 } from "lucide-react";
 import { cn } from "../ui/Button";
+import { useAuth } from "../../context/AuthContext";
 
 export function Sidebar() {
-  const links = [
-    { name: "Dashboard", path: "/", icon: <LayoutDashboard className="h-5 w-5" /> },
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'admin';
+
+  const links = isAdmin ? [
+    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
     { name: "Users", path: "/users", icon: <Users className="h-5 w-5" /> },
     { name: "Cars Inventory", path: "/cars", icon: <Car className="h-5 w-5" /> },
+    { name: "Requests", path: "/requests", icon: <ClipboardList className="h-5 w-5" /> },
+    { name: "Team", path: "/team", icon: <Users2 className="h-5 w-5" /> },
+  ] : [
+    { name: "My Profile", path: "/profile", icon: <UserCircle className="h-5 w-5" /> },
+    { name: "Browse Cars", path: "/cars", icon: <Car className="h-5 w-5" /> },
   ];
 
   return (

@@ -1,82 +1,64 @@
-# 🚗 Car Showroom Management Dashboard
+# 🚗 Car Showroom Enterprise Dashboard
 
-A modern, responsive, and production-ready Admin Dashboard built for a Car Dealership.
-This project demonstrates real-world React development skills including state management with Context API, dynamic CRUD operations, role-based UI, and component testing.
+A high-performance, role-based Car Dealership Management System. This project demonstrates a complete B2C (Customer) and B2B (Admin) ecosystem, featuring purchase pipelines, inventory lifecycle management, and internal team operations.
 
 ---
 
 ## 🌐 Live Demo
 
-**App URL:** 
+**App URL:** *()*
 
 ---
 
-## 🎥 Demo Preview
+## 🎥 System Walkthrough
 
-This demo showcases full CRUD operations including:
+This dashboard simulates a real-world automotive business with distinct user journeys:
 
-* Adding a car
-* Editing a car
-* Deleting a car
-* Marking a car as sold
+*   **Customer Journey**: Browsing inventory, viewing technical specs, and submitting "Buy Requests".
+*   **Admin Journey**: Managing inventory, approving sales requests, and tracking team schedules.
 
-![Showroom Demo](./public/)
+![Showroom Demo](./public/showroom_demo.webp)
 
 ---
 
-## 📌 Project Overview
+## 📌 Project Architecture
 
-Built using React and Vite, this dashboard simulates a real car showroom system.
-It allows managing users and car inventory with instant UI updates powered by Context API.
-
-Data is persisted using `localStorage`, ensuring all changes remain after page refresh, mimicking real-world application behavior.
+Built with a modular frontend architecture, the system separates logic into clear domains:
+*   **Context API**: 5+ global providers managing Auth, Inventory, Users, Sales Requests, and Team data.
+*   **Role-Based Routing**: Intelligent redirection and path-guarding for Customers vs. Staff.
+*   **Data Persistence**: Complex state synchronization with `localStorage` for a "no-backend" full-featured experience.
 
 ---
 
 ## 🚀 Key Features
 
-* **Role-Based Access**
+### 👤 Dual Role Experience
+*   **Admin (Manager)**: Full access to the Analytics Dashboard, Cars CRUD, User Management, and staff schedules.
+*   **User (Customer)**: Restricted access to Personal Profile, Car Browsing, and the Purchase Request system.
 
-  * Admin: Full CRUD access (Add / Edit / Delete)
-  * User: Read-only access
+### 💰 Sales Request Pipeline (B2C)
+*   **Buy Request**: Customers can submit purchase intent for any available vehicle.
+*   **Request Management**: Admins can Approve or Reject requests in a dedicated tracking portal, providing a realistic sales workflow.
 
-* **Car Inventory Management (`/cars`)**
+### 🔧 Advanced Inventory Management
+*   **Car Specifications**: Full technical details including Engine, Mileage, Color, and Year.
+*   **Price Privacy**: Admins see internal MSRP (Official Price), while Customers only see the public Selling Price.
+*   **Image Galleries**: Dynamic rendering of vehicle assets.
 
-  * Add, edit, and delete cars
-  * Mark cars as "Sold"
-  * Persistent data using localStorage
-
-* **Interactive Dashboard**
-
-  * Displays:
-
-    * Total Cars
-    * Available Cars
-    * Sold Cars
-    * Total Sales Value
-  * Clicking cards filters data dynamically
-
-* **User Management (`/users`)**
-
-  * View users data
-  * Integrated with role-based system
-
-* **Modern UI/UX**
-
-  * Responsive design
-  * Toast notifications
-  * Skeleton loading states
-  * Confirmation modals
+### 👥 Team Operations (B2B)
+*   **Staff Directory**: Manage internal dealership roles (Sales, Managers, Techs).
+*   **Shift Scheduling**: Individual work schedules (Start/End times) for all team members.
 
 ---
 
 ## 🛠 Tech Stack
 
-* **Framework**: React 19 + Vite 8
-* **Styling**: Tailwind CSS v4
-* **State Management**: Context API
-* **Data Persistence**: localStorage
-* **Testing**: Vitest + React Testing Library
+*   **Frontend**: React 19 + Vite 8
+*   **Styling**: Tailwind CSS v4
+*   **Icons**: Lucide React
+*   **State**: Context API (Multi-Provider Strategy)
+*   **Charts**: Recharts (Sales performance visualization)
+*   **Testing**: Vitest + React Testing Library
 
 ---
 
@@ -84,79 +66,59 @@ Data is persisted using `localStorage`, ensuring all changes remain after page r
 
 ```text
 src/
-├── components/        # Reusable UI components & feature modules
-├── context/           # Global state management (Auth, Cars, Users)
-├── pages/             # Application pages (Dashboard, Cars, Users, Login)
-├── hooks/             # Custom hooks (e.g., useDebounce)
-└── tests/             # Unit & integration tests
+├── components/        # Reusable UI (Buttons, Modals, Layouts)
+├── context/           # Multi-domain Global State (Requests, Team, Cars, etc.)
+├── hooks/             # Custom Logic (Debouncing, Filter Logic)
+├── pages/             # Domain Pages (CarDetails, Profile, Requests, Team)
+└── tests/             # Comprehensive Unit & Integration Suites
 ```
 
 ---
 
-## 💻 Getting Started
-
-### Prerequisites
-
-Make sure you have Node.js installed.
-
-### Installation
+## 💻 Installation & Usage
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
-```
 
-The app will run on:
-http://localhost:5173
-
----
-
-## 🧪 Testing
-
-This project includes both unit and integration tests:
-
-* **Unit Testing**
-
-  * Reusable components (Button, Modal)
-
-* **Integration Testing**
-
-  * Core user flows:
-
-    * Add car
-    * Edit car
-    * Delete car
-
-Run tests using:
-
-```bash
+# Run test suites
 npm run test
 ```
 
 ---
 
-## ⭐ Highlights
+## 🧪 Testing Architecture
 
-* Full CRUD system with real business logic
-* Role-based UI (Admin vs User)
-* Persistent state using localStorage
-* Clean and scalable architecture
-* Tested using modern frontend tools
+The system uses a modern testing stack designed for speed and reliability:
+*   **Runner**: [Vitest](https://vitest.dev/) (Vite-native test runner)
+*   **Environment**: `jsdom` for browser API simulation
+*   **Library**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+*   **Coverage**:
+    *   **Auth Flow**: Validating multi-role login and error handling.
+    *   **Inventory CRUD**: Testing Admin-only "Add Car" and "Delete Car" flows.
+    *   **Role-Based UI**: Verifying that Customers cannot see Admin-only actions.
+    *   **User Management**: Testing integration between the Users Context and the UI.
+
+### Running Tests
+
+```bash
+# Standard run (all tests)
+npm test
+
+# Watch mode (auto-run on save)
+npx vitest
+
+# Visual UI (Browser-based dashboard)
+npx vitest --ui
+```
 
 ---
 
-## 💡 What I Learned
+## 💡 Engineering Highlights
 
-* Building scalable applications using Context API
-* Managing global state without Redux
-* Writing clean, reusable, and testable components
-* Simulating real-world business logic in frontend apps
-
----
-
-## 🤝 Future Enhancements
-
-* Integrate real backend (JWT authentication)
-* Use React Query or SWR for data fetching
-* Improve performance and caching strategies
-* Add advanced analytics to dashboard
+*   **Scalable Context Strategy**: Managed a complex dependency tree between Users, Cars, and Requests without state-draggling.
+*   **Aesthetic UI**: Leveraged curated HSL colors and glassmorphism for a premium "Showroom" feel.
+*   **Recruiter Ready**: Explicit demo credentials and clear "Next Steps" for backend migration.

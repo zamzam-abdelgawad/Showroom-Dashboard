@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCars } from "../context/CarsContext";
 import { useDebounce } from "../hooks/useDebounce";
 import { useToast } from "../context/ToastContext";
@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { Skeleton } from "../components/ui/Skeleton";
-import { Search, Filter, Edit2, Trash2, Plus, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Filter, Edit2, Trash2, Plus, CheckCircle, ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { CarFormModal } from "../components/cars/CarFormModal";
 import { DeleteConfirmModal } from "../components/ui/DeleteConfirmModal";
 
@@ -24,6 +24,7 @@ export default function Cars() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -151,7 +152,8 @@ export default function Cars() {
                 <tr>
                   <th className="px-6 py-4">Brand & Name</th>
                   <th className="px-6 py-4">Model Year</th>
-                  <th className="px-6 py-4">Price</th>
+                  <th className="px-6 py-4">Selling Price</th>
+                  {isAdmin && <th className="px-6 py-4">Official Price</th>}
                   <th className="px-6 py-4">Status</th>
                   <th className="px-6 py-4 text-right transform mr-2">Actions</th>
                 </tr>
@@ -183,7 +185,8 @@ export default function Cars() {
                         {car.brand} {car.name}
                       </td>
                       <td className="px-6 py-4 text-gray-500">{car.modelYear}</td>
-                      <td className="px-6 py-4 font-medium">${car.price.toLocaleString()}</td>
+                      <td className="px-6 py-4 font-bold text-indigo-600">${car.sellingPrice?.toLocaleString()}</td>
+                      {isAdmin && <td className="px-6 py-4 text-gray-400 italic">${car.officialPrice?.toLocaleString()}</td>}
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           car.status === 'Available' ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-600'
@@ -192,12 +195,21 @@ export default function Cars() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right flex justify-end gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => navigate(`/cars/${car.id}`)} 
+                          className="h-8 w-8 p-0 text-gray-400 hover:text-indigo-600" 
+                          title="View Details"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
                         {car.status === 'Available' && isAdmin && (
                           <Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-green-600 hover:bg-green-50" title="Mark as Sold">
                             <CheckCircle className="h-4 w-4" />
                           </Button>
                         )}
-                        {isAdmin ? (
+                        {isAdmin && (
                           <>
                             <Button variant="ghost" size="sm" onClick={() => openEditModal(car)} className="h-8 w-8 p-0 text-indigo-600 hover:bg-indigo-50" title="Edit">
                               <Edit2 className="h-4 w-4" />
@@ -206,8 +218,6 @@ export default function Cars() {
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </>
-                        ) : (
-                          <span className="text-xs text-gray-400 italic">View Only</span>
                         )}
                       </td>
                     </tr>

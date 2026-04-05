@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  esbuild: {
+    jsx: 'automatic',
+  },
   test: {
     environment: 'jsdom',
     globals: true,
