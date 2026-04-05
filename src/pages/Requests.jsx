@@ -100,8 +100,8 @@ export default function Requests() {
         </CardHeader>
 
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200">
+            <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-50/80 text-gray-400 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100">
                 <tr>
                   <th className="px-6 py-4">Customer Details</th>

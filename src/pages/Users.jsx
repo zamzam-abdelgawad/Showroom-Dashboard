@@ -141,8 +141,8 @@ export default function Users() {
         </CardHeader>
         
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200">
+            <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-50/80 text-gray-500 font-medium border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-4">Name</th>

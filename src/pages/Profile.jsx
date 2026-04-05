@@ -1,11 +1,18 @@
 import { useAuth } from "../context/AuthContext";
+import { useRequests } from "../context/RequestsContext";
+import { useCars } from "../context/CarsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
-import { User, Mail, Shield, Calendar } from "lucide-react";
+import { User, Mail, Shield, Calendar, Clock, Car, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 
 export default function Profile() {
   const { user } = useAuth();
+  const { requests } = useRequests();
+  const { cars } = useCars();
 
   if (!user) return null;
+
+  const userRequests = requests.filter(req => req.userId === user.id);
+  const purchasedCount = userRequests.filter(req => req.status === 'approved').length;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in">
@@ -28,11 +35,11 @@ export default function Profile() {
             <p className="text-gray-500 capitalize">{user.role}</p>
             <div className="mt-6 w-full pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-xl font-bold text-gray-900">12</p>
+                <p className="text-xl font-bold text-gray-900">{userRequests.length}</p>
                 <p className="text-xs text-gray-400 uppercase font-semibold">Requests</p>
               </div>
               <div className="text-center">
-                <p className="text-xl font-bold text-gray-900">2</p>
+                <p className="text-xl font-bold text-gray-900">{purchasedCount}</p>
                 <p className="text-xs text-gray-400 uppercase font-semibold">Purchased</p>
               </div>
             </div>
@@ -86,6 +93,66 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
+
+      {user.role === 'user' && (
+        <Card className="border-none shadow-md bg-white overflow-hidden">
+          <CardHeader className="border-b border-gray-50 flex flex-row items-center justify-between">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Clock className="h-5 w-5 text-indigo-500" /> My Buy Requests
+            </CardTitle>
+            <span className="text-xs font-medium text-gray-400">{userRequests.length} Total Requests</span>
+          </CardHeader>
+          <CardContent className="p-0">
+            {userRequests.length === 0 ? (
+              <div className="py-12 flex flex-col items-center justify-center text-center px-4">
+                <div className="bg-gray-50 p-3 rounded-full mb-3">
+                  <Car className="h-6 w-6 text-gray-300" />
+                </div>
+                <p className="text-sm font-medium text-gray-500">You haven't sent any requests yet</p>
+                <p className="text-xs text-gray-400 mt-1 max-w-[200px]">Browse the catalog and submit a "Buy Request" for a vehicle you like.</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-50">
+                {userRequests.map((req) => {
+                  const car = cars.find(c => c.id === req.carId);
+                  return (
+                    <div key={req.id} className="p-5 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 flex-shrink-0">
+                          <Car className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-gray-900">{car ? `${car.brand} ${car.name}` : "Unknown vehicle"}</h4>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="text-xs text-gray-400 flex items-center gap-1">
+                              <Calendar className="h-3 w-3" /> {new Date(req.timestamp).toLocaleDateString()}
+                            </span>
+                            {car && (
+                              <span className="text-xs font-bold text-indigo-600">
+                                ${car.sellingPrice?.toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                        req.status === 'approved' ? 'bg-green-100 text-green-700' : 
+                        req.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                      }`}>
+                        {req.status === 'approved' && <CheckCircle2 className="h-3 w-3" />}
+                        {req.status === 'rejected' && <XCircle className="h-3 w-3" />}
+                        {req.status === 'pending' && <AlertCircle className="h-3 w-3" />}
+                        {req.status}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

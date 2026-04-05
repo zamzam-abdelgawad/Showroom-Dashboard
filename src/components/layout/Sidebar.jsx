@@ -3,7 +3,7 @@ import { LayoutDashboard, Users, Car, ClipboardList, UserCircle, Users2 } from "
 import { cn } from "../ui/Button";
 import { useAuth } from "../../context/AuthContext";
 
-export function Sidebar() {
+export function Sidebar({ isOpen }) {
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 
@@ -19,8 +19,11 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-300 border-r border-slate-800 flex-shrink-0 hidden md:flex flex-col sticky">
-      <div className="p-4 flex-1 space-y-1.5">
+    <aside className={cn(
+      "w-64 bg-slate-900 text-slate-300 border-r border-slate-800 flex-shrink-0 flex flex-col fixed md:sticky top-16 md:top-0 h-[calc(100vh-4rem)] md:h-screen z-30 transition-transform duration-300 ease-in-out md:translate-x-0",
+      !isOpen && "-translate-x-full"
+    )}>
+      <div className="p-4 flex-1 space-y-1.5 overflow-y-auto">
         <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 mt-2">Menu</p>
         {links.map((link) => (
           <NavLink
@@ -46,7 +49,7 @@ export function Sidebar() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            All systems operational
+            Operational
           </div>
         </div>
       </div>
