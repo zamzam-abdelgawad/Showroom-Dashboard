@@ -50,9 +50,13 @@ export default function Users() {
 
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
-      const matchName = user.firstName.toLowerCase().includes(debouncedSearch.toLowerCase()) || 
-                        user.lastName.toLowerCase().includes(debouncedSearch.toLowerCase());
-      const matchStatus = statusFilter === 'all' || user.status.toLowerCase() === statusFilter;
+      const firstName = user.firstName || user.name || "";
+      const lastName = user.lastName || "";
+      const status = user.status || "Active";
+
+      const matchName = firstName.toLowerCase().includes(debouncedSearch.toLowerCase()) || 
+                        lastName.toLowerCase().includes(debouncedSearch.toLowerCase());
+      const matchStatus = statusFilter === 'all' || status.toLowerCase() === statusFilter;
       return matchName && matchStatus;
     });
   }, [users, debouncedSearch, statusFilter]);

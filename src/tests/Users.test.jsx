@@ -5,7 +5,7 @@ import Users from '../pages/Users';
 import { UsersProvider } from '../context/UsersContext';
 import { ToastProvider } from '../context/ToastContext';
 import { AuthProvider, useAuth } from '../context/AuthContext';
-import { api } from '../services/api';
+import { onSnapshot } from "firebase/firestore";
 
 vi.mock('../context/AuthContext', async () => {
   const actual = await vi.importActual('../context/AuthContext');
@@ -15,17 +15,11 @@ vi.mock('../context/AuthContext', async () => {
   };
 });
 
-vi.mock('../services/api');
-
-const mockUsersData = {
-  data: {
-    users: [
-      { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', image: '' },
-      { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', image: '' }
-    ],
-    total: 2
-  }
-};
+// Provide mock data for onSnapshot
+const mockUsers = [
+  { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'user', firestoreId: 'user-1' },
+  { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', role: 'admin', firestoreId: 'user-2' }
+];
 
 const renderWithProviders = (component) => {
   return render(
@@ -47,15 +41,27 @@ describe('Users Page CRUD Integration', () => {
       user: { role: 'admin' },
       loading: false
     });
-    api.get.mockResolvedValue(mockUsersData);
+    
+    // Default implementation for onSnapshot in this test file
+    vi.mocked(onSnapshot).mockImplementation((q, callback) => {
+      callback({
+        docs: mockUsers.map(u => ({
+          id: u.firestoreId,
+          data: () => u
+        }))
+      });
+      return vi.fn();
+    });
+    
     vi.clearAllMocks();
   });
 
-  it('fetches and displays users', async () => {
+  it('fetches and displays users from firestore', async () => {
     renderWithProviders(<Users />);
-    expect(screen.getByText(/User Management/i)).toBeInTheDocument();
     await waitFor(() => {
+      expect(screen.getByText(/User Management/i)).toBeInTheDocument();
       expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+      expect(screen.getByText(/Jane Smith/i)).toBeInTheDocument();
     });
   });
 

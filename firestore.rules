@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if the user is an admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == "admin@admin.com" || 
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin() || (request.auth != null && request.auth.token.email == "admin@admin.com");
+    }
+
+    // Cars Collection
+    match /cars/{carId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+      
+      // Prevent non-admins from reading the officialPrice field
+      // NOTE: Field-level security in rules is typically done via checking request.resource.data
+      // but hiding specific fields from a 'get' request is best done at the application level
+      // or using separate collections if security is critical.
+    }
+
+    // Requests Collection
+    match /requests/{requestId} {
+      allow read: if request.auth != null && (isAdmin() || resource.data.userId == request.auth.uid);
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Team & Schedules
+    match /team/{memberId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+    match /schedules/{scheduleId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,50 +1,67 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { 
+  collection, 
+  onSnapshot, 
+  addDoc, 
+  query, 
+  orderBy 
+} from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const TeamContext = createContext();
 
 export function TeamProvider({ children }) {
-  const [teamMembers, setTeamMembers] = useState(() => {
-    const saved = localStorage.getItem('showroom_team');
-    if (saved) return JSON.parse(saved);
-    return [
-      { id: 1, name: "Alice Johnson", role: "Manager", phone: "+1 555-0198", email: "alice@showroom.com", image: "https://i.pravatar.cc/150?u=a" },
-      { id: 2, name: "Bob Smith", role: "Sales Associate", phone: "+1 555-0123", email: "bob@showroom.com", image: "https://i.pravatar.cc/150?u=b" },
-      { id: 3, name: "Charlie Davis", role: "Sales Associate", phone: "+1 555-0145", email: "charlie@showroom.com", image: "https://i.pravatar.cc/150?u=c" }
-    ];
-  });
-  
-  const [schedules, setSchedules] = useState(() => {
-    const saved = localStorage.getItem('showroom_schedules');
-    if (saved) return JSON.parse(saved);
-    // Generic schedules
-    return [
-      { id: 101, memberId: 1, date: new Date().toISOString().split('T')[0], startTime: "09:00 AM", endTime: "05:00 PM" },
-      { id: 103, memberId: 2, date: new Date().toISOString().split('T')[0], startTime: "10:00 AM", endTime: "06:00 PM" },
-      { id: 104, memberId: 3, date: new Date().toISOString().split('T')[0], startTime: "12:00 PM", endTime: "08:00 PM" }
-    ];
-  });
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('showroom_team', JSON.stringify(teamMembers));
-    localStorage.setItem('showroom_schedules', JSON.stringify(schedules));
-  }, [teamMembers, schedules]);
+    setLoading(true);
+    
+    // Listener for Team Members
+    const qTeam = query(collection(db, "team"), orderBy("name", "asc"));
+    const unsubscribeTeam = onSnapshot(qTeam, (snapshot) => {
+      const teamData = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        firestoreId: doc.id
+      }));
+      setTeamMembers(teamData);
+    });
+
+    // Listener for Schedules
+    const qSchedules = query(collection(db, "schedules"), orderBy("date", "desc"));
+    const unsubscribeSchedules = onSnapshot(qSchedules, (snapshot) => {
+      const scheduleData = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        firestoreId: doc.id
+      }));
+      setSchedules(scheduleData);
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribeTeam();
+      unsubscribeSchedules();
+    };
+  }, []);
 
   const addTeamMember = async (memberData) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const newMember = {
-          id: Date.now(),
-          image: `https://i.pravatar.cc/150?u=${Date.now()}`,
-          ...memberData
-        };
-        setTeamMembers(prev => [newMember, ...prev]);
-        resolve(newMember);
-      }, 500);
-    });
+    try {
+      const newMember = {
+        ...memberData,
+        image: memberData.image || `https://i.pravatar.cc/150?u=${Date.now()}`,
+        createdAt: new Date().toISOString()
+      };
+      const docRef = await addDoc(collection(db, "team"), newMember);
+      return { ...newMember, firestoreId: docRef.id };
+    } catch (error) {
+      console.error("Error adding team member:", error);
+      throw error;
+    }
   };
 
   return (
-    <TeamContext.Provider value={{ teamMembers, schedules, addTeamMember }}>
+    <TeamContext.Provider value={{ teamMembers, schedules, addTeamMember, loading }}>
       {children}
     </TeamContext.Provider>
   );

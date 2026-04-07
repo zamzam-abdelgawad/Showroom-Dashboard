@@ -21,18 +21,19 @@ const renderWithProviders = (component) => {
 };
 
 describe('Team Module - Add Staff', () => {
-  it('opens the add staff modal when clicking the button', () => {
+  it('opens the add staff modal when clicking the button', async () => {
     renderWithProviders(<Team />);
-    const addBtn = screen.getByRole('button', { name: /Add Staff Member/i });
+    const addBtn = await screen.findByRole('button', { name: /Add Staff Member/i });
     fireEvent.click(addBtn);
     expect(screen.getByText(/Add New Staff Member/i)).toBeInTheDocument();
   });
 
   it('validates the form correctly', async () => {
     renderWithProviders(<Team />);
-    fireEvent.click(screen.getByRole('button', { name: /Add Staff Member/i }));
+    const addBtn = await screen.findByRole('button', { name: /Add Staff Member/i });
+    fireEvent.click(addBtn);
     
-    const submitBtn = screen.getByRole('button', { name: /Confirm Staff Member/i });
+    const submitBtn = await screen.findByRole('button', { name: /Confirm Staff Member/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
