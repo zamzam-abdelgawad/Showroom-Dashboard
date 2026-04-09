@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { 
-  getFirestore, 
-  collection, 
-  getDocs, 
-  deleteDoc, 
-  doc, 
-  setDoc, 
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  setDoc,
   serverTimestamp,
   query
 } from "firebase/firestore";
@@ -54,20 +54,20 @@ const seedData = async () => {
     // 1. Seed Users (Roles)
     console.log("👤 Seeding users...");
     const users = [
-      { 
-        uid: "admin-default-123", 
-        firstName: "Admin", 
-        lastName: "Manager", 
-        email: "admin@admin.com", 
+      {
+        uid: "admin-default-123",
+        firstName: "Admin",
+        lastName: "Manager",
+        email: "admin@admin.com",
         role: "admin",
         status: "Active",
         image: "https://i.pravatar.cc/150?u=admin"
       },
-      { 
-        uid: "user-default-123", 
-        firstName: "Regular", 
-        lastName: "User", 
-        email: "user@user.com", 
+      {
+        uid: "user-default-123",
+        firstName: "Regular",
+        lastName: "User",
+        email: "user@user.com",
         role: "user",
         status: "Active",
         image: "https://i.pravatar.cc/150?u=user"
@@ -157,6 +157,28 @@ const seedData = async () => {
       createdAt: serverTimestamp()
     });
     console.log(`✅ Schedule for Alice Johnson set.`);
+
+    // 5. Seed Requests
+    console.log("📝 Seeding requests...");
+    const requests = [
+      {
+        userId: "user-default-123", 
+        carId: "car-1001",
+        status: "pending",
+        timestamp: new Date().toISOString()
+      },
+      {
+        userId: "user-default-123",  
+        carId: "car-1002",
+        status: "pending",
+        timestamp: new Date().toISOString()
+      }
+    ];
+
+    for (const request of requests) {
+      await setDoc(doc(db, "requests", `req-${Date.now()}-${Math.random()}`), request);
+      console.log(`✅ Request for car ${request.carId} created.`);
+    }
 
     console.log("\n🎉 Seeding complete! Your database is clean and ready.");
     process.exit(0);

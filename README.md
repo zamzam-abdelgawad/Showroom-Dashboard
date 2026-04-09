@@ -24,9 +24,9 @@ This dashboard simulates a real-world automotive business with distinct user jou
 ## 📌 Project Architecture
 
 Built with a modular frontend architecture, the system separates logic into clear domains:
-*   **Context API**: 5+ global providers managing Auth, Inventory, Users, Sales Requests, and Team data.
-*   **Role-Based Routing**: Intelligent redirection and path-guarding for Customers vs. Staff.
-*   **Data Persistence**: Complex state synchronization with `localStorage` for a "no-backend" full-featured experience.
+*   **Dual-Domain Routing**: Complete separation of concerns between `src/customer` (Public Storefront) and `src/admin` (Internal Management).
+*   **Context API**: Global providers managing Auth, Inventory, Users, Sales Requests, and Team data, strictly isolated by domain.
+*   **Data Persistence**: Fully integrated with **Firebase Firestore** and **Firebase Authentication** for real-time, secure database management and user identity.
 
 ---
 
@@ -54,7 +54,8 @@ Built with a modular frontend architecture, the system separates logic into clea
 ## 🛠 Tech Stack
 
 *   **Frontend**: React 19 + Vite 8
-*   **Styling**: Tailwind CSS v4
+*   **Styling & Animation**: Tailwind CSS v4 + Framer Motion
+*   **Backend**: Firebase (Auth & Firestore)
 *   **Icons**: Lucide React
 *   **State**: Context API (Multi-Provider Strategy)
 *   **Charts**: Recharts (Sales performance visualization)
@@ -66,10 +67,18 @@ Built with a modular frontend architecture, the system separates logic into clea
 
 ```text
 src/
-├── components/        # Reusable UI (Buttons, Modals, Layouts)
-├── context/           # Multi-domain Global State (Requests, Team, Cars, etc.)
-├── hooks/             # Custom Logic (Debouncing, Filter Logic)
-├── pages/             # Domain Pages (CarDetails, Profile, Requests, Team)
+├── admin/             # B2B System (/admin/* routes)
+│   ├── components/    # Admin-specific UI (Form Modals, Layouts)
+│   ├── context/       # Admin-only Providers (Full CRUD access)
+│   └── pages/         # Dashboard, Inventory management, Requests
+├── customer/          # B2C Storefront (/ routes)
+│   ├── components/    # Public-facing UI (Layout)
+│   ├── context/       # Read-only or Customer-local Providers
+│   └── pages/         # Catalog, Car Details, Login/Register
+├── shared/            # Universal Resources
+│   ├── components/    # Reusable UI (Buttons, Micro-animations, Guards)
+│   ├── context/       # Core Providers (Auth, Toast)
+│   └── lib/           # Utilities, Firebase Init
 └── tests/             # Comprehensive Unit & Integration Suites
 ```
 

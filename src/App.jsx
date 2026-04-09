@@ -1,64 +1,72 @@
-import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import { ToastProvider } from "./context/ToastContext";
-import { UsersProvider } from "./context/UsersContext";
-import { CarsProvider } from "./context/CarsContext";
-import { RequestsProvider } from "./context/RequestsContext";
-import { TeamProvider } from "./context/TeamContext";
-import { DashboardLayout } from "./components/layout/DashboardLayout";
-import { RequireAdmin, RoleRedirect } from "./components/layout/RoleRedirect";
+import { ToastProvider } from "./shared/context/ToastContext";
+import { AuthProvider } from "./shared/context/AuthContext";
+import { ProtectedRoute } from "./shared/components/layout/ProtectedRoute";
+import { AdminRoute } from "./shared/components/layout/AdminRoute";
 
-const Login = lazy(() => import("./pages/Login"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Users = lazy(() => import("./pages/Users"));
-const UserDetails = lazy(() => import("./pages/UserDetails"));
-const Cars = lazy(() => import("./pages/Cars"));
-const CarDetails = lazy(() => import("./pages/CarDetails"));
-const Profile = lazy(() => import("./pages/Profile"));
-const Requests = lazy(() => import("./pages/Requests"));
-const Team = lazy(() => import("./pages/Team"));
-const TeamDetails = lazy(() => import("./pages/TeamDetails"));
+// Customer pages
+import { CustomerLayout } from "./customer/components/layout/CustomerLayout";
+import Login from "./customer/pages/Login";
+import Register from "./customer/pages/Register";
+import Home from "./customer/pages/Home";
+import CustomerCarDetails from "./customer/pages/CarDetails";
+import CustomerProfile from "./customer/pages/Profile";
 
-function App() {
+// Admin pages
+import { AdminLayout } from "./admin/components/layout/AdminLayout";
+import Dashboard from "./admin/pages/Dashboard";
+import AdminCars from "./admin/pages/Cars";
+import AdminCarDetails from "./admin/pages/CarDetails";
+import Users from "./admin/pages/Users";
+import UserDetails from "./admin/pages/UserDetails";
+import Requests from "./admin/pages/Requests";
+import Team from "./admin/pages/Team";
+import TeamDetails from "./admin/pages/TeamDetails";
+import AdminProfile from "./admin/pages/Profile";
+
+export default function App() {
   return (
     <BrowserRouter>
       <ToastProvider>
         <AuthProvider>
-          <UsersProvider>
-            <CarsProvider>
-              <RequestsProvider>
-                <TeamProvider>
-                  <Routes>
-                    <Route path="/login" element={
-                      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div></div>}>
-                        <Login />
-                      </Suspense>
-                    } />
+          <Routes>
+            {/* ========== Auth Pages ========== */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-                    <Route path="/" element={<DashboardLayout />}>
-                      <Route index element={<RoleRedirect />} />
-                      <Route path="dashboard" element={<RequireAdmin><Dashboard /></RequireAdmin>} />
-                      <Route path="users" element={<RequireAdmin><Users /></RequireAdmin>} />
-                      <Route path="users/:id" element={<RequireAdmin><UserDetails /></RequireAdmin>} />
-                      <Route path="cars" element={<Cars />} />
-                      <Route path="cars/:id" element={<CarDetails />} />
-                      <Route path="profile" element={<Profile />} />
-                      <Route path="requests" element={<RequireAdmin><Requests /></RequireAdmin>} />
-                      <Route path="team" element={<RequireAdmin><Team /></RequireAdmin>} />
-                      <Route path="team/:id" element={<RequireAdmin><TeamDetails /></RequireAdmin>} />
-                    </Route>
+            {/* ========== Customer Website ========== */}
+            <Route path="/" element={<CustomerLayout />}>
+              <Route index element={<Home />} />
+              <Route path="cars/:id" element={<CustomerCarDetails />} />
+              <Route path="profile" element={
+                <ProtectedRoute>
+                  <CustomerProfile />
+                </ProtectedRoute>
+              } />
+            </Route>
 
-                    <Route path="*" element={<RoleRedirect />} />
-                  </Routes>
-                </TeamProvider>
-              </RequestsProvider>
-            </CarsProvider>
-          </UsersProvider>
+            {/* ========== Admin Dashboard ========== */}
+            <Route path="/admin" element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="cars" element={<AdminCars />} />
+              <Route path="cars/:id" element={<AdminCarDetails />} />
+              <Route path="users" element={<Users />} />
+              <Route path="users/:id" element={<UserDetails />} />
+              <Route path="requests" element={<Requests />} />
+              <Route path="team" element={<Team />} />
+              <Route path="team/:id" element={<TeamDetails />} />
+              <Route path="profile" element={<AdminProfile />} />
+            </Route>
+
+            {/* ========== Catch-all ========== */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </AuthProvider>
       </ToastProvider>
     </BrowserRouter>
   );
 }
-
-export default App;
