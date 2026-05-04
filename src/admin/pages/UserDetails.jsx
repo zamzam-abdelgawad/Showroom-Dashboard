@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../shared/component
 import { Button } from "../../shared/components/ui/Button";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 import { useToast } from "../../shared/context/ToastContext";
-import { ArrowLeft, Mail, Phone, MapPin, Briefcase } from "lucide-react";
+import { ArrowLeft, Mail, Phone, MapPin, Briefcase, User } from "lucide-react";
 
 export default function UserDetails() {
   const { id } = useParams();
@@ -49,10 +49,16 @@ export default function UserDetails() {
       </Button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="col-span-1 border-gray-100 flex flex-col items-center text-center pt-8 pb-4">
-          <img src={user.image} alt={user.firstName} className="h-32 w-32 rounded-full border-4 border-indigo-50 bg-gray-100 object-cover" />
+          {user.image ? (
+            <img src={user.image} alt={user.name || user.firstName} className="h-32 w-32 rounded-full border-4 border-indigo-50 bg-gray-100 object-cover shadow-sm" />
+          ) : (
+            <div className="h-32 w-32 rounded-full border-4 border-indigo-50 bg-indigo-50 flex items-center justify-center shadow-sm">
+              <User className="h-14 w-14 text-indigo-400" />
+            </div>
+          )}
           <CardContent className="mt-4 w-full">
-            <h2 className="text-2xl font-bold text-gray-900">{user.firstName} {user.lastName}</h2>
-            <p className="text-gray-500 mt-1">{"@"}{user.username}</p>
+            <h2 className="text-2xl font-bold text-gray-900 leading-tight mb-1">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</h2>
+            {user.username && <p className="text-gray-500 mt-1">{"@"}{user.username}</p>}
             <div className="mt-4 pt-4 border-t border-gray-100 w-full">
               <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{user.status}</span>
             </div>

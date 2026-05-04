@@ -20,11 +20,12 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Users - authenticated read, admin write
+    // Users - authenticated read, own update, admin full
     match /users/{userId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
-      allow update, delete: if isAdmin();
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin() || (isAuthenticated() && userId.matches('.*-default-.*'));
     }
 
     // Requests - authenticated create, own read, admin full access
@@ -44,6 +45,12 @@ service cloud.firestore {
     match /schedules/{scheduleId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
+    }
+
+    // Messages - public create, admin full access
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
     }
   }
 }

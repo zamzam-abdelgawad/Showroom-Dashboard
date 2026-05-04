@@ -94,7 +94,7 @@ const seedData = async () => {
         officialPrice: 60000,
         sellingPrice: 65000,
         status: "Available",
-        images: ["https://images.unsplash.com/photo-1555215695-3004980ad54e"],
+        images: ["https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "3.0L V6", color: "Black", mileage: "12,000" }
       },
       {
@@ -105,7 +105,7 @@ const seedData = async () => {
         officialPrice: 50000,
         sellingPrice: 52000,
         status: "Available",
-        images: ["https://images.unsplash.com/photo-1599395273763-7e4a1a0f0e0f"],
+        images: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "2.0L I4", color: "White", mileage: "5,000" }
       },
       {
@@ -116,8 +116,52 @@ const seedData = async () => {
         officialPrice: 45000,
         sellingPrice: 48000,
         status: "Sold",
-        images: ["https://images.unsplash.com/photo-1594957608035-ad692997191e"],
+        images: ["https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "Electric", color: "Blue", mileage: "20,000" }
+      },
+      {
+        id: 1004,
+        name: "911 Carrera S",
+        brand: "Porsche",
+        modelYear: 2024,
+        officialPrice: 130000,
+        sellingPrice: 135000,
+        status: "Available",
+        images: ["https://images.unsplash.com/photo-1503376713248-be5b5c3ff267?auto=format&fit=crop&q=80&w=1000"],
+        specs: { engine: "3.0L Flat-6", color: "Shark Blue", mileage: "1,200" }
+      },
+      {
+        id: 1005,
+        name: "RS e-tron GT",
+        brand: "Audi",
+        modelYear: 2023,
+        officialPrice: 145000,
+        sellingPrice: 140000,
+        status: "Available",
+        images: ["https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&q=80&w=1000"],
+        specs: { engine: "Dual Motor Electric", color: "Tactical Green", mileage: "3,500" }
+      },
+      {
+        id: 1006,
+        name: "Range Rover Vogue",
+        brand: "Land Rover",
+        modelYear: 2023,
+        officialPrice: 105000,
+        sellingPrice: 110000,
+        status: "Available",
+        images: ["https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&q=80&w=1000"],
+        specs: { engine: "3.0L Inline-6", color: "Fuji White", mileage: "8,000" }
+      },
+      {
+        id: 1007,
+        name: "LC 500",
+        brand: "Lexus",
+        modelYear: 2024,
+        officialPrice: 99000,
+        sellingPrice: 101000,
+        status: "Sold",
+        images: ["https://images.unsplash.com/photo-1620866299298-6da8da4821a7?auto=format&fit=crop&q=80&w=1000"],
+        specs: { engine: "5.0L V8", color: "Infrared", mileage: "2,500" }
       }
     ];
 
@@ -163,13 +207,13 @@ const seedData = async () => {
     const requests = [
       {
         userId: "user-default-123", 
-        carId: "car-1001",
-        status: "pending",
+        carId: "1001",
+        status: "approved",
         timestamp: new Date().toISOString()
       },
       {
         userId: "user-default-123",  
-        carId: "car-1002",
+        carId: "1002",
         status: "pending",
         timestamp: new Date().toISOString()
       }

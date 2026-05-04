@@ -11,6 +11,7 @@ import Register from "./customer/pages/Register";
 import Home from "./customer/pages/Home";
 import CustomerCarDetails from "./customer/pages/CarDetails";
 import CustomerProfile from "./customer/pages/Profile";
+import ContactUs from "./customer/pages/ContactUs";
 
 // Admin pages
 import { AdminLayout } from "./admin/components/layout/AdminLayout";
@@ -23,6 +24,7 @@ import Requests from "./admin/pages/Requests";
 import Team from "./admin/pages/Team";
 import TeamDetails from "./admin/pages/TeamDetails";
 import AdminProfile from "./admin/pages/Profile";
+import Messages from "./admin/pages/Messages";
 
 export default function App() {
   return (
@@ -38,6 +40,7 @@ export default function App() {
             <Route path="/" element={<CustomerLayout />}>
               <Route index element={<Home />} />
               <Route path="cars/:id" element={<CustomerCarDetails />} />
+              <Route path="contact" element={<ContactUs />} />
               <Route path="profile" element={
                 <ProtectedRoute>
                   <CustomerProfile />
@@ -60,6 +63,7 @@ export default function App() {
               <Route path="team" element={<Team />} />
               <Route path="team/:id" element={<TeamDetails />} />
               <Route path="profile" element={<AdminProfile />} />
+              <Route path="messages" element={<Messages />} />
             </Route>
 
             {/* ========== Catch-all ========== */}

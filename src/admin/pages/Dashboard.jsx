@@ -3,7 +3,7 @@ import { useCars } from "../context/CarsContext";
 import { useRequests } from "../context/RequestsContext";
 import { useUsers } from "../context/UsersContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
-import { Car, DollarSign, Activity, CheckCircle, BarChart3, ArrowRight, Clock, User } from "lucide-react";
+import { Car, DollarSign, Activity, CheckCircle, BarChart3, ArrowRight, Clock, User, TrendingUp } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 
@@ -14,6 +14,13 @@ const chartData = [
   { name: "Apr", sales: 48000 },
   { name: "May", sales: 70000 },
   { name: "Jun", sales: 85000 },
+];
+
+const statCardStyles = [
+  { gradient: "from-indigo-500 to-indigo-600", iconBg: "bg-indigo-100", iconColor: "text-indigo-600", shadowColor: "shadow-indigo-100" },
+  { gradient: "from-emerald-500 to-emerald-600", iconBg: "bg-emerald-100", iconColor: "text-emerald-600", shadowColor: "shadow-emerald-100" },
+  { gradient: "from-purple-500 to-purple-600", iconBg: "bg-purple-100", iconColor: "text-purple-600", shadowColor: "shadow-purple-100" },
+  { gradient: "from-blue-500 to-blue-600", iconBg: "bg-blue-100", iconColor: "text-blue-600", shadowColor: "shadow-blue-100" },
 ];
 
 export default function Dashboard() {
@@ -27,9 +34,9 @@ export default function Dashboard() {
       <div className="space-y-6">
         <div><Skeleton className="h-8 w-48 mb-2" /><Skeleton className="h-4 w-64" /></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 w-full rounded-xl" />)}
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
         </div>
-        <Skeleton className="h-[400px] w-full rounded-xl mt-6" />
+        <Skeleton className="h-[400px] w-full rounded-2xl mt-6" />
       </div>
     );
   }
@@ -45,10 +52,10 @@ export default function Dashboard() {
   });
 
   const statCards = [
-    { title: "Total Cars", value: cars.length, icon: <Car className="h-5 w-5 text-indigo-600" />, trend: "+12%", onClick: () => navigate('/admin/cars') },
-    { title: "Available Cars", value: availableCarsCount, icon: <Activity className="h-5 w-5 text-green-600" />, trend: "+5%", onClick: () => navigate('/admin/cars?status=available') },
-    { title: "Sold Cars", value: soldCarsCount, icon: <CheckCircle className="h-5 w-5 text-purple-600" />, trend: "+10%", onClick: () => navigate('/admin/cars?status=sold') },
-    { title: "Total Sales", value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5 text-blue-600" />, trend: "+18%", onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Total Cars", value: cars.length, icon: <Car className="h-5 w-5" />, trend: "+12%", onClick: () => navigate('/admin/cars') },
+    { title: "Available", value: availableCarsCount, icon: <Activity className="h-5 w-5" />, trend: "+5%", onClick: () => navigate('/admin/cars?status=available') },
+    { title: "Sold Cars", value: soldCarsCount, icon: <CheckCircle className="h-5 w-5" />, trend: "+10%", onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Revenue", value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, trend: "+18%", onClick: () => navigate('/admin/cars?status=sold') },
   ];
 
   return (
@@ -58,28 +65,39 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold text-gray-900">Showroom Dashboard</h1>
           <p className="text-gray-500 mt-1 text-sm">Welcome back. Here is your inventory and sales performance.</p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+        <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-gray-400 bg-white px-3 py-1.5 rounded-xl border border-gray-100 shadow-sm">
           <Clock className="h-3 w-3" /> Updated: Today, 10:45 AM
         </div>
       </div>
 
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat, idx) => (
-          <Card key={idx} className="transition-all hover:shadow-md hover:-translate-y-1 cursor-pointer border-none shadow-sm" onClick={stat.onClick} role="button" tabIndex={0}>
+          <Card 
+            key={idx} 
+            className={`transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border-none shadow-sm ${statCardStyles[idx].shadowColor}`} 
+            onClick={stat.onClick} 
+            role="button" 
+            tabIndex={0}
+          >
             <CardContent className="p-6 flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500 tracking-tight">{stat.title}</p>
                 <h4 className="text-2xl font-extrabold text-gray-900 mt-2">{stat.value}</h4>
-                <p className="text-[10px] text-green-600 font-bold mt-2 flex items-center gap-1 uppercase tracking-wider">
+                <p className="text-[10px] text-emerald-600 font-bold mt-2 flex items-center gap-1 uppercase tracking-wider">
+                  <TrendingUp className="h-3 w-3" />
                   {stat.trend} <span className="text-gray-400 font-normal normal-case">vs last month</span>
                 </p>
               </div>
-              <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">{stat.icon}</div>
+              <div className={`p-3.5 ${statCardStyles[idx].iconBg} rounded-2xl ${statCardStyles[idx].iconColor}`}>
+                {stat.icon}
+              </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
+      {/* Charts + Recent Requests */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border-none shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 pb-4">
@@ -91,15 +109,19 @@ export default function Dashboard() {
                 <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} dy={10} />
                   <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} tickFormatter={(value) => `$${value / 1000}k`} />
-                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', padding: '12px' }} cursor={{stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4'}} formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]} />
-                  <Area type="monotone" dataKey="sales" stroke="#4f46e5" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px' }} 
+                    cursor={{stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4'}} 
+                    formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]} 
+                  />
+                  <Area type="monotone" dataKey="sales" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -109,7 +131,7 @@ export default function Dashboard() {
         <Card className="border-none shadow-sm h-fit">
           <CardHeader className="border-b border-gray-50 flex flex-row items-center justify-between pb-4">
             <CardTitle className="text-lg flex items-center gap-2"><Activity className="h-5 w-5 text-amber-500" /> Recent Requests</CardTitle>
-            <button onClick={() => navigate('/admin/requests')} className="text-indigo-600 hover:text-indigo-700"><ArrowRight className="h-4 w-4" /></button>
+            <button onClick={() => navigate('/admin/requests')} className="text-indigo-600 hover:text-indigo-700 p-1.5 rounded-lg hover:bg-indigo-50 transition-colors"><ArrowRight className="h-4 w-4" /></button>
           </CardHeader>
           <CardContent className="px-2 pt-4">
             {recentRequests.length === 0 ? (
@@ -121,16 +143,16 @@ export default function Dashboard() {
             ) : (
               <div className="space-y-1">
                 {recentRequests.map((req) => (
-                  <div key={req.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group" onClick={() => navigate('/admin/requests')}>
+                  <div key={req.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer group" onClick={() => navigate('/admin/requests')}>
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="bg-indigo-50 p-2 rounded-lg group-hover:bg-indigo-100 transition-colors"><User className="h-4 w-4 text-indigo-600" /></div>
+                      <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-2 rounded-xl group-hover:from-indigo-100 group-hover:to-purple-100 transition-colors"><User className="h-4 w-4 text-indigo-600" /></div>
                       <div className="flex flex-col overflow-hidden">
                         <span className="text-sm font-bold text-gray-900 truncate">{req.userName}</span>
                         <span className="text-[10px] font-medium text-gray-400 uppercase flex items-center gap-1"><Car className="h-2.5 w-2.5" /> {req.carName}</span>
                       </div>
                     </div>
                     <div className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest ${
-                      req.status === 'approved' ? 'bg-green-100 text-green-700' : 
+                      req.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 
                       req.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
                     }`}>{req.status}</div>
                   </div>

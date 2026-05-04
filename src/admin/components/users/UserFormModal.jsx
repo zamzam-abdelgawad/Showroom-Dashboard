@@ -10,7 +10,14 @@ export function UserFormModal({ isOpen, onClose, onSubmit, initialData = null, i
   useEffect(() => {
     if (isOpen) {
       if (initialData) {
-        setFormData({ firstName: initialData.firstName || "", lastName: initialData.lastName || "", email: initialData.email || "", status: initialData.status || "Active" });
+        let defaultFirst = initialData.firstName || "";
+        let defaultLast = initialData.lastName || "";
+        if (initialData.name && !initialData.firstName) {
+          const parts = initialData.name.split(' ');
+          defaultFirst = parts[0] || "";
+          defaultLast = parts.slice(1).join(' ') || "";
+        }
+        setFormData({ firstName: defaultFirst, lastName: defaultLast, email: initialData.email || "", status: initialData.status || "Active" });
       } else {
         setFormData({ firstName: "", lastName: "", email: "", status: "Active" });
       }
@@ -30,7 +37,12 @@ export function UserFormModal({ isOpen, onClose, onSubmit, initialData = null, i
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) { onSubmit(formData); }
+    if (validate()) { 
+      onSubmit({
+        ...formData,
+        name: `${formData.firstName} ${formData.lastName}`.trim()
+      }); 
+    }
   };
 
   return (

@@ -12,7 +12,9 @@ import {
   query, 
   where, 
   getDocs, 
-  setDoc 
+  setDoc,
+  deleteDoc,
+  updateDoc
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 
@@ -42,8 +44,17 @@ export function AuthProvider({ children }) {
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-              const existingData = querySnapshot.docs[0].data();
+            const existingData = querySnapshot.docs[0].data();
+              const oldDocId = querySnapshot.docs[0].id;
               await setDoc(userDocRef, { ...existingData, lastSynced: new Date() });
+              // Delete the old seeded doc to prevent duplicates
+              if (oldDocId !== firebaseUser.uid) {
+                try {
+                  await deleteDoc(doc(db, "users", oldDocId));
+                } catch (delErr) {
+                  console.warn("Could not delete legacy seeded document:", delErr);
+                }
+              }
               setUser({
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
@@ -116,10 +127,21 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateUserProfile = async (uid, data) => {
+    try {
+      const userRef = doc(db, "users", uid);
+      await setDoc(userRef, data, { merge: true });
+      setUser(prev => ({ ...prev, ...data }));
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  };
+
   const isAdmin = user?.role === 'admin';
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, loading, authReady, isAdmin }}>
+    <AuthContext.Provider value={{ user, login, logout, register, updateUserProfile, loading, authReady, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

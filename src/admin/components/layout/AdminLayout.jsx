@@ -9,6 +9,7 @@ import { UsersProvider } from "../../context/UsersContext";
 import { CarsProvider } from "../../context/CarsContext";
 import { RequestsProvider } from "../../context/RequestsContext";
 import { TeamProvider } from "../../context/TeamContext";
+import { MessagesProvider } from "../../context/MessagesContext";
 
 function PageLoader() {
   return (
@@ -47,26 +48,28 @@ export function AdminLayout() {
       <CarsProvider>
         <RequestsProvider>
           <TeamProvider>
-            <div className="min-h-screen bg-gray-50/50 flex flex-col font-sans text-gray-900">
-              <AdminNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-              <div className="flex flex-1 overflow-hidden relative">
-                {/* Mobile Sidebar Overlay */}
-                {isSidebarOpen && (
-                  <div 
-                    className="fixed inset-0 bg-slate-900/50 z-20 md:hidden backdrop-blur-sm animate-in fade-in"
-                    onClick={() => setIsSidebarOpen(false)}
-                  />
-                )}
-                
-                <AdminSidebar isOpen={isSidebarOpen} />
-                
-                <main className="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto">
-                  <Suspense fallback={<PageLoader />}>
-                    <Outlet />
-                  </Suspense>
-                </main>
+            <MessagesProvider>
+              <div className="h-screen bg-gray-50/50 flex flex-col font-sans text-gray-900 overflow-hidden">
+                <AdminNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+                <div className="flex flex-1 overflow-hidden relative">
+                  {/* Mobile Sidebar Overlay */}
+                  {isSidebarOpen && (
+                    <div 
+                      className="fixed inset-0 bg-slate-900/50 z-20 md:hidden backdrop-blur-sm animate-in fade-in"
+                      onClick={() => setIsSidebarOpen(false)}
+                    />
+                  )}
+                  
+                  <AdminSidebar isOpen={isSidebarOpen} />
+                  
+                  <main className="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto">
+                    <Suspense fallback={<PageLoader />}>
+                      <Outlet />
+                    </Suspense>
+                  </main>
+                </div>
               </div>
-            </div>
+            </MessagesProvider>
           </TeamProvider>
         </RequestsProvider>
       </CarsProvider>

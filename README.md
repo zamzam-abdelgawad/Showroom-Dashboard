@@ -40,6 +40,15 @@ Built with a modular frontend architecture, the system separates logic into clea
 *   **Buy Request**: Customers can submit purchase intent for any available vehicle.
 *   **Request Management**: Admins can Approve or Reject requests in a dedicated tracking portal, providing a realistic sales workflow.
 
+### 💬 Built-in Messaging & Communications
+*   **Public Portal**: Users can submit general inquiries through a frictionless "Contact Us" routing system.
+*   **Admin Triage**: Admins review, track unread counts, and manage unified correspondence.
+*   **Native Replies**: One-click integrated `mailto:` responses securely hook into the Admin's default mail client pre-addressed to the customer.
+
+### 🖼️ Seamless Profile Customization
+*   **Bespoke Identity**: Both Admins and Customers benefit from editable Display Names and customized avatars synchronized across all navigation barriers.
+*   **Client-Side Compression**: Leverages advanced HTML5 Canvas logic to natively capture, resize, and convert uploaded graphics directly to efficient `base64` strings—sidestepping standard Firebase bucket CORS limitations entirely.
+
 ### 🔧 Advanced Inventory Management
 *   **Car Specifications**: Full technical details including Engine, Mileage, Color, and Year.
 *   **Price Privacy**: Admins see internal MSRP (Official Price), while Customers only see the public Selling Price.
