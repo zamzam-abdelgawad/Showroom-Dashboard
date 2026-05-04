@@ -49,19 +49,19 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 p-4">
-      <Card className="w-full max-w-md shadow-xl border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 dark:bg-slate-950 p-4 transition-colors duration-300">
+      <Card className="w-full max-w-md shadow-xl border-gray-100 dark:border-slate-800 dark:bg-slate-900">
         <CardHeader className="text-center space-y-2 border-b-0 pb-0 mt-4">
-          <div className="mx-auto bg-indigo-100 p-3 rounded-full w-fit mb-2">
-            <UserPlus className="h-8 w-8 text-indigo-600" />
+          <div className="mx-auto bg-indigo-100 dark:bg-indigo-900/40 p-3 rounded-full w-fit mb-2">
+            <UserPlus className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-          <p className="text-gray-500 text-sm">Sign up to browse and purchase vehicles</p>
+          <CardTitle className="text-2xl font-bold dark:text-gray-100">Create Account</CardTitle>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Sign up to browse and purchase vehicles</p>
         </CardHeader>
         <CardContent className="mt-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Full Name</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
               <Input
                 placeholder="John Doe"
                 value={name}
@@ -70,7 +70,7 @@ export default function Register() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Email</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
               <Input
                 type="email"
                 placeholder="john@example.com"
@@ -80,7 +80,7 @@ export default function Register() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Password</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
               <Input
                 type="password"
                 placeholder="••••••••"
@@ -90,7 +90,7 @@ export default function Register() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">Confirm Password</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
               <Input
                 type="password"
                 placeholder="••••••••"
@@ -102,9 +102,9 @@ export default function Register() {
             <Button type="submit" className="w-full" isLoading={loading}>
               Create Account
             </Button>
-            <p className="text-center text-sm text-gray-500">
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
               Already have an account?{" "}
-              <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-semibold">
+              <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-semibold">
                 Sign In
               </Link>
             </p>

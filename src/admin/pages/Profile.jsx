@@ -93,28 +93,28 @@ export default function Profile() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Profile</h1>
-        <p className="text-gray-500">Your account information.</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Admin Profile</h1>
+        <p className="text-gray-500 dark:text-gray-400">Your account information.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="md:col-span-1 border-none shadow-md overflow-hidden bg-white">
           <div className="h-24 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
           <CardContent className="pt-0 -mt-12 flex flex-col items-center text-center">
             <div className="relative">
-              <div className="h-24 w-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center overflow-hidden shadow-lg">
+              <div className="h-24 w-24 rounded-full border-4 border-white dark:border-slate-900 bg-gray-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-lg">
                 {user.image ? (
                   <img src={user.image} alt={displayName} className="h-full w-full object-cover" />
                 ) : (
-                  <User className="h-12 w-12 text-gray-400" />
+                  <User className="h-12 w-12 text-gray-400 dark:text-gray-500" />
                 )}
               </div>
-              <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white bg-green-500"></div>
+              <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white dark:border-slate-900 bg-green-500"></div>
             </div>
-            <h2 className="mt-4 text-xl font-bold text-gray-900 leading-tight">{displayName}</h2>
-            <p className="text-gray-500 capitalize">{user.role}</p>
+            <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{displayName}</h2>
+            <p className="text-gray-500 dark:text-gray-400 capitalize">{user.role}</p>
           </CardContent>
         </Card>
-        <Card className="md:col-span-2 border-none shadow-md bg-white">
+        <Card className="md:col-span-2 border-none shadow-md bg-white dark:bg-slate-900">
           <CardHeader className="pb-2 flex flex-row flex-wrap items-center justify-between gap-2">
             <CardTitle className="text-lg">Account Details</CardTitle>
             <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-indigo-600 hover:bg-indigo-50 font-medium px-3 rounded-lg">
@@ -123,10 +123,10 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><User className="h-3 w-3" /> Full Name</label><p className="text-gray-900 font-medium">{displayName}</p></div>
-              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Mail className="h-3 w-3" /> Email Address</label><p className="text-gray-900 font-medium">{user.email}</p></div>
-              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Shield className="h-3 w-3" /> Account Role</label><p className="text-gray-900 font-medium capitalize">{user.role}</p></div>
-              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Calendar className="h-3 w-3" /> Member Since</label><p className="text-gray-900 font-medium">{displayCreatedAt}</p></div>
+              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><User className="h-3 w-3" /> Full Name</label><p className="text-gray-900 dark:text-gray-100 font-medium">{displayName}</p></div>
+              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Mail className="h-3 w-3" /> Email Address</label><p className="text-gray-900 dark:text-gray-100 font-medium">{user.email}</p></div>
+              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Shield className="h-3 w-3" /> Account Role</label><p className="text-gray-900 dark:text-gray-100 font-medium capitalize">{user.role}</p></div>
+              <div className="space-y-1.5"><label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Calendar className="h-3 w-3" /> Member Since</label><p className="text-gray-900 dark:text-gray-100 font-medium">{displayCreatedAt}</p></div>
             </div>
           </CardContent>
         </Card>
@@ -144,9 +144,9 @@ export default function Profile() {
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Profile Image</label>
+            <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Profile Image</label>
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-gray-100 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200">
+              <div className="h-16 w-16 rounded-full bg-gray-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-slate-700">
                 {imagePreview || editFormData.image ? (
                   <img src={imagePreview || editFormData.image} alt="Preview" className="h-full w-full object-cover" />
                 ) : (
@@ -158,13 +158,13 @@ export default function Profile() {
                   type="file" 
                   accept="image/*" 
                   onChange={handleImageChange}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors"
+                  className="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-400 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50 transition-colors"
                 />
-                <p className="text-[10px] text-gray-400 mt-1">Upload a JPG, PNG, or GIF file.</p>
+                <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">Upload a JPG, PNG, or GIF file.</p>
               </div>
             </div>
           </div>
-          <div className="pt-4 flex justify-end gap-3 border-t border-gray-100">
+          <div className="pt-4 flex justify-end gap-3 border-t border-gray-100 dark:border-slate-800">
             <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
             <Button type="submit" isLoading={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">Save Changes</Button>
           </div>

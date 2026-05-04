@@ -45,23 +45,23 @@ export default function Messages() {
             <MessageSquare className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-            <p className="text-sm text-gray-500">
-              {messages.length} total · <span className="text-indigo-600 font-medium">{unreadCount} unread</span>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Messages</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {messages.length} total · <span className="text-indigo-600 dark:text-indigo-400 font-medium">{unreadCount} unread</span>
             </p>
           </div>
         </div>
       </div>
 
       <Card className="border-none shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-gray-100 flex flex-col sm:flex-row gap-4 justify-between pb-4 bg-gray-50/50">
+        <CardHeader className="border-b border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 justify-between pb-4 bg-gray-50/50 dark:bg-slate-900/50">
           <div className="relative max-w-sm w-full">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            <Input placeholder="Search messages..." className="pl-10 h-10 w-full rounded-xl border-gray-200" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <Input placeholder="Search messages..." className="pl-10 h-10 w-full rounded-xl border-gray-200 dark:border-slate-700" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-500" />
-            <select className="h-10 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+            <select className="h-10 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-100" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="all">All Messages</option>
               <option value="unread">Unread</option>
               <option value="read">Read</option>
@@ -75,37 +75,37 @@ export default function Messages() {
             </div>
           ) : filteredMessages.length === 0 ? (
             <div className="py-16 flex flex-col items-center justify-center text-center px-4">
-              <div className="bg-gray-50 p-4 rounded-2xl mb-4">
-                <MessageSquare className="h-10 w-10 text-gray-300" />
+              <div className="bg-gray-50 dark:bg-slate-900 p-4 rounded-2xl mb-4">
+                <MessageSquare className="h-10 w-10 text-gray-300 dark:text-slate-600" />
               </div>
-              <p className="text-gray-500 font-medium">No messages found</p>
-              <p className="text-gray-400 text-sm mt-1">Messages from users will appear here.</p>
+              <p className="text-gray-500 dark:text-gray-400 font-medium">No messages found</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Messages from users will appear here.</p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-gray-50 dark:divide-slate-800/50">
               {filteredMessages.map((msg) => (
                 <div
                   key={msg.firestoreId}
-                  className={`transition-all duration-200 ${!msg.read ? 'bg-indigo-50/30 border-l-3 border-l-indigo-500' : 'hover:bg-gray-50/50'}`}
+                  className={`transition-all duration-200 ${!msg.read ? 'bg-indigo-50/30 dark:bg-indigo-900/20 border-l-3 border-l-indigo-500' : 'hover:bg-gray-50/50 dark:hover:bg-slate-800/50'}`}
                 >
                   <div
                     className="px-6 py-4 cursor-pointer flex items-start gap-4"
                     onClick={() => handleExpand(msg)}
                   >
                     {/* Avatar */}
-                    <div className={`p-2.5 rounded-xl flex-shrink-0 ${!msg.read ? 'bg-indigo-100' : 'bg-gray-100'}`}>
-                      <User className={`h-4 w-4 ${!msg.read ? 'text-indigo-600' : 'text-gray-400'}`} />
+                    <div className={`p-2.5 rounded-xl flex-shrink-0 ${!msg.read ? 'bg-indigo-100 dark:bg-indigo-900/40' : 'bg-gray-100 dark:bg-slate-800'}`}>
+                      <User className={`h-4 w-4 ${!msg.read ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400'}`} />
                     </div>
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-sm font-bold ${!msg.read ? 'text-gray-900' : 'text-gray-700'}`}>{msg.name || "Anonymous"}</span>
+                        <span className={`text-sm font-bold ${!msg.read ? 'text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-400'}`}>{msg.name || "Anonymous"}</span>
                         {!msg.read && (
                           <span className="bg-indigo-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase">new</span>
                         )}
                       </div>
-                      <p className={`text-sm ${!msg.read ? 'font-semibold text-gray-800' : 'font-medium text-gray-600'} truncate`}>{msg.subject || "No Subject"}</p>
+                      <p className={`text-sm ${!msg.read ? 'font-semibold text-gray-800 dark:text-gray-200' : 'font-medium text-gray-600 dark:text-gray-500'} truncate`}>{msg.subject || "No Subject"}</p>
                       <div className="flex items-center gap-3 mt-1.5">
                         <span className="text-[11px] text-gray-400 flex items-center gap-1"><Mail className="h-3 w-3" /> {msg.email}</span>
                         <span className="text-[11px] text-gray-400 flex items-center gap-1">
@@ -124,9 +124,9 @@ export default function Messages() {
                   {/* Expanded Message */}
                   {expandedId === msg.firestoreId && (
                     <div className="px-6 pb-5 pt-0 ml-14 animate-in">
-                      <div className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
-                        <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{msg.message}</p>
-                        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100">
+                      <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl p-5 shadow-sm">
+                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{msg.message}</p>
+                        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-slate-800">
                           <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your Inquiry')}`} onClick={(e) => e.stopPropagation()}>
                             <Button
                               variant="ghost"

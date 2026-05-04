@@ -36,7 +36,7 @@ export function AdminLayout() {
   }, [location.pathname]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div></div>;
+    return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div></div>;
   }
 
   if (!user) {
@@ -49,7 +49,7 @@ export function AdminLayout() {
         <RequestsProvider>
           <TeamProvider>
             <MessagesProvider>
-              <div className="h-screen bg-gray-50/50 flex flex-col font-sans text-gray-900 overflow-hidden">
+              <div className="h-screen bg-gray-50/50 dark:bg-slate-950 flex flex-col font-sans text-gray-900 dark:text-gray-100 overflow-hidden transition-colors duration-300">
                 <AdminNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
                 <div className="flex flex-1 overflow-hidden relative">
                   {/* Mobile Sidebar Overlay */}

@@ -112,32 +112,32 @@ export default function Profile() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in">
-      <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Profile</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <Card className="md:col-span-1 border-none shadow-md overflow-hidden bg-white">
+        <Card className="md:col-span-1 border-none shadow-md overflow-hidden bg-white dark:bg-slate-900">
           <div className="h-28 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative">
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
           </div>
           <CardContent className="pt-0 -mt-14 flex flex-col items-center text-center">
             <div className="relative">
-              <div className="h-28 w-28 rounded-full border-4 border-white bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center overflow-hidden shadow-lg">
+              <div className="h-28 w-28 rounded-full border-4 border-white dark:border-slate-900 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-800 dark:to-slate-800 flex items-center justify-center overflow-hidden shadow-lg">
                 {user.image ? (
                   <img src={user.image} alt={user.name} className="h-full w-full object-cover" />
                 ) : (
                   <User className="h-14 w-14 text-gray-400" />
                 )}
               </div>
-              <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white bg-emerald-500" />
+              <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white dark:border-slate-900 bg-emerald-500" />
             </div>
-            <h2 className="mt-4 text-xl font-bold text-gray-900">{user.name || user.email}</h2>
-            <p className="text-gray-500 capitalize text-sm mt-0.5">{user.role}</p>
+            <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-gray-100">{user.name || user.email}</h2>
+            <p className="text-gray-500 dark:text-gray-400 capitalize text-sm mt-0.5">{user.role}</p>
           </CardContent>
         </Card>
 
         {/* Account Details Card */}
-        <Card className="md:col-span-2 border-none shadow-md bg-white">
+        <Card className="md:col-span-2 border-none shadow-md bg-white dark:bg-slate-900">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-lg">Account Details</CardTitle>
             <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-indigo-600 hover:bg-indigo-50 font-medium px-3 rounded-lg">
@@ -148,15 +148,15 @@ export default function Profile() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1.5 group">
                 <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><User className="h-3 w-3" /> Name</label>
-                <p className="text-gray-900 font-medium bg-gray-50 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 transition-colors">{user.name || "Not set"}</p>
+                <p className="text-gray-900 dark:text-gray-100 font-medium bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.name || "Not set"}</p>
               </div>
               <div className="space-y-1.5 group">
                 <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Mail className="h-3 w-3" /> Email</label>
-                <p className="text-gray-900 font-medium bg-gray-50 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 transition-colors">{user.email}</p>
+                <p className="text-gray-900 dark:text-gray-100 font-medium bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.email}</p>
               </div>
               <div className="space-y-1.5 group">
                 <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Shield className="h-3 w-3" /> Role</label>
-                <p className="text-gray-900 font-medium capitalize bg-gray-50 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 transition-colors">{user.role}</p>
+                <p className="text-gray-900 dark:text-gray-100 font-medium capitalize bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.role}</p>
               </div>
             </div>
           </CardContent>
@@ -167,44 +167,44 @@ export default function Profile() {
       <div className="grid grid-cols-3 gap-4">
         <Card className="border-none shadow-sm">
           <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-indigo-100 rounded-xl">
-              <ShoppingCart className="h-5 w-5 text-indigo-600" />
+            <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl">
+              <ShoppingCart className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900">{requests.length}</p>
-              <p className="text-xs text-gray-500 font-medium">Total Requests</p>
+              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{requests.length}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Requests</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-emerald-100 rounded-xl">
-              <CheckCircle className="h-5 w-5 text-emerald-600" />
+            <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl">
+              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900">{approvedCount}</p>
-              <p className="text-xs text-gray-500 font-medium">Approved</p>
+              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{approvedCount}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Approved</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-amber-100 rounded-xl">
-              <AlertCircle className="h-5 w-5 text-amber-600" />
+            <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
+              <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900">{pendingCount}</p>
-              <p className="text-xs text-gray-500 font-medium">Pending</p>
+              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{pendingCount}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* My Requests */}
-      <Card className="border-none shadow-md bg-white">
-        <CardHeader className="border-b border-gray-100 flex flex-row items-center justify-between">
+      <Card className="border-none shadow-md bg-white dark:bg-slate-900">
+        <CardHeader className="border-b border-gray-100 dark:border-slate-800 flex flex-row items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
-            <Car className="h-5 w-5 text-indigo-600" /> My Buy Requests
+            <Car className="h-5 w-5 text-indigo-600 dark:text-indigo-400" /> My Buy Requests
           </CardTitle>
           <span className="text-xs text-gray-400 font-medium">{requests.length} total</span>
         </CardHeader>
@@ -215,33 +215,33 @@ export default function Profile() {
             </div>
           ) : enrichedRequests.length === 0 ? (
             <div className="text-center py-12 px-4">
-              <div className="bg-gray-50 p-4 rounded-2xl inline-block mb-4">
-                <Car className="h-12 w-12 text-gray-200" />
+              <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl inline-block mb-4">
+                <Car className="h-12 w-12 text-gray-200 dark:text-gray-600" />
               </div>
-              <p className="text-gray-500 font-medium">No buy requests yet</p>
-              <p className="text-gray-400 text-sm mt-1">Browse our <button onClick={() => navigate('/')} className="text-indigo-600 hover:underline font-medium">catalog</button> to find your dream car.</p>
+              <p className="text-gray-500 dark:text-gray-400 font-medium">No buy requests yet</p>
+              <p className="text-gray-400 text-sm mt-1">Browse our <button onClick={() => navigate('/')} className="text-indigo-600 font-medium">catalog</button> to find your dream car.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm text-left">
-                <thead className="bg-gray-50/80 text-gray-400 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100">
+                <thead className="bg-gray-50/80 dark:bg-slate-800/80 text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100 dark:border-slate-800">
                   <tr>
                     <th className="px-6 py-4">Vehicle</th>
                     <th className="px-6 py-4">Date</th>
                     <th className="px-6 py-4">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-50 dark:divide-slate-800/50">
                   {enrichedRequests.map(req => (
-                    <tr key={req.firestoreId} className="hover:bg-indigo-50/30 transition-all duration-200 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
+                    <tr key={req.firestoreId} className="hover:bg-indigo-50/30 dark:hover:bg-slate-800/50 transition-all duration-200 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
                       <td className="px-6 py-4">
                         <div className="flex flex-col">
-                          <span className="font-bold text-gray-900">{req.carName}</span>
+                          <span className="font-bold text-gray-900 dark:text-gray-100">{req.carName}</span>
                           <span className="text-[11px] text-gray-400 uppercase tracking-tighter">{req.carBrand}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-500 flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-gray-300" />
+                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5 text-gray-300 dark:text-slate-600" />
                         {new Date(req.timestamp).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">{getStatusBadge(req.status)}</td>
@@ -269,11 +269,11 @@ export default function Profile() {
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Profile Image</label>
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-gray-100 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200">
+              <div className="h-16 w-16 rounded-full bg-gray-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-slate-700">
                 {imagePreview || editFormData.image ? (
                   <img src={imagePreview || editFormData.image} alt="Profile preview" className="h-full w-full object-cover" />
                 ) : (
-                  <User className="h-8 w-8 text-gray-400" />
+                  <User className="h-8 w-8 text-gray-400 dark:text-gray-500" />
                 )}
               </div>
               <div className="flex-1">
@@ -281,7 +281,7 @@ export default function Profile() {
                   type="file" 
                   accept="image/*" 
                   onChange={handleImageChange}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-400 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50 transition-colors"
                 />
                 <p className="text-[10px] text-gray-400 mt-1">Upload a JPG, PNG, or GIF file.</p>
               </div>

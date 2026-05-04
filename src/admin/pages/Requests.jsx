@@ -41,33 +41,33 @@ export default function Requests() {
     } catch (err) { addToast("Failed to update status", "error"); }
   };
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'approved': return <span className="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><BadgeCheck className="h-3 w-3" /> Approved</span>;
-      case 'rejected': return <span className="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><XCircle className="h-3 w-3" /> Rejected</span>;
-      default: return <span className="bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><Clock className="h-3 w-3" /> Pending</span>;
-    }
-  };
+    const getStatusBadge = (status) => {
+      switch (status) {
+        case 'approved': return <span className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-400 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><BadgeCheck className="h-3 w-3" /> Approved</span>;
+        case 'rejected': return <span className="bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-400 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><XCircle className="h-3 w-3" /> Rejected</span>;
+        default: return <span className="bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-400 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1"><Clock className="h-3 w-3" /> Pending</span>;
+      }
+    };
 
   return (
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">Purchase Requests</h1>
-        <div className="bg-white px-4 py-2 border rounded-lg shadow-sm flex items-center gap-2">
-          <ShieldCheck className="h-4 w-4 text-indigo-600" />
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Admin Control</span>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Purchase Requests</h1>
+        <div className="bg-white dark:bg-slate-900 px-4 py-2 border dark:border-slate-800 rounded-lg shadow-sm flex items-center gap-2">
+          <ShieldCheck className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+          <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-widest">Admin Control</span>
         </div>
       </div>
-      <Card className="border-none shadow-md overflow-hidden bg-white">
-        <CardHeader className="bg-gray-50/50 border-b border-gray-100 flex flex-col sm:flex-row gap-4 justify-between pb-4 pt-6 px-6">
+      <Card className="border-none shadow-md overflow-hidden bg-white dark:bg-slate-900">
+        <CardHeader className="bg-gray-50/50 dark:bg-slate-900/50 border-b border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 justify-between pb-4 pt-6 px-6">
           <div className="relative max-w-sm w-full">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            <input placeholder="Search by user or vehicle..." className="pl-10 h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <input placeholder="Search by user or vehicle..." className="pl-10 h-10 w-full rounded-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-100" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-gray-500" />
-              <select className="h-10 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <select className="h-10 rounded-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-100" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
                 <option value="approved">Approved</option>
@@ -79,26 +79,26 @@ export default function Requests() {
         <CardContent className="p-0">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-gray-50/80 text-gray-400 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100">
+              <thead className="bg-gray-50/80 dark:bg-slate-800/80 text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100 dark:border-slate-800">
                 <tr><th className="px-6 py-4">Customer Details</th><th className="px-6 py-4">Vehicle Requested</th><th className="px-6 py-4">Request Date</th><th className="px-6 py-4">Status</th><th className="px-6 py-4 text-right">Actions</th></tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800/50">
                 {filteredRequests.length === 0 ? (
-                  <tr><td colSpan="5" className="px-6 py-16 text-center text-gray-400"><div className="flex flex-col items-center"><Clock className="h-12 w-12 text-gray-100 mb-2" /><p className="text-gray-500 font-medium tracking-tight">No requests found matching your filters.</p></div></td></tr>
+                  <tr><td colSpan="5" className="px-6 py-16 text-center text-gray-400"><div className="flex flex-col items-center"><Clock className="h-12 w-12 text-gray-100 dark:text-slate-800 mb-2" /><p className="text-gray-500 dark:text-gray-400 font-medium tracking-tight">No requests found matching your filters.</p></div></td></tr>
                 ) : (
                   filteredRequests.map((req) => (
-                    <tr key={req.id || req.firestoreId} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4"><div className="flex flex-col"><span className="font-bold text-gray-900 mb-0.5">{req.userName}</span><span className="text-xs text-gray-400 flex items-center gap-1"><Mail className="h-3 w-3" /> {req.userEmail}</span></div></td>
-                      <td className="px-6 py-4"><div className="flex flex-col"><span className="font-medium text-indigo-600 hover:underline cursor-pointer flex items-center gap-1.5" onClick={() => navigate(`/admin/cars/${req.carId}`)}><Car className="h-3.5 w-3.5" /> {req.carName}</span><span className="text-[11px] text-gray-400 font-medium uppercase tracking-tighter">{req.carBrand}</span></div></td>
-                      <td className="px-6 py-4 text-gray-500"><div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-gray-300" />{new Date(req.timestamp).toLocaleDateString()}</div></td>
+                    <tr key={req.id || req.firestoreId} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4"><div className="flex flex-col"><span className="font-bold text-gray-900 dark:text-gray-100 mb-0.5">{req.userName}</span><span className="text-xs text-gray-400 flex items-center gap-1"><Mail className="h-3 w-3" /> {req.userEmail}</span></div></td>
+                      <td className="px-6 py-4"><div className="flex flex-col"><span className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer flex items-center gap-1.5" onClick={() => navigate(`/admin/cars/${req.carId}`)}><Car className="h-3.5 w-3.5" /> {req.carName}</span><span className="text-[11px] text-gray-400 dark:text-gray-500 font-medium uppercase tracking-tighter">{req.carBrand}</span></div></td>
+                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400"><div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-gray-300 dark:text-slate-600" />{new Date(req.timestamp).toLocaleDateString()}</div></td>
                       <td className="px-6 py-4">{getStatusBadge(req.status)}</td>
                       <td className="px-6 py-4 text-right">
                         {req.status === 'pending' ? (
                           <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="sm" className="text-green-600 hover:bg-green-50 h-8 font-bold" onClick={() => handleStatusChange(req.firestoreId || req.id, 'approved', req.carId)}>Approve</Button>
-                            <Button variant="ghost" size="sm" className="text-red-600 hover:bg-red-50 h-8 font-bold" onClick={() => handleStatusChange(req.firestoreId || req.id, 'rejected', req.carId)}>Reject</Button>
+                            <Button variant="ghost" size="sm" className="text-green-600 dark:text-green-500 hover:bg-green-50 dark:hover:bg-green-900/30 h-8 font-bold" onClick={() => handleStatusChange(req.firestoreId || req.id, 'approved', req.carId)}>Approve</Button>
+                            <Button variant="ghost" size="sm" className="text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 h-8 font-bold" onClick={() => handleStatusChange(req.firestoreId || req.id, 'rejected', req.carId)}>Reject</Button>
                           </div>
-                        ) : (<span className="text-xs text-gray-300 font-medium uppercase tracking-tighter italic mr-4">Processed</span>)}
+                        ) : (<span className="text-xs text-gray-300 dark:text-slate-600 font-medium uppercase tracking-tighter italic mr-4">Processed</span>)}
                       </td>
                     </tr>
                   ))

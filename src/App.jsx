@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastProvider } from "./shared/context/ToastContext";
 import { AuthProvider } from "./shared/context/AuthContext";
+import { ThemeProvider } from "./shared/context/ThemeContext";
 import { ProtectedRoute } from "./shared/components/layout/ProtectedRoute";
 import { AdminRoute } from "./shared/components/layout/AdminRoute";
 
@@ -29,48 +30,50 @@ import Messages from "./admin/pages/Messages";
 export default function App() {
   return (
     <BrowserRouter>
-      <ToastProvider>
-        <AuthProvider>
-          <Routes>
-            {/* ========== Auth Pages ========== */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+      <ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Routes>
+              {/* ========== Auth Pages ========== */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-            {/* ========== Customer Website ========== */}
-            <Route path="/" element={<CustomerLayout />}>
-              <Route index element={<Home />} />
-              <Route path="cars/:id" element={<CustomerCarDetails />} />
-              <Route path="contact" element={<ContactUs />} />
-              <Route path="profile" element={
-                <ProtectedRoute>
-                  <CustomerProfile />
-                </ProtectedRoute>
-              } />
-            </Route>
+              {/* ========== Customer Website ========== */}
+              <Route path="/" element={<CustomerLayout />}>
+                <Route index element={<Home />} />
+                <Route path="cars/:id" element={<CustomerCarDetails />} />
+                <Route path="contact" element={<ContactUs />} />
+                <Route path="profile" element={
+                  <ProtectedRoute>
+                    <CustomerProfile />
+                  </ProtectedRoute>
+                } />
+              </Route>
 
-            {/* ========== Admin Dashboard ========== */}
-            <Route path="/admin" element={
-              <AdminRoute>
-                <AdminLayout />
-              </AdminRoute>
-            }>
-              <Route index element={<Dashboard />} />
-              <Route path="cars" element={<AdminCars />} />
-              <Route path="cars/:id" element={<AdminCarDetails />} />
-              <Route path="users" element={<Users />} />
-              <Route path="users/:id" element={<UserDetails />} />
-              <Route path="requests" element={<Requests />} />
-              <Route path="team" element={<Team />} />
-              <Route path="team/:id" element={<TeamDetails />} />
-              <Route path="profile" element={<AdminProfile />} />
-              <Route path="messages" element={<Messages />} />
-            </Route>
+              {/* ========== Admin Dashboard ========== */}
+              <Route path="/admin" element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }>
+                <Route index element={<Dashboard />} />
+                <Route path="cars" element={<AdminCars />} />
+                <Route path="cars/:id" element={<AdminCarDetails />} />
+                <Route path="users" element={<Users />} />
+                <Route path="users/:id" element={<UserDetails />} />
+                <Route path="requests" element={<Requests />} />
+                <Route path="team" element={<Team />} />
+                <Route path="team/:id" element={<TeamDetails />} />
+                <Route path="profile" element={<AdminProfile />} />
+                <Route path="messages" element={<Messages />} />
+              </Route>
 
-            {/* ========== Catch-all ========== */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </AuthProvider>
-      </ToastProvider>
+              {/* ========== Catch-all ========== */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

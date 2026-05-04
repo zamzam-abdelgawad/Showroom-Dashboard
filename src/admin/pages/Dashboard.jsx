@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCars } from "../context/CarsContext";
 import { useRequests } from "../context/RequestsContext";
 import { useUsers } from "../context/UsersContext";
+import { useTheme } from "../../shared/context/ThemeContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Car, DollarSign, Activity, CheckCircle, BarChart3, ArrowRight, Clock, User, TrendingUp } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const { cars, loading } = useCars();
   const { requests } = useRequests();
   const { users } = useUsers();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   if (loading) {
@@ -62,10 +64,10 @@ export default function Dashboard() {
     <div className="space-y-8 animate-in">
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Showroom Dashboard</h1>
-          <p className="text-gray-500 mt-1 text-sm">Welcome back. Here is your inventory and sales performance.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Showroom Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">Welcome back. Here is your inventory and sales performance.</p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-gray-400 bg-white px-3 py-1.5 rounded-xl border border-gray-100 shadow-sm">
+        <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-gray-400 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm">
           <Clock className="h-3 w-3" /> Updated: Today, 10:45 AM
         </div>
       </div>
@@ -82,11 +84,11 @@ export default function Dashboard() {
           >
             <CardContent className="p-6 flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 tracking-tight">{stat.title}</p>
-                <h4 className="text-2xl font-extrabold text-gray-900 mt-2">{stat.value}</h4>
-                <p className="text-[10px] text-emerald-600 font-bold mt-2 flex items-center gap-1 uppercase tracking-wider">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-tight">{stat.title}</p>
+                <h4 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mt-2">{stat.value}</h4>
+                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-2 flex items-center gap-1 uppercase tracking-wider">
                   <TrendingUp className="h-3 w-3" />
-                  {stat.trend} <span className="text-gray-400 font-normal normal-case">vs last month</span>
+                  {stat.trend} <span className="text-gray-400 dark:text-gray-500 font-normal normal-case">vs last min</span>
                 </p>
               </div>
               <div className={`p-3.5 ${statCardStyles[idx].iconBg} rounded-2xl ${statCardStyles[idx].iconColor}`}>
@@ -100,7 +102,7 @@ export default function Dashboard() {
       {/* Charts + Recent Requests */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border-none shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 pb-4">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 dark:border-slate-800/60 pb-4">
             <CardTitle className="flex items-center gap-2 text-lg"><BarChart3 className="h-5 w-5 text-indigo-500" /> Sales Volume Growth</CardTitle>
           </CardHeader>
           <CardContent>
@@ -113,12 +115,12 @@ export default function Dashboard() {
                       <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} tickFormatter={(value) => `$${value / 1000}k`} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#1e293b' : '#f3f4f6'} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: theme === 'dark' ? '#64748b' : '#94a3b8', fontSize: 11, fontWeight: 500}} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{fill: theme === 'dark' ? '#64748b' : '#94a3b8', fontSize: 11, fontWeight: 500}} tickFormatter={(value) => `$${value / 1000}k`} />
                   <Tooltip 
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px' }} 
-                    cursor={{stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4'}} 
+                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px', backgroundColor: theme === 'dark' ? '#0f172a' : '#ffffff', color: theme === 'dark' ? '#f1f5f9' : '#0f172a' }} 
+                    cursor={{stroke: theme === 'dark' ? '#334155' : '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4'}} 
                     formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]} 
                   />
                   <Area type="monotone" dataKey="sales" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
@@ -129,9 +131,9 @@ export default function Dashboard() {
         </Card>
 
         <Card className="border-none shadow-sm h-fit">
-          <CardHeader className="border-b border-gray-50 flex flex-row items-center justify-between pb-4">
+          <CardHeader className="border-b border-gray-50 dark:border-slate-800/60 flex flex-row items-center justify-between pb-4">
             <CardTitle className="text-lg flex items-center gap-2"><Activity className="h-5 w-5 text-amber-500" /> Recent Requests</CardTitle>
-            <button onClick={() => navigate('/admin/requests')} className="text-indigo-600 hover:text-indigo-700 p-1.5 rounded-lg hover:bg-indigo-50 transition-colors"><ArrowRight className="h-4 w-4" /></button>
+            <button onClick={() => navigate('/admin/requests')} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 p-1.5 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/40 transition-colors"><ArrowRight className="h-4 w-4" /></button>
           </CardHeader>
           <CardContent className="px-2 pt-4">
             {recentRequests.length === 0 ? (
@@ -143,12 +145,12 @@ export default function Dashboard() {
             ) : (
               <div className="space-y-1">
                 {recentRequests.map((req) => (
-                  <div key={req.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer group" onClick={() => navigate('/admin/requests')}>
+                  <div key={req.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-all duration-200 cursor-pointer group" onClick={() => navigate('/admin/requests')}>
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-2 rounded-xl group-hover:from-indigo-100 group-hover:to-purple-100 transition-colors"><User className="h-4 w-4 text-indigo-600" /></div>
+                      <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 p-2 rounded-xl group-hover:from-indigo-100 group-hover:to-purple-100 transition-colors"><User className="h-4 w-4 text-indigo-600 dark:text-indigo-400" /></div>
                       <div className="flex flex-col overflow-hidden">
-                        <span className="text-sm font-bold text-gray-900 truncate">{req.userName}</span>
-                        <span className="text-[10px] font-medium text-gray-400 uppercase flex items-center gap-1"><Car className="h-2.5 w-2.5" /> {req.carName}</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">{req.userName}</span>
+                        <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500 uppercase flex items-center gap-1"><Car className="h-2.5 w-2.5" /> {req.carName}</span>
                       </div>
                     </div>
                     <div className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest ${

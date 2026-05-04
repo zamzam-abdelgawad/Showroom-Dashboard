@@ -50,26 +50,26 @@ export function UserFormModal({ isOpen, onClose, onSubmit, initialData = null, i
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">First Name</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
             <Input value={formData.firstName} onChange={(e) => setFormData(prev => ({...prev, firstName: e.target.value}))} error={errors.firstName} placeholder="John" disabled={isSubmitting} />
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Last Name</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
             <Input value={formData.lastName} onChange={(e) => setFormData(prev => ({...prev, lastName: e.target.value}))} error={errors.lastName} placeholder="Doe" disabled={isSubmitting} />
           </div>
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">Email Address</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
           <Input type="email" value={formData.email} onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))} error={errors.email} placeholder="john.doe@example.com" disabled={isSubmitting} />
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">Status</label>
-          <select className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+          <select className="flex h-10 w-full rounded-md border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-slate-800 mt-6">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
           <Button type="submit" isLoading={isSubmitting}>{initialData ? "Save Changes" : "Create User"}</Button>
         </div>

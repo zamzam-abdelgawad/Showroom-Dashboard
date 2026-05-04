@@ -72,10 +72,10 @@ export default function ContactUs() {
         <div className="inline-flex p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl text-white shadow-xl shadow-indigo-200 mb-6">
           <MessageSquare className="h-8 w-8" />
         </div>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
           Get in <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Touch</span>
         </h1>
-        <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto">
+        <p className="text-gray-500 dark:text-gray-400 text-lg mt-4 max-w-xl mx-auto">
           Have a question about a vehicle or need assistance? Send us a message and our team will get back to you shortly.
         </p>
       </div>
@@ -142,10 +142,10 @@ export default function ContactUs() {
 
         {/* Contact Form */}
         <div className="lg:col-span-3">
-          <Card className="border-none shadow-md overflow-hidden">
+          <Card className="border-none shadow-md overflow-hidden bg-white dark:bg-slate-900">
             <CardContent className="p-8">
               {isSuccess && (
-                <div className="mb-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center gap-3 animate-in">
+                <div className="mb-6 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 flex items-center gap-3 animate-in">
                   <div className="p-1.5 bg-emerald-100 rounded-full">
                     <CheckCircle className="h-5 w-5 text-emerald-600" />
                   </div>
@@ -207,7 +207,7 @@ export default function ContactUs() {
                     placeholder="Tell us more about your inquiry..."
                     value={formData.message}
                     onChange={(e) => handleChange("message", e.target.value)}
-                    className={`flex w-full rounded-xl border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-indigo-500'} bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-shadow resize-none`}
+                    className={`flex w-full rounded-xl border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-slate-700 focus:ring-indigo-500'} bg-white dark:bg-slate-900 px-4 py-3 text-sm placeholder:text-gray-400 dark:text-slate-100 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:border-transparent transition-shadow resize-none`}
                   />
                   {errors.message && <p className="text-xs text-red-500">{errors.message}</p>}
                 </div>

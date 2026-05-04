@@ -26,10 +26,10 @@ export function Modal({ isOpen, onClose, title, children }) {
         onClick={onClose} 
         aria-hidden="true" 
       />
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg z-10 animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-          <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0 rounded-full text-gray-500 hover:text-gray-900" aria-label="Close modal">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg z-10 animate-in fade-in zoom-in-95 duration-200 dark:bg-slate-900 dark:border dark:border-slate-800">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
+          <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-slate-800" aria-label="Close modal">
             <X className="h-5 w-5" />
           </Button>
         </div>

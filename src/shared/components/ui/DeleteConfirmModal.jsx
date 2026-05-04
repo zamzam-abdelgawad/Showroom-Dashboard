@@ -6,12 +6,12 @@ export function DeleteConfirmModal({ isOpen, onClose, onConfirm, isDeleting, ite
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
       <div className="flex flex-col items-center justify-center text-center py-4">
-        <div className="bg-red-100 p-3 rounded-full mb-4">
-          <AlertCircle className="h-8 w-8 text-red-600" />
+        <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-full mb-4">
+          <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-500" />
         </div>
-        <h4 className="text-lg font-bold text-gray-900 mb-2">Are you sure?</h4>
-        <p className="text-sm text-gray-500 mb-6 max-w-sm">
-          Are you sure you want to delete {itemName ? <span className="font-semibold text-gray-800">'{itemName}'</span> : "this item"}? This action cannot be undone.
+        <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Are you sure?</h4>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-sm">
+          Are you sure you want to delete {itemName ? <span className="font-semibold text-gray-800 dark:text-slate-200">'{itemName}'</span> : "this item"}? This action cannot be undone.
         </p>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Button variant="outline" className="flex-1 sm:flex-none w-full sm:w-24" onClick={onClose} disabled={isDeleting}>

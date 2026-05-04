@@ -40,6 +40,11 @@ Built with a modular frontend architecture, the system separates logic into clea
 *   **Buy Request**: Customers can submit purchase intent for any available vehicle.
 *   **Request Management**: Admins can Approve or Reject requests in a dedicated tracking portal, providing a realistic sales workflow.
 
+### 🌗 Global Dark Mode Integration
+*   **Adaptive Theme System**: Context-based seamless toggling between Light and Dark visual configurations.
+*   **Persistent Aesthetics**: Leverages `localStorage` to securely store theme preferences minimizing load blinking.
+*   **Advanced UI Contrast**: Uses specialized Tailwind v4 `dark:` overrides applying responsive glassmorphic overlays and dynamic charts across both Admin and Customer interfaces.
+
 ### 💬 Built-in Messaging & Communications
 *   **Public Portal**: Users can submit general inquiries through a frictionless "Contact Us" routing system.
 *   **Admin Triage**: Admins review, track unread counts, and manage unified correspondence.
