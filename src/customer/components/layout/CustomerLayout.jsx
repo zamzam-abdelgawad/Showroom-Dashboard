@@ -80,10 +80,10 @@ export function CustomerLayout() {
               ) : (
                 <div className="flex items-center gap-2">
                   <Link to="/login">
-                    <Button variant="ghost" size="sm" className="font-medium rounded-xl">Sign In</Button>
+                    <Button variant="ghost" size="sm" className="font-bold rounded-xl h-10 px-4">Sign In</Button>
                   </Link>
                   <Link to="/register">
-                    <Button size="sm" className="font-medium rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-200">Sign Up</Button>
+                    <Button size="sm" className="font-bold rounded-xl h-10 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-200 dark:shadow-none">Sign Up</Button>
                   </Link>
                 </div>
               )}

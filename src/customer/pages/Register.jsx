@@ -99,7 +99,7 @@ export default function Register() {
                 error={errors.confirmPassword}
               />
             </div>
-            <Button type="submit" className="w-full" isLoading={loading}>
+            <Button type="submit" className="w-full h-14 text-lg" isLoading={loading}>
               Create Account
             </Button>
             <p className="text-center text-sm text-gray-500 dark:text-gray-400">

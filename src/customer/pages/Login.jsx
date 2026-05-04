@@ -68,7 +68,7 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button type="submit" className="w-full" isLoading={loading}>
+            <Button type="submit" className="w-full h-14 text-lg" isLoading={loading}>
               Sign In
             </Button>
             <p className="text-center text-sm text-gray-500 dark:text-gray-400">

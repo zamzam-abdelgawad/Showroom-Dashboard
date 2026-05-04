@@ -141,26 +141,51 @@ export default function CarDetails() {
                   Tax and registration fees calculated at checkout.
                 </p>
               </div>
-              <div className="space-y-3 pt-2">
+              <div className="space-y-4 pt-2">
                 {car.status === 'Available' ? (
                   hasExistingRequest ? (
-                    <AnimatedButton className="w-full text-lg py-6" disabled>
+                    <AnimatedButton className="w-full h-14 text-lg" disabled>
                       <CheckCircle2 className="h-5 w-5 mr-2" /> Request Pending
                     </AnimatedButton>
                   ) : (
                     <AnimatedButton
-                      className="w-full text-lg py-6"
+                      className="w-full h-14 text-lg"
                       onClick={handleBuyRequest}
-                      disabled={isSubmitting}
+                      isLoading={isSubmitting}
+                      variant="primary"
                     >
                       <ShoppingCart className="h-5 w-5 mr-2" /> Buy Now
                     </AnimatedButton>
                   )
                 ) : (
-                  <AnimatedButton className="w-full text-lg py-6" disabled variant="secondary">
+                  <AnimatedButton className="w-full h-14 text-lg" disabled variant="secondary">
                     Vehicle Sold
                   </AnimatedButton>
                 )}
+                
+                {/* Floating Bottom Bar for Mobile */}
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-gray-100 dark:border-slate-800 z-50 animate-in slide-in-from-bottom duration-500">
+                  <div className="flex items-center justify-between gap-4 max-w-7xl mx-auto">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Total Price</span>
+                      <span className="text-xl font-black text-indigo-600 dark:text-indigo-400">${car.sellingPrice?.toLocaleString()}</span>
+                    </div>
+                    {car.status === 'Available' ? (
+                      <AnimatedButton
+                        className="flex-1 max-w-[200px]"
+                        onClick={handleBuyRequest}
+                        isLoading={isSubmitting}
+                        disabled={hasExistingRequest}
+                        variant={hasExistingRequest ? "secondary" : "primary"}
+                      >
+                        {hasExistingRequest ? "Pending" : "Buy Now"}
+                      </AnimatedButton>
+                    ) : (
+                      <Button disabled variant="secondary" className="flex-1 max-w-[200px]">Sold</Button>
+                    )}
+                  </div>
+                </div>
+
                 <p className="text-center text-xs text-gray-400 font-medium">
                   {car.status === 'Available' ? 'Estimated delivery within 5-7 business days.' : 'This vehicle is no longer available.'}
                 </p>
