@@ -23,57 +23,130 @@ export default function TeamDetails() {
   }
 
   return (
-    <div className="space-y-6 animate-in">
-      <button onClick={() => navigate('/admin/team')} className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors">
-        <ChevronLeft className="h-4 w-4" /> Back to Team Directory
+    <div className="space-y-8 animate-in">
+      <button 
+        onClick={() => navigate('/admin/team')} 
+        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600 hover:text-brand-primary transition-all group"
+      >
+        <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Team
       </button>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
-          <Card className="border-none shadow-lg overflow-hidden bg-white">
-            <div className="h-32 bg-indigo-600 relative">
+          <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl overflow-hidden bg-white dark:bg-zinc-950 rounded-3xl">
+            <div className="h-32 bg-brand-primary relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary to-brand-secondary opacity-20"></div>
               <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
-                <img src={member.image} alt={member.name} className="h-24 w-24 rounded-full border-4 border-white shadow-md object-cover bg-white" />
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  className="h-24 w-24 rounded-full border-4 border-white dark:border-zinc-950 shadow-2xl object-cover bg-white dark:bg-zinc-900"
+                  onError={(e) => {
+                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random&size=128`;
+                  }}
+                />
               </div>
             </div>
-            <CardContent className="pt-16 text-center space-y-4 pb-8">
-              <div className="space-y-1">
-                <h2 className="text-2xl font-extrabold text-gray-900">{member.name}</h2>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider"><Briefcase className="h-3 w-3" /> {member.role}</div>
+            <CardContent className="pt-16 text-center space-y-6 pb-10">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter uppercase leading-none">{member.name}</h2>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-brand-primary/10 text-brand-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                  <Briefcase className="h-3.5 w-3.5" /> {member.role}
+                </div>
               </div>
-              <div className="pt-6 space-y-4 text-left px-4">
-                <div className="flex items-center gap-3 text-sm text-gray-600"><div className="bg-gray-100 p-2 rounded-lg"><Phone className="h-4 w-4 text-gray-400" /></div><div className="flex flex-col"><span className="text-[10px] text-gray-400 font-bold uppercase">Mobile Phone</span><span className="font-semibold">{member.phone}</span></div></div>
-                <div className="flex items-center gap-3 text-sm text-gray-600"><div className="bg-gray-100 p-2 rounded-lg"><Mail className="h-4 w-4 text-gray-400" /></div><div className="flex flex-col"><span className="text-[10px] text-gray-400 font-bold uppercase">Corporate Email</span><span className="font-semibold truncate">{member.email}</span></div></div>
-                <div className="flex items-center gap-3 text-sm text-gray-600"><div className="bg-gray-100 p-2 rounded-lg"><MapPin className="h-4 w-4 text-gray-400" /></div><div className="flex flex-col"><span className="text-[10px] text-gray-400 font-bold uppercase">Office Location</span><span className="font-semibold">Main Showroom, Block B</span></div></div>
+
+              <div className="pt-8 space-y-5 text-left px-4">
+                <div className="flex items-center gap-4 group">
+                  <div className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-colors group-hover:border-brand-primary/30">
+                    <Phone className="h-4 w-4 text-zinc-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest leading-none mb-1">Mobile Phone</span>
+                    <span className="text-sm font-black text-gray-900 dark:text-zinc-100">{member.phone}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 group">
+                  <div className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-colors group-hover:border-brand-primary/30">
+                    <Mail className="h-4 w-4 text-zinc-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest leading-none mb-1">Corporate Email</span>
+                    <span className="text-sm font-black text-gray-900 dark:text-zinc-100 truncate max-w-[180px]">{member.email}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 group">
+                  <div className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-colors group-hover:border-brand-primary/30">
+                    <MapPin className="h-4 w-4 text-zinc-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest leading-none mb-1">Office Location</span>
+                    <span className="text-sm font-black text-gray-900 dark:text-zinc-100">Cairo, Egypt</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-md bg-white p-6">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4 flex items-center gap-2"><Activity className="h-4 w-4 text-green-500" /> Performance Metrics</h3>
+
+          <Card className="border border-zinc-100 dark:border-zinc-900 shadow-md bg-white dark:bg-zinc-950 p-6 rounded-2xl">
+            <h3 className="text-[10px] font-black text-gray-900 dark:text-zinc-100 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+              <Activity className="h-4 w-4 text-emerald-500" /> Performance Profile
+            </h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between"><span className="text-xs text-gray-500 font-medium">Monthly Sales target</span><span className="text-xs font-bold text-gray-900">85%</span></div>
-              <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden"><div className="bg-green-500 h-full w-[85%]"></div></div>
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest">Monthly Sales target</span>
+                <span className="text-xs font-black text-emerald-500">85%</span>
+              </div>
+              <div className="w-full bg-zinc-100 dark:bg-zinc-900 h-2 rounded-full overflow-hidden">
+                <div className="bg-emerald-500 h-full w-[85%] shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+              </div>
             </div>
           </Card>
         </div>
+
         <div className="lg:col-span-2 space-y-6">
-          <Card className="border-none shadow-md bg-white h-fit">
-            <CardHeader className="border-b border-gray-50 flex flex-row items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2"><Calendar className="h-5 w-5 text-indigo-600" /> Weekly Work Schedule</CardTitle>
-              <div className="bg-green-50 px-3 py-1 rounded-full text-green-700 text-[10px] font-bold uppercase flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> Published Tasking</div>
+          <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-3xl overflow-hidden">
+            <CardHeader className="border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between px-8 py-6 bg-zinc-50/50 dark:bg-zinc-900/30">
+              <CardTitle className="text-lg font-black tracking-tight flex items-center gap-3 text-gray-900 dark:text-zinc-100 uppercase">
+                <Calendar className="h-5 w-5 text-brand-primary" /> Weekly Schedule
+              </CardTitle>
+              <div className="bg-emerald-500/10 dark:bg-emerald-500/20 px-3 py-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-sm">
+                <ShieldCheck className="h-3.5 w-3.5" /> Published 
+              </div>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
-                  <thead className="bg-gray-50/80 text-gray-400 font-bold uppercase tracking-wider text-[11px]"><tr><th className="px-6 py-4">Status</th><th className="px-6 py-4">Date</th><th className="px-6 py-4">Start Time</th><th className="px-6 py-4">End Time</th><th className="px-6 py-4">Total Hours</th></tr></thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {memberSchedules.length === 0 ? (<tr><td colSpan="5" className="px-6 py-12 text-center text-gray-400 italic">No schedules published for this period.</td></tr>) : (
+                  <thead className="bg-zinc-50/80 dark:bg-zinc-900/50 text-zinc-400 dark:text-zinc-500 font-black uppercase tracking-[0.2em] text-[10px] border-b border-zinc-100 dark:border-zinc-900">
+                    <tr>
+                      <th className="px-8 py-5">Status</th>
+                      <th className="px-6 py-5">Date</th>
+                      <th className="px-6 py-5">Engagement</th>
+                      <th className="px-6 py-5">Conclusion</th>
+                      <th className="px-8 py-5 text-right">Yield</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900/50">
+                    {memberSchedules.length === 0 ? (
+                      <tr>
+                        <td colSpan="5" className="px-8 py-16 text-center text-zinc-400 dark:text-zinc-600 italic font-medium uppercase tracking-[0.1em] text-[10px]">
+                          No active operational schedules published.
+                        </td>
+                      </tr>
+                    ) : (
                       memberSchedules.map((sched) => (
-                        <tr key={sched.id} className="hover:bg-gray-50/50 transition-colors">
-                          <td className="px-6 py-4"><span className="h-2 w-2 rounded-full bg-green-500 inline-block mr-2 ring-4 ring-green-100"></span><span className="text-xs font-semibold text-gray-700">Scheduled</span></td>
-                          <td className="px-6 py-4 font-bold text-gray-900">{sched.date}</td>
-                          <td className="px-6 py-4"><div className="flex items-center gap-1.5 text-gray-600"><Clock className="h-3.5 w-3.5 text-indigo-400" /> {sched.startTime}</div></td>
-                          <td className="px-6 py-4"><div className="flex items-center gap-1.5 text-gray-600"><Clock className="h-3.5 w-3.5 text-red-300" /> {sched.endTime}</div></td>
-                          <td className="px-6 py-4 font-bold text-indigo-600">8.0 hrs</td>
+                        <tr key={sched.id} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-colors group">
+                          <td className="px-8 py-5">
+                            <div className="flex items-center gap-2.5">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                              <span className="text-[10px] font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Active</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 font-bold text-gray-900 dark:text-zinc-100">{sched.date}</td>
+                          <td className="px-6 py-5"><div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-medium"><Clock className="h-3.5 w-3.5 text-brand-primary/50" /> {sched.startTime}</div></td>
+                          <td className="px-6 py-5"><div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-medium"><Clock className="h-3.5 w-3.5 text-brand-secondary/50" /> {sched.endTime}</div></td>
+                          <td className="px-8 py-5 text-right font-black text-brand-primary">8.0 HRS</td>
                         </tr>
                       ))
                     )}
@@ -82,9 +155,20 @@ export default function TeamDetails() {
               </div>
             </CardContent>
           </Card>
-          <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6 flex items-start gap-4 shadow-sm">
-            <div className="bg-indigo-100 p-2.5 rounded-full"><Activity className="h-6 w-6 text-indigo-600" /></div>
-            <div className="space-y-1"><h4 className="font-bold text-indigo-900">Shift Management Note</h4><p className="text-sm text-indigo-700 leading-relaxed">Changes to the published work schedule must be submitted via the HR Portal 24 hours in advance. Overtime hours require manager approval.</p></div>
+
+          <div className="bg-zinc-950 dark:bg-zinc-900 border border-white/5 rounded-2xl p-8 flex items-start gap-6 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 rotate-12 group-hover:rotate-45 transition-transform duration-700">
+              <Activity className="h-32 w-32" />
+            </div>
+            <div className="bg-brand-primary/20 p-4 rounded-xl relative z-10">
+              <Activity className="h-6 w-6 text-brand-primary" />
+            </div>
+            <div className="space-y-2 relative z-10">
+              <h4 className="font-black text-white uppercase tracking-[0.2em] text-[11px]">Shift Management Protocol</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed font-medium">
+                Operational adjustments must be authorized through our institutional portal 24 hours prior to shift commencement. Unsanctioned deviations are strictly monitored.
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -48,6 +48,7 @@ const seedData = async () => {
     await clearCollection("team");
     await clearCollection("requests");
     await clearCollection("schedules");
+    await clearCollection("messages");
     // We don't clear "users" fully to avoid deleting manually created auth-linked profiles,
     // but we will overwrite the seeded ones.
 
@@ -127,7 +128,7 @@ const seedData = async () => {
         officialPrice: 130000,
         sellingPrice: 135000,
         status: "Available",
-        images: ["https://images.unsplash.com/photo-1503376713248-be5b5c3ff267?auto=format&fit=crop&q=80&w=1000"],
+        images: ["https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "3.0L Flat-6", color: "Shark Blue", mileage: "1,200" }
       },
       {
@@ -154,14 +155,14 @@ const seedData = async () => {
       },
       {
         id: 1007,
-        name: "LC 500",
-        brand: "Lexus",
+        name: "Huracán Tecnica",
+        brand: "Lamborghini",
         modelYear: 2024,
-        officialPrice: 99000,
-        sellingPrice: 101000,
+        officialPrice: 240000,
+        sellingPrice: 245000,
         status: "Sold",
-        images: ["https://images.unsplash.com/photo-1620866299298-6da8da4821a7?auto=format&fit=crop&q=80&w=1000"],
-        specs: { engine: "5.0L V8", color: "Infrared", mileage: "2,500" }
+        images: ["https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1000"],
+        specs: { engine: "5.2L V10", color: "Verde Selvans", mileage: "500" }
       }
     ];
 
@@ -201,20 +202,52 @@ const seedData = async () => {
       createdAt: serverTimestamp()
     });
     console.log(`✅ Schedule for Alice Johnson set.`);
+    
+    // 4.5 Seed Messages
+    console.log("💬 Seeding messages...");
+    const messages = [
+      {
+        name: "Regular User",
+        email: "user@user.com",
+        subject: "Inquiry: Lexus LC 500 Availability",
+        message: "Is the Lexus LC 500 still available for a test drive this weekend?",
+        read: true,
+        createdAt: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+      },
+      {
+        name: "Regular User",
+        email: "user@user.com",
+        subject: "Question about Porsche 911",
+        message: "What are the financing options for the Porsche 911 Carrera S?",
+        read: false,
+        createdAt: new Date().toISOString()
+      }
+    ];
+
+    for (const msg of messages) {
+      await setDoc(doc(db, "messages", `msg-${Date.now()}-${Math.random()}`), msg);
+    }
+    console.log(`✅ ${messages.length} messages seeded.`);
 
     // 5. Seed Requests
     console.log("📝 Seeding requests...");
     const requests = [
       {
         userId: "user-default-123", 
-        carId: "1001",
+        carId: 1001,
         status: "approved",
-        timestamp: new Date().toISOString()
+        timestamp: new Date(Date.now() - 172800000).toISOString()
       },
       {
         userId: "user-default-123",  
-        carId: "1002",
+        carId: 1002,
         status: "pending",
+        timestamp: new Date(Date.now() - 86400000).toISOString()
+      },
+      {
+        userId: "user-default-123",
+        carId: 1005,
+        status: "rejected",
         timestamp: new Date().toISOString()
       }
     ];

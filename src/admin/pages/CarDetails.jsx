@@ -12,7 +12,7 @@ export default function CarDetails() {
   const navigate = useNavigate();
   const { cars } = useCars();
   const { user } = useAuth();
-  
+
   const car = cars.find(c => String(c.id) === id);
 
   if (!car) {

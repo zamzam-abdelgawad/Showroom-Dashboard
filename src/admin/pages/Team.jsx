@@ -48,7 +48,14 @@ export default function Team() {
             <CardContent className="pt-8 text-center px-6">
               <div className="relative inline-block mb-4">
                 <div className="h-24 w-24 rounded-full p-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-inner">
-                  <img src={member.image} alt={member.name} className="h-full w-full rounded-full object-cover shadow-sm grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500" />
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="h-full w-full rounded-full object-cover shadow-sm grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500" 
+                    onError={(e) => {
+                      e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random&size=128`;
+                    }}
+                  />
                 </div>
                 <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 p-1.5 rounded-full shadow-md text-brand-secondary border border-zinc-100 dark:border-zinc-900"><Star className="h-3.5 w-3.5 fill-current" /></div>
               </div>
@@ -59,8 +66,8 @@ export default function Team() {
                 <div className="flex items-center gap-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-500"><Phone className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" /><span>{member.phone}</span></div>
               </div>
               <div className="mt-8 pb-4">
-                <Button variant="outline" className="w-full text-[9px] font-black uppercase tracking-[0.2em] py-5 rounded-xl border-zinc-100 dark:border-zinc-900 text-zinc-400 dark:text-zinc-600 hover:text-brand-primary hover:border-brand-primary/30 hover:bg-brand-primary/[0.03] group transition-all" onClick={() => navigate(`/admin/team/${member.id}`)}>
-                  Examine Logistics <ChevronRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
+                <Button variant="outline" className="w-full text-[9px] font-black uppercase tracking-[0.2em] py-5 rounded-xl border-zinc-100 dark:border-zinc-900 text-zinc-400 dark:text-zinc-600 hover:text-brand-primary hover:border-brand-primary/30 hover:bg-brand-primary/[0.03] group transition-all" onClick={() => navigate(`/admin/team/${member.id || member.firestoreId}`)}>
+                  View Profile <ChevronRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </CardContent>

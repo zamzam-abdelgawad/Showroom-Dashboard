@@ -33,6 +33,7 @@ export function TeamProvider({ children }) {
         (snapshot) => {
           const teamData = snapshot.docs.map(doc => ({
             ...doc.data(),
+            id: doc.id,
             firestoreId: doc.id
           }));
           setTeamMembers(teamData);
@@ -48,6 +49,7 @@ export function TeamProvider({ children }) {
         (snapshot) => {
           const scheduleData = snapshot.docs.map(doc => ({
             ...doc.data(),
+            id: doc.id,
             firestoreId: doc.id
           }));
           setSchedules(scheduleData);
@@ -76,7 +78,7 @@ export function TeamProvider({ children }) {
         createdAt: new Date().toISOString()
       };
       const docRef = await addDoc(collection(db, "team"), newMember);
-      return { ...newMember, firestoreId: docRef.id };
+      return { ...newMember, id: docRef.id, firestoreId: docRef.id };
     } catch (error) {
       console.error("Error adding team member:", error);
       throw error;
