@@ -26,14 +26,14 @@ export function Modal({ isOpen, onClose, title, children }) {
         onClick={onClose} 
         aria-hidden="true" 
       />
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg z-10 animate-in fade-in zoom-in-95 duration-200 dark:bg-slate-900 dark:border dark:border-slate-800">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
-          <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-slate-800" aria-label="Close modal">
-            <X className="h-5 w-5" />
+      <div className="bg-white dark:bg-zinc-950 rounded-2xl shadow-2xl w-full max-w-lg z-10 animate-in fade-in zoom-in-95 duration-300 border border-zinc-100 dark:border-zinc-800/50">
+        <div className="flex items-center justify-between px-8 py-6 border-b border-zinc-50 dark:border-zinc-900/50">
+          <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">{title}</h3>
+          <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0 rounded-full text-zinc-400 hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="Close modal">
+            <X className="h-4 w-4" />
           </Button>
         </div>
-        <div className="px-6 py-4">
+        <div className="px-8 py-6">
           {children}
         </div>
       </div>

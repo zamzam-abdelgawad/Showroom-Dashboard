@@ -1,14 +1,14 @@
 import { cn } from "../../lib/utils";
 
 export function Button({ className, variant = "primary", size = "md", isLoading, children, ...props }) {
-  const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] tap-highlight-transparent";
+  const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] tap-highlight-transparent";
   
   const variants = {
-    primary: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-200 dark:shadow-none dark:bg-indigo-500 dark:hover:bg-indigo-600",
-    secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
-    outline: "border-2 border-gray-200 bg-transparent hover:bg-gray-50 text-gray-700 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800",
-    ghost: "bg-transparent hover:bg-gray-100 text-gray-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100",
-    danger: "bg-red-600 text-white hover:bg-red-700 dark:bg-red-50 dark:text-red-600 dark:hover:bg-red-100",
+    primary: "bg-brand-primary text-white hover:bg-brand-primary/90 shadow-md shadow-brand-primary/10 dark:shadow-none",
+    secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700",
+    outline: "border-2 border-zinc-200 bg-transparent hover:bg-zinc-50 text-zinc-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800",
+    ghost: "bg-transparent hover:bg-zinc-100 text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200",
+    danger: "bg-red-600 text-white hover:bg-red-700 dark:bg-red-950/30 dark:text-red-500 dark:hover:bg-red-900/40",
   };
   
   const sizes = {

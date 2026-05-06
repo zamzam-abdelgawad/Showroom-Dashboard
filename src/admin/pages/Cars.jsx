@@ -75,7 +75,7 @@ export default function Cars() {
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-500" />
-            <select className="h-10 rounded-md border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-100" value={statusFilter} onChange={(e) => handleFilterChange(e.target.value)}>
+            <select className="h-10 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:text-zinc-100" value={statusFilter} onChange={(e) => handleFilterChange(e.target.value)}>
               <option value="all">All Status</option>
               <option value="available">Available</option>
               <option value="sold">Sold</option>
@@ -83,19 +83,19 @@ export default function Cars() {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-gray-50/80 dark:bg-slate-800/80 text-gray-500 dark:text-gray-400 font-medium border-b border-gray-200 dark:border-slate-800">
+              <thead className="bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 font-bold border-b border-zinc-200 dark:border-zinc-800">
                 <tr>
-                  <th className="px-6 py-4">Brand & Name</th>
-                  <th className="px-6 py-4">Model Year</th>
-                  <th className="px-6 py-4">Selling Price</th>
-                  {isAdmin && <th className="px-6 py-4">Official Price</th>}
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4 text-right transform mr-2">Actions</th>
+                  <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Brand & Name</th>
+                  <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Model Year</th>
+                  <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Selling Price</th>
+                  {isAdmin && <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Official Price</th>}
+                  <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Status</th>
+                  <th className="px-6 py-4 text-right uppercase tracking-wider text-[10px]">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-slate-800/50">
+              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-900">
                 {loading ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i}>
@@ -107,30 +107,30 @@ export default function Cars() {
                     </tr>
                   ))
                 ) : paginatedCars.length === 0 ? (
-                  <tr><td colSpan="5" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-gray-300 dark:text-slate-600 mb-2" /><p>No cars found matching your criteria</p></div></td></tr>
+                  <tr><td colSpan="5" className="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-zinc-300 dark:text-zinc-700 mb-2" /><p>No cars found matching your criteria</p></div></td></tr>
                 ) : (
                   paginatedCars.map((car) => (
-                    <tr key={car.id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
+                    <tr key={car.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-colors">
+                      <td className="px-6 py-4 font-bold text-gray-900 dark:text-zinc-100">
                         <button
                           onClick={() => navigate(`/admin/cars/${car.id}`)}
-                          className="hover:text-indigo-600 hover:underline transition-colors cursor-pointer text-left"
+                          className="hover:text-brand-primary transition-colors cursor-pointer text-left"
                         >
                           {car.brand} {car.name}
                         </button>
                       </td>                      
-                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{car.modelYear}</td>
-                      <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">${car.sellingPrice?.toLocaleString()}</td>
-                      {isAdmin && <td className="px-6 py-4 text-gray-400 dark:text-gray-500 italic">${car.officialPrice?.toLocaleString()}</td>}
+                      <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500">{car.modelYear}</td>
+                      <td className="px-6 py-4 font-black text-brand-primary">${car.sellingPrice?.toLocaleString()}</td>
+                      {isAdmin && <td className="px-6 py-4 text-zinc-400 dark:text-zinc-600 italic font-medium">${car.officialPrice?.toLocaleString()}</td>}
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${car.status === 'Available' ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300' : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300'}`}>{car.status}</span>
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${car.status === 'Available' ? 'bg-brand-primary/10 text-brand-primary' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400'}`}>{car.status}</span>
                       </td>
                       <td className="px-6 py-4 text-right flex justify-end gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/cars/${car.id}`)} className="h-8 w-8 p-0 text-gray-400 hover:text-indigo-600" title="View Details"><Eye className="h-4 w-4" /></Button>
-                        {car.status === 'Available' && isAdmin && (<Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-green-600 hover:bg-green-50" title="Mark as Sold"><CheckCircle className="h-4 w-4" /></Button>)}
+                        <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/cars/${car.id}`)} className="h-8 w-8 p-0 text-zinc-400 hover:text-brand-primary" title="View Details"><Eye className="h-4 w-4" /></Button>
+                        {car.status === 'Available' && isAdmin && (<Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30" title="Mark as Sold"><CheckCircle className="h-4 w-4" /></Button>)}
                         {isAdmin && (<>
-                          <Button variant="ghost" size="sm" onClick={() => openEditModal(car)} className="h-8 w-8 p-0 text-indigo-600 hover:bg-indigo-50" title="Edit"><Edit2 className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="sm" onClick={() => openDeleteModal(car)} className="h-8 w-8 p-0 text-red-600 hover:bg-red-50" title="Delete"><Trash2 className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => openEditModal(car)} className="h-8 w-8 p-0 text-brand-primary hover:bg-brand-primary/10" title="Edit"><Edit2 className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => openDeleteModal(car)} className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30" title="Delete"><Trash2 className="h-4 w-4" /></Button>
                         </>)}
                       </td>
                     </tr>
@@ -139,12 +139,12 @@ export default function Cars() {
               </tbody>
             </table>
           </div>
-          <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-sm text-gray-500 dark:text-gray-400">Showing <span className="font-medium">{filteredCars.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, filteredCars.length)}</span> of <span className="font-medium">{filteredCars.length}</span> results</span>
+          <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-500 italic">Showing {filteredCars.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredCars.length)} of {filteredCars.length} results</span>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || loading}><ChevronLeft className="h-4 w-4" /></Button>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300 min-w-[5rem] text-center">Page {currentPage} of {totalPages}</div>
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || loading}><ChevronRight className="h-4 w-4" /></Button>
+              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || loading} className="h-8 w-8 p-0 min-w-0"><ChevronLeft className="h-4 w-4" /></Button>
+              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400 min-w-[5rem] text-center">Page {currentPage} of {totalPages}</div>
+              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || loading} className="h-8 w-8 p-0 min-w-0"><ChevronRight className="h-4 w-4" /></Button>
             </div>
           </div>
         </CardContent>

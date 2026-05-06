@@ -29,33 +29,38 @@ export default function Team() {
   return (
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="space-y-1"><h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dealership Team</h1><p className="text-gray-500 dark:text-gray-400 text-sm">Manage internal staff roles and weekly schedules.</p></div>
-        <Button className="shadow-md" onClick={() => setIsModalOpen(true)}><UserPlus className="h-4 w-4 mr-2" /> Add Staff Member</Button>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Organization Team</h1>
+          <p className="text-zinc-500 dark:text-zinc-500 text-[10px] uppercase font-bold tracking-widest">Internal staff management and credentialing.</p>
+        </div>
+        <Button className="shadow-md rounded-xl" onClick={() => setIsModalOpen(true)}><UserPlus className="h-4 w-4 mr-2" /> Recruit Personnel</Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="col-span-full border-none shadow-sm bg-white dark:bg-slate-900 p-4">
+        <Card className="col-span-full border border-zinc-100 dark:border-zinc-900 shadow-sm bg-white dark:bg-zinc-950 p-4 rounded-xl">
           <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            <input placeholder="Search team members by name or role..." className="pl-10 h-10 w-full rounded-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-100" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
+            <input placeholder="Search personnel by identity or role..." className="pl-10 h-10 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:text-zinc-100 placeholder:text-zinc-400" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
         </Card>
         {filteredTeam.map((member) => (
-          <Card key={member.id} className="border-none shadow-md hover:shadow-xl transition-all duration-300 group bg-white dark:bg-slate-900 overflow-hidden">
-            <div className="h-2 bg-indigo-600 dark:bg-indigo-500"></div>
-            <CardContent className="pt-6 text-center">
+          <Card key={member.id} className="border border-zinc-100 dark:border-zinc-900 shadow-sm hover:shadow-xl transition-all duration-300 group bg-white dark:bg-zinc-950 overflow-hidden rounded-2xl">
+            <div className="h-1.5 bg-brand-primary"></div>
+            <CardContent className="pt-8 text-center px-6">
               <div className="relative inline-block mb-4">
-                <img src={member.image} alt={member.name} className="h-20 w-20 rounded-full border-2 border-indigo-50 dark:border-slate-800 shadow-sm object-cover" />
-                <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-900 p-1 rounded-full shadow-sm text-amber-500"><Star className="h-4 w-4 fill-current" /></div>
+                <div className="h-24 w-24 rounded-full p-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-inner">
+                  <img src={member.image} alt={member.name} className="h-full w-full rounded-full object-cover shadow-sm grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 p-1.5 rounded-full shadow-md text-brand-secondary border border-zinc-100 dark:border-zinc-900"><Star className="h-3.5 w-3.5 fill-current" /></div>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">{member.name}</h3>
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-wider mt-1"><Briefcase className="h-3 w-3" /> {member.role}</div>
-              <div className="mt-6 space-y-3 text-left pt-6 border-t border-gray-100 dark:border-slate-800">
-                <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400"><Mail className="h-4 w-4 text-gray-400 dark:text-gray-500" /><span className="truncate">{member.email}</span></div>
-                <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400"><Phone className="h-4 w-4 text-gray-400 dark:text-gray-500" /><span>{member.phone}</span></div>
+              <h3 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-zinc-100">{member.name}</h3>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-primary/10 text-brand-primary text-[9px] font-black uppercase tracking-[0.1em] mt-2"><Briefcase className="h-3 w-3" /> {member.role}</div>
+              <div className="mt-8 space-y-4 text-left pt-6 border-t border-zinc-50 dark:border-zinc-900">
+                <div className="flex items-center gap-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-500"><Mail className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" /><span className="truncate">{member.email}</span></div>
+                <div className="flex items-center gap-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-500"><Phone className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" /><span>{member.phone}</span></div>
               </div>
-              <div className="mt-8 pt-4">
-                <Button variant="outline" className="w-full text-xs font-bold uppercase tracking-widest py-5 border-gray-200 dark:border-slate-800 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-100 dark:hover:border-indigo-900 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group" onClick={() => navigate(`/admin/team/${member.id}`)}>
-                  View Schedule <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <div className="mt-8 pb-4">
+                <Button variant="outline" className="w-full text-[9px] font-black uppercase tracking-[0.2em] py-5 rounded-xl border-zinc-100 dark:border-zinc-900 text-zinc-400 dark:text-zinc-600 hover:text-brand-primary hover:border-brand-primary/30 hover:bg-brand-primary/[0.03] group transition-all" onClick={() => navigate(`/admin/team/${member.id}`)}>
+                  Examine Logistics <ChevronRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </CardContent>

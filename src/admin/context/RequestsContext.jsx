@@ -87,8 +87,10 @@ export function RequestsProvider({ children }) {
     }
   };
 
+  const pendingCount = requests.filter(r => r.status === 'pending').length;
+
   return (
-    <RequestsContext.Provider value={{ requests, loading, addRequest, updateRequestStatus }}>
+    <RequestsContext.Provider value={{ requests, loading, addRequest, updateRequestStatus, pendingCount }}>
       {children}
     </RequestsContext.Provider>
   );

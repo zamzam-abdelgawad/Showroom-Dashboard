@@ -35,47 +35,47 @@ export default function CarDetails() {
 
   return (
     <div className="space-y-6 animate-in">
-      <button onClick={() => navigate('/admin/cars')} className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-        <ChevronLeft className="h-4 w-4" /> Back to Inventory
+      <button onClick={() => navigate('/admin/cars')} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-600 hover:text-brand-primary dark:hover:text-brand-primary transition-all group">
+        <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Inventory
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="overflow-hidden border-none shadow-lg">
-            <div className="relative aspect-video bg-gray-100 dark:bg-slate-800 group">
-              <img src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200"} alt={car.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute top-4 left-4 flex gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm ${car.status === 'Available' ? 'bg-green-500 text-white' : 'bg-amber-500 text-white'}`}>{car.status}</span>
-                <span className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-900 dark:text-gray-100 shadow-sm">{car.brand}</span>
+        <div className="lg:col-span-2 space-y-8">
+          <Card className="overflow-hidden border border-zinc-100 dark:border-zinc-900 shadow-xl rounded-2xl">
+            <div className="relative aspect-video bg-zinc-100 dark:bg-zinc-900 group">
+              <img src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200"} alt={car.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute top-6 left-6 flex gap-3">
+                <span className={`px-4 py-1.5 rounded-md text-[10px] font-black uppercase tracking-[0.15em] shadow-lg ${car.status === 'Available' ? 'bg-brand-primary text-white' : 'bg-brand-secondary text-white'}`}>{car.status}</span>
+                <span className="bg-zinc-950/90 backdrop-blur-md px-4 py-1.5 rounded-md text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg border border-white/10">{car.brand}</span>
               </div>
             </div>
           </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-none shadow-md bg-white dark:bg-slate-900">
-              <CardHeader className="pb-2 border-b border-gray-50 dark:border-slate-800 flex flex-row items-center justify-between">
-                <CardTitle className="text-lg text-gray-900 dark:text-gray-100">Technical Specifications</CardTitle>
-                <Car className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="border border-zinc-100 dark:border-zinc-900 shadow-sm bg-white dark:bg-zinc-950 rounded-2xl">
+              <CardHeader className="pb-4 border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between pt-6 px-6">
+                <CardTitle className="text-xs font-black uppercase tracking-widest text-zinc-400">Technical Attributes</CardTitle>
+                <Car className="h-4 w-4 text-brand-primary" />
               </CardHeader>
-              <CardContent className="pt-4 grid grid-cols-2 gap-y-6 gap-x-4">
+              <CardContent className="pt-6 grid grid-cols-2 gap-y-8 gap-x-6 px-6 pb-8">
                 {specs.map((spec, i) => (
-                  <div key={i} className="space-y-1">
-                    <p className="text-xs text-gray-400 dark:text-gray-500 font-semibold uppercase flex items-center gap-1.5">{spec.icon} {spec.label}</p>
-                    <p className="font-bold text-gray-900 dark:text-gray-100 truncate">{spec.value}</p>
+                  <div key={i} className="space-y-2">
+                    <p className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-[0.1em] flex items-center gap-2">{spec.icon} {spec.label}</p>
+                    <p className="font-bold text-sm text-gray-900 dark:text-zinc-100 truncate">{spec.value}</p>
                   </div>
                 ))}
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-md bg-indigo-900 text-white overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-4 opacity-10"><ShieldCheck className="h-24 w-24" /></div>
-              <CardHeader className="pb-2"><CardTitle className="text-lg text-indigo-100">Dealership Certified</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-indigo-200">Every vehicle undergoes a 150-point inspection by factory-trained technicians.</p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs"><CheckCircle2 className="h-4 w-4 text-green-400" /> 12-Month/Unlimited Warranty</div>
-                  <div className="flex items-center gap-2 text-xs"><CheckCircle2 className="h-4 w-4 text-green-400" /> Roadside Assistance Included</div>
-                  <div className="flex items-center gap-2 text-xs"><CheckCircle2 className="h-4 w-4 text-green-400" /> Clean History Report</div>
+            <Card className="border border-zinc-900 bg-zinc-950 text-white overflow-hidden relative rounded-2xl">
+              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32" /></div>
+              <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-brand-primary">Premier Certification</CardTitle></CardHeader>
+              <CardContent className="space-y-5 px-6 pb-8">
+                <p className="text-xs text-zinc-400 leading-relaxed font-medium">Exhaustive mechanical validation and provenance verification for every showcase asset.</p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Comprehensive Warranty</div>
+                  <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite Roadside Service</div>
+                  <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified History Dossier</div>
                 </div>
               </CardContent>
             </Card>
@@ -83,24 +83,24 @@ export default function CarDetails() {
         </div>
 
         <div className="space-y-6">
-          <Card className="border-none shadow-xl bg-white dark:bg-slate-900 sticky top-6">
-            <CardContent className="pt-6 space-y-6">
-              <div className="space-y-1">
-                <h1 className="text-3xl font-black text-gray-900 dark:text-gray-100">{car.name}</h1>
-                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{car.brand} • {car.modelYear} Model</p>
+          <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 sticky top-6 rounded-2xl">
+            <CardContent className="pt-8 space-y-8 px-8 pb-10">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">{car.name}</h1>
+                <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">{car.brand} • {car.modelYear} Specification</p>
               </div>
-              <div className="pt-6 border-t border-gray-100 dark:border-slate-800">
-                <div className="flex justify-between items-end mb-1">
-                  <p className="text-sm text-gray-400 dark:text-gray-500 font-semibold uppercase">Selling Price</p>
-                  <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 rounded italic">MSRP: ${car.officialPrice?.toLocaleString()}</p>
+              <div className="pt-8 border-t border-zinc-50 dark:border-zinc-900">
+                <div className="flex justify-between items-end mb-2">
+                  <p className="text-[10px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest">Sailing Price</p>
+                  <p className="text-[10px] text-brand-primary font-black uppercase px-2 py-0.5 bg-brand-primary/5 rounded-md border border-brand-primary/10 tracking-widest">MSRP ${car.officialPrice?.toLocaleString()}</p>
                 </div>
-                <p className="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">${car.sellingPrice?.toLocaleString()}</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium bg-gray-50 dark:bg-slate-800 p-2 rounded flex items-center gap-2">Tax and registration fees calculated at checkout.</p>
+                <p className="text-5xl font-black text-brand-primary tracking-tighter leading-none">${car.sellingPrice?.toLocaleString()}</p>
+                <p className="text-[9px] text-zinc-400 dark:text-zinc-600 mt-4 font-bold uppercase tracking-widest bg-zinc-50 dark:bg-zinc-900/50 p-2.5 rounded-md flex items-center gap-2 border border-zinc-100 dark:border-zinc-800">Operational taxes and registration excluded.</p>
               </div>
-              <div className="space-y-3 pt-2">
-                <Button className="w-full text-lg py-6" size="lg" onClick={() => navigate('/admin/cars')}>Manage Inventory</Button>
-                <p className="text-center text-xs text-gray-400 font-medium">
-                  {car.status === 'Available' ? 'Estimated delivery within 5-7 business days.' : 'This vehicle is no longer available.'}
+              <div className="space-y-4 pt-2">
+                <Button className="w-full text-[11px] font-black uppercase tracking-[0.25em] py-7 rounded-xl shadow-lg ring-1 ring-white/10" size="lg" onClick={() => navigate('/admin/cars')}>Manage Inventory</Button>
+                <p className="text-center text-[9px] text-zinc-400 font-bold uppercase tracking-widest italic">
+                  {car.status === 'Available' ? 'Logistics ready for immediate deployment.' : 'Asset currently unavailable for acquisition.'}
                 </p>
               </div>
             </CardContent>

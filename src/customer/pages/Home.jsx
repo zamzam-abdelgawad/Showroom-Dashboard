@@ -22,121 +22,125 @@ export default function Home() {
   }, [cars, searchTerm, statusFilter]);
 
   return (
-    <div className="animate-in">
+    <div className="animate-in bg-zinc-50 dark:bg-zinc-950 min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-20 sm:py-28">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+      <div className="relative overflow-hidden bg-zinc-950 py-24 sm:py-32">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-[10%] -left-[5%] w-[40%] h-[40%] bg-brand-primary/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute -bottom-[10%] -right-[5%] w-[50%] h-[50%] bg-brand-primary/5 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm text-indigo-300 font-medium mb-6 border border-white/10">
-            <Sparkles className="h-3.5 w-3.5" />
-            Premium Selection · 150-Point Inspection
+          <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-brand-primary mb-8 border border-white/10 shadow-2xl">
+            <Sparkles className="h-4 w-4" />
+            Quality Cars · Best Selection
           </div>
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Find Your Perfect <br />
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Vehicle</span>
+          <h1 className="text-5xl sm:text-7xl font-black text-white tracking-tighter leading-none">
+            FIND YOUR <br />
+            <span className="text-brand-primary">DREAM CAR</span>
           </h1>
-          <p className="text-gray-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
-            Browse our curated collection of premium vehicles. Every car undergoes a rigorous 150-point inspection for your peace of mind.
+          <p className="text-zinc-400 text-sm sm:text-base mt-8 max-w-xl mx-auto leading-relaxed font-medium uppercase tracking-wide">
+            Browse our collection of hand-picked vehicles. Every car is thoroughly inspected to ensure it's in perfect condition.
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Search & Filter */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900 rounded-2xl border border-gray-200/60 dark:border-slate-800 shadow-sm p-4 -mt-8 relative z-5">
+        <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-2xl p-5 -mt-16 relative z-10">
           <div className="relative max-w-md w-full">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-4 top-3.5 h-4 w-4 text-zinc-400" />
             <Input
-              placeholder="Search by name or brand..."
-              className="pl-10 h-10 w-full rounded-xl dark:border-slate-700"
+              placeholder="SEARCH BY MODEL OR NOMENCLATURE..."
+              className="pl-12 h-12 w-full rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 focus:ring-brand-primary text-[11px] font-black tracking-widest placeholder:text-zinc-400"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-gray-500" />
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-950 px-4 py-1 rounded-xl border border-zinc-100 dark:border-zinc-800 w-full md:w-auto">
+              <Filter className="h-4 w-4 text-brand-primary" />
               <select
-                className="h-10 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow dark:text-gray-100"
+                className="h-10 bg-transparent text-[11px] font-black uppercase tracking-widest focus:outline-none transition-shadow dark:text-zinc-100 w-full"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="all">All Cars</option>
-                <option value="available">Available</option>
-                <option value="sold">Sold</option>
+                <option value="all">ALL ASSETS</option>
+                <option value="available">AVAILABLE</option>
+                <option value="sold">SOLD</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* Results Count */}
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-bold text-gray-900 dark:text-gray-100">{filteredCars.length}</span> vehicles
+        <div className="flex items-center justify-between px-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+            AVAILABLE VEHICLES <span className="text-zinc-900 dark:text-zinc-100 ml-2">{filteredCars.length}</span>
           </p>
         </div>
 
         {/* Car Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <Skeleton key={i} className="h-80 w-full rounded-2xl" />
+              <Skeleton key={i} className="h-96 w-full rounded-2xl bg-zinc-100 dark:bg-zinc-900" />
             ))}
           </div>
         ) : filteredCars.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="bg-gray-50 dark:bg-slate-900 p-4 rounded-2xl inline-block mb-4">
-              <Car className="h-12 w-12 text-gray-300 dark:text-slate-600" />
+          <div className="text-center py-24">
+            <div className="bg-zinc-100 dark:bg-zinc-900 p-6 rounded-3xl inline-block mb-6 shadow-inner">
+              <Car className="h-16 w-16 text-zinc-300 dark:text-zinc-700" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">No vehicles found</h3>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">Try adjusting your search or filter criteria.</p>
+            <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Zero matches found</h3>
+            <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 mt-2 uppercase tracking-widest leading-relaxed">Adjust your deployment parameters <br /> to refine inventory results.</p>
           </div>
         ) : (
-          <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
             {filteredCars.map((car) => (
               <StaggeredCard
                 key={car.id}
-                className="p-0 border-none shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer group overflow-hidden rounded-2xl dark:bg-slate-900"
+                className="p-0 border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl transition-all duration-700 cursor-pointer group overflow-hidden rounded-2xl dark:bg-zinc-950 bg-white"
                 onClick={() => navigate(`/cars/${car.id}`)}
               >
-                <div className="relative aspect-[16/10] bg-gray-100 dark:bg-slate-800 overflow-hidden">
+                <div className="relative aspect-[16/11] bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
                   <img
                     src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=600"}
                     alt={car.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
                   />
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-sm backdrop-blur-sm ${car.status === 'Available' ? 'bg-emerald-500/90 text-white' : 'bg-gray-800/70 text-white'
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className={`px-3 py-1.5 rounded-md text-[9px] font-black uppercase tracking-widest shadow-xl backdrop-blur-md border border-white/10 ${car.status === 'Available' ? 'bg-brand-primary text-white' : 'bg-zinc-900 text-zinc-400'
                       }`}>
-                      {car.status}
+                      {car.status === 'Available' ? 'Available' : 'Sold'}
                     </span>
                   </div>
-                  {/* Price badge */}
-                  <div className="absolute bottom-3 right-3">
-                    <span className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-gray-900 dark:text-gray-100 font-extrabold text-sm px-3 py-1.5 rounded-xl shadow-lg">
-                      ${car.sellingPrice?.toLocaleString()}
+                  {/* Internal badge */}
+                  <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                    <span className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md text-zinc-900 dark:text-zinc-100 font-black text-[10px] uppercase px-4 py-2 rounded-lg shadow-2xl tracking-[0.1em] border border-zinc-100 dark:border-zinc-800">
+                      View
                     </span>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-700"></div>
                 </div>
-                <CardContent className="p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">{car.brand}</p>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">{car.name}</h3>
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-1">
+                      <p className="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em]">{car.brand}</p>
+                      <h3 className="text-base font-black text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-500 tracking-tight uppercase">{car.name}</h3>
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-slate-800 px-2 py-1 rounded-lg">
+                    <div className="flex items-center gap-1.5 text-[9px] font-black text-zinc-400 dark:text-zinc-600 bg-zinc-50 dark:bg-zinc-900/50 px-2.5 py-1.5 rounded-md border border-zinc-100 dark:border-zinc-800 uppercase tracking-widest">
                       <Calendar className="h-3 w-3" />
                       {car.modelYear}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-slate-800">
-                    <p className="text-xl font-extrabold text-gray-900 dark:text-gray-100">${car.sellingPrice?.toLocaleString()}</p>
-                    <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-300">
-                      View Details <ArrowRight className="h-3 w-3" />
+                  <div className="flex items-center justify-between pt-5 border-t border-zinc-50 dark:border-zinc-900">
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] font-black text-zinc-400 uppercase tracking-widest">Price</p>
+                      <p className="text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tighter">${car.sellingPrice?.toLocaleString()}</p>
+                    </div>
+                    <span className="text-[9px] font-black text-brand-primary flex items-center gap-2 uppercase tracking-[0.2em] group-hover:gap-3 transition-all duration-500">
+                      View <ArrowRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
                 </CardContent>

@@ -111,52 +111,59 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Profile</h1>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tighter">Personal Profile</h1>
+        <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-lg border border-zinc-200/50 dark:border-zinc-800">
+          Access Level: <span className="text-brand-primary ml-1">{user.role}</span>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Profile Card */}
-        <Card className="md:col-span-1 border-none shadow-md overflow-hidden bg-white dark:bg-slate-900">
-          <div className="h-28 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative">
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
+        <Card className="md:col-span-1 border border-zinc-100 dark:border-zinc-900 shadow-2xl overflow-hidden bg-white dark:bg-zinc-950 rounded-3xl">
+          <div className="h-32 bg-zinc-950 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05]" />
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-primary/20 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-brand-primary/10 rounded-full blur-2xl" />
           </div>
-          <CardContent className="pt-0 -mt-14 flex flex-col items-center text-center">
+          <CardContent className="pt-0 -mt-16 flex flex-col items-center text-center pb-10">
             <div className="relative">
-              <div className="h-28 w-28 rounded-full border-4 border-white dark:border-slate-900 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-800 dark:to-slate-800 flex items-center justify-center overflow-hidden shadow-lg">
+              <div className="h-32 w-32 rounded-full border-4 border-white dark:border-zinc-950 bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl relative z-10 transition-transform duration-700 group-hover:scale-105">
                 {user.image ? (
-                  <img src={user.image} alt={user.name} className="h-full w-full object-cover" />
+                  <img src={user.image} alt={user.name} className="h-full w-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all" />
                 ) : (
-                  <User className="h-14 w-14 text-gray-400" />
+                  <User className="h-16 w-16 text-zinc-300 dark:text-zinc-700" />
                 )}
               </div>
-              <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white dark:border-slate-900 bg-emerald-500" />
+              <div className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white dark:border-zinc-950 bg-brand-primary z-20 shadow-xl" />
             </div>
-            <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-gray-100">{user.name || user.email}</h2>
-            <p className="text-gray-500 dark:text-gray-400 capitalize text-sm mt-0.5">{user.role}</p>
+            <h2 className="mt-6 text-xl font-black text-gray-900 dark:text-zinc-100 tracking-tight uppercase">{user.name || user.email}</h2>
+            <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] mt-1.5">{user.role} Profile</p>
           </CardContent>
         </Card>
 
         {/* Account Details Card */}
-        <Card className="md:col-span-2 border-none shadow-md bg-white dark:bg-slate-900">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg">Account Details</CardTitle>
-            <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-indigo-600 hover:bg-indigo-50 font-medium px-3 rounded-lg">
-              <Edit2 className="h-4 w-4 mr-2" /> Edit Profile
+        <Card className="md:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl">
+          <CardHeader className="pb-4 pt-8 px-8 flex flex-row items-center justify-between border-b border-zinc-50 dark:border-zinc-900">
+            <CardTitle className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">Identification Info</CardTitle>
+            <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-brand-primary hover:bg-brand-primary/5 text-[10px] font-black uppercase tracking-widest px-4 rounded-xl border border-brand-primary/20">
+              <Edit2 className="h-3.5 w-3.5 mr-2" /> Edit
             </Button>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-1.5 group">
-                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><User className="h-3 w-3" /> Name</label>
-                <p className="text-gray-900 dark:text-gray-100 font-medium bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.name || "Not set"}</p>
+          <CardContent className="p-8 space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="space-y-2.5">
+                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><User className="h-3 w-3 text-brand-primary" /> Full Name</label>
+                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.name || "UNIDENTIFIED"}</div>
               </div>
-              <div className="space-y-1.5 group">
-                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Mail className="h-3 w-3" /> Email</label>
-                <p className="text-gray-900 dark:text-gray-100 font-medium bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.email}</p>
+              <div className="space-y-2.5">
+                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3 w-3 text-brand-primary" /> Email</label>
+                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner">{user.email}</div>
               </div>
-              <div className="space-y-1.5 group">
-                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2"><Shield className="h-3 w-3" /> Role</label>
-                <p className="text-gray-900 dark:text-gray-100 font-medium capitalize bg-gray-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl group-hover:bg-gray-100 dark:group-hover:bg-slate-700 transition-colors">{user.role}</p>
+              <div className="space-y-2.5">
+                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><Shield className="h-3 w-3 text-brand-primary" /> Role</label>
+                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight capitalize bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.role}</div>
               </div>
             </div>
           </CardContent>
@@ -164,87 +171,91 @@ export default function Profile() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-3 gap-4">
-        <Card className="border-none shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl">
-              <ShoppingCart className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl shadow-inner group transition-all hover:bg-brand-primary/10">
+              <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{requests.length}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Requests</p>
+              <p className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">{requests.length}</p>
+              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Total Requests</p>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-none shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl">
-              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-2xl shadow-inner">
+              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{approvedCount}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Approved</p>
+              <p className="text-3xl font-black text-emerald-700 dark:text-emerald-500 tracking-tighter leading-none">{approvedCount}</p>
+              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Accepted Requests</p>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-none shadow-sm">
-          <CardContent className="p-5 flex items-center gap-4">
-            <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
-              <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-2xl shadow-inner">
+              <AlertCircle className="h-5 w-5 text-brand-primary" />
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{pendingCount}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending</p>
+              <p className="text-3xl font-black text-brand-primary tracking-tighter leading-none">{pendingCount}</p>
+              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Pending Requests</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* My Requests */}
-      <Card className="border-none shadow-md bg-white dark:bg-slate-900">
-        <CardHeader className="border-b border-gray-100 dark:border-slate-800 flex flex-row items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Car className="h-5 w-5 text-indigo-600 dark:text-indigo-400" /> My Buy Requests
+      <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl overflow-hidden">
+        <CardHeader className="px-8 py-8 border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/30">
+          <CardTitle className="text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3">
+            <Car className="h-4 w-4 text-brand-primary" /> Request Log
           </CardTitle>
-          <span className="text-xs text-gray-400 font-medium">{requests.length} total</span>
+          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">{requests.length} Requests</span>
         </CardHeader>
         <CardContent className="p-0">
           {reqLoading ? (
-            <div className="p-6 space-y-4">
-              {[1,2,3].map(i => <Skeleton key={i} className="h-12 w-full" />)}
+            <div className="p-10 space-y-6">
+              {[1,2,3].map(i => <Skeleton key={i} className="h-16 w-full rounded-2xl bg-zinc-100 dark:bg-zinc-900" />)}
             </div>
           ) : enrichedRequests.length === 0 ? (
-            <div className="text-center py-12 px-4">
-              <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl inline-block mb-4">
-                <Car className="h-12 w-12 text-gray-200 dark:text-gray-600" />
+            <div className="text-center py-24 px-8">
+              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-8 rounded-full inline-block mb-6 shadow-inner">
+                <Car className="h-16 w-16 text-zinc-200 dark:text-zinc-800" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 font-medium">No buy requests yet</p>
-              <p className="text-gray-400 text-sm mt-1">Browse our <button onClick={() => navigate('/')} className="text-indigo-600 font-medium">catalog</button> to find your dream car.</p>
+              <p className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">Null deployment log recorded</p>
+              <p className="text-[10px] text-zinc-400/70 font-bold uppercase tracking-widest mt-2">Explore the <button onClick={() => navigate('/')} className="text-brand-primary font-black hover:underline underline-offset-4">Asset Catalog</button> to initiate procurement.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full text-sm text-left">
-                <thead className="bg-gray-50/80 dark:bg-slate-800/80 text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100 dark:border-slate-800">
+              <table className="min-w-full text-left">
+                <thead className="bg-zinc-50/80 dark:bg-zinc-900/80 text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800">
                   <tr>
-                    <th className="px-6 py-4">Vehicle</th>
-                    <th className="px-6 py-4">Date</th>
-                    <th className="px-6 py-4">Status</th>
+                    <th className="px-8 py-5"> Vehicle</th>
+                    <th className="px-8 py-5"> Date</th>
+                    <th className="px-8 py-5"> Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50 dark:divide-slate-800/50">
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900">
                   {enrichedRequests.map(req => (
-                    <tr key={req.firestoreId} className="hover:bg-indigo-50/30 dark:hover:bg-slate-800/50 transition-all duration-200 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
-                      <td className="px-6 py-4">
+                    <tr key={req.firestoreId} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
+                      <td className="px-8 py-6">
                         <div className="flex flex-col">
-                          <span className="font-bold text-gray-900 dark:text-gray-100">{req.carName}</span>
-                          <span className="text-[11px] text-gray-400 uppercase tracking-tighter">{req.carBrand}</span>
+                          <span className="font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight group-hover:text-brand-primary transition-colors">{req.carName}</span>
+                          <span className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.2em] mt-1">{req.carBrand}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-gray-300 dark:text-slate-600" />
+                      <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                        <Calendar className="h-3.5 w-3.5 text-brand-primary/50" />
                         {new Date(req.timestamp).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4">{getStatusBadge(req.status)}</td>
+                      <td className="px-8 py-6">
+                        {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
+                        {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-red-100 dark:border-red-900/50">Rejected</span>}
+                        {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-brand-primary/20">Pending</span>}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -255,41 +266,42 @@ export default function Profile() {
       </Card>
 
       {/* Edit Profile Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Profile">
-        <form onSubmit={handleSaveProfile} className="space-y-5">
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Display Name</label>
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Modify Profile Intelligence">
+        <form onSubmit={handleSaveProfile} className="space-y-8 py-4">
+          <div className="space-y-3">
+            <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">Name</label>
             <Input 
               value={editFormData.name} 
               onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })} 
-              placeholder="Your full name"
+              placeholder="Full Name"
               required
+              className="rounded-2xl h-14 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
             />
           </div>
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Profile Image</label>
-            <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-gray-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-slate-700">
+          <div className="space-y-3">
+            <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">Profile Picture</label>
+            <div className="flex items-center gap-6 p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-inner">
+              <div className="h-20 w-20 rounded-full bg-white dark:bg-zinc-950 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
                 {imagePreview || editFormData.image ? (
                   <img src={imagePreview || editFormData.image} alt="Profile preview" className="h-full w-full object-cover" />
                 ) : (
-                  <User className="h-8 w-8 text-gray-400 dark:text-gray-500" />
+                  <User className="h-10 w-10 text-zinc-300 dark:text-zinc-700" />
                 )}
               </div>
-              <div className="flex-1">
+              <div className="flex-1 space-y-3">
                 <input 
                   type="file" 
                   accept="image/*" 
                   onChange={handleImageChange}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-400 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50 transition-colors"
+                  className="block w-full text-[10px] text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[9px] file:font-black file:uppercase file:bg-brand-primary file:text-white hover:file:opacity-90 transition-all cursor-pointer"
                 />
-                <p className="text-[10px] text-gray-400 mt-1">Upload a JPG, PNG, or GIF file.</p>
+                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Profile Picture (JPG, PNG, GIF formats).</p>
               </div>
             </div>
           </div>
-          <div className="pt-4 flex justify-end gap-3 border-t border-gray-100">
-            <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-            <Button type="submit" isLoading={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">Save Changes</Button>
+          <div className="pt-8 flex justify-end gap-4 border-t border-zinc-100 dark:border-zinc-900">
+            <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-[10px] font-black uppercase tracking-widest">Cancel</Button>
+            <Button type="submit" isLoading={isSaving} className="bg-brand-primary hover:bg-brand-primary/90 text-white shadow-2xl shadow-brand-primary/20 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-12">Update Profile</Button>
           </div>
         </form>
       </Modal>

@@ -49,63 +49,72 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 dark:bg-slate-950 p-4 transition-colors duration-300">
-      <Card className="w-full max-w-md shadow-xl border-gray-100 dark:border-slate-800 dark:bg-slate-900">
-        <CardHeader className="text-center space-y-2 border-b-0 pb-0 mt-4">
-          <div className="mx-auto bg-indigo-100 dark:bg-indigo-900/40 p-3 rounded-full w-fit mb-2">
-            <UserPlus className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-6 transition-all duration-500 overflow-hidden relative">
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute top-[10%] left-[20%] w-[35%] h-[35%] bg-brand-primary/5 rounded-full blur-[110px]" />
+        <div className="absolute bottom-[10%] right-[20%] w-[45%] h-[45%] bg-brand-primary/10 rounded-full blur-[130px]" />
+      </div>
+
+      <Card className="w-full max-w-md shadow-2xl border-zinc-100 dark:border-zinc-900 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl rounded-3xl relative z-10">
+        <CardHeader className="text-center space-y-4 pt-10 pb-4">
+          <div className="mx-auto bg-zinc-950 p-4 rounded-2xl w-fit mb-2 shadow-2xl border border-white/5 group transition-transform hover:rotate-12">
+            <UserPlus className="h-8 w-8 text-brand-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold dark:text-gray-100">Create Account</CardTitle>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Sign up to browse and purchase vehicles</p>
+          <CardTitle className="text-3xl font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tighter">Create Account</CardTitle>
+          <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.3em]">Join the community</p>
         </CardHeader>
-        <CardContent className="mt-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+        <CardContent className="px-10 pb-12">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Full Name</label>
               <Input
-                placeholder="John Doe"
+                placeholder="User"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 error={errors.name}
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
               />
             </div>
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Email</label>
               <Input
                 type="email"
-                placeholder="john@example.com"
+                placeholder="user@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={errors.email}
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
               />
             </div>
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Password</label>
               <Input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 error={errors.password}
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
               />
             </div>
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Confirm Password</label>
               <Input
                 type="password"
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 error={errors.confirmPassword}
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
               />
             </div>
-            <Button type="submit" className="w-full h-14 text-lg" isLoading={loading}>
-              Create Account
+            <Button type="submit" className="w-full h-14 rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl shadow-brand-primary/20 bg-brand-primary hover:bg-brand-primary/90 mt-4" isLoading={loading}>
+              Register
             </Button>
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-center text-[10px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest pt-2">
               Already have an account?{" "}
-              <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-semibold">
-                Sign In
+              <Link to="/login" className="text-brand-primary hover:underline underline-offset-4 decoration-2">
+                Login
               </Link>
             </p>
           </form>

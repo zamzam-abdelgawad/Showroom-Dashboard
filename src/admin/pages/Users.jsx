@@ -84,7 +84,7 @@ export default function Users() {
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl text-white shadow-lg shadow-indigo-200">
+          <div className="p-2.5 bg-brand-primary rounded-xl text-white shadow-lg shadow-brand-primary/10">
             <UsersIcon className="h-5 w-5" />
           </div>
           <div>
@@ -98,15 +98,15 @@ export default function Users() {
           </Button>
         )}
       </div>
-      <Card className="border-none shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 justify-between pb-4 bg-gray-50/50 dark:bg-slate-900/50">
+      <Card className="border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden">
+        <CardHeader className="border-b border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row gap-4 justify-between pb-4 bg-zinc-50/50 dark:bg-zinc-900/50">
           <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            <Input placeholder="Search users..." className="pl-10 h-10 w-full rounded-xl border-gray-200 dark:border-slate-700" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
+            <Input placeholder="Search users..." className="pl-10 h-10 w-full rounded-xl border-zinc-200 dark:border-zinc-800" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-gray-500" />
-            <select className="h-10 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow dark:text-gray-100" value={statusFilter} onChange={(e) => handleFilterChange(e.target.value)}>
+            <Filter className="h-4 w-4 text-zinc-500" />
+            <select className="h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition-shadow dark:text-zinc-100" value={statusFilter} onChange={(e) => handleFilterChange(e.target.value)}>
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -114,18 +114,18 @@ export default function Users() {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-gray-50/80 dark:bg-slate-800/80 text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100 dark:border-slate-800">
+              <thead className="bg-white dark:bg-zinc-950 text-zinc-400 dark:text-zinc-500 font-black uppercase tracking-wider text-[10px] border-b border-zinc-100 dark:border-zinc-900">
                 <tr>
-                  <th className="px-6 py-4">User</th>
+                  <th className="px-6 py-4">User Name</th>
                   <th className="px-6 py-4">Email</th>
                   <th className="px-6 py-4">Role</th>
                   <th className="px-6 py-4">Status</th>
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900/50">
                 {loading ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i}>
@@ -137,42 +137,42 @@ export default function Users() {
                     </tr>
                   ))
                 ) : paginatedUsers.length === 0 ? (
-                  <tr><td colSpan="5" className="px-6 py-12 text-center text-gray-500"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-gray-300 mb-2" /><p>No users found matching your criteria</p></div></td></tr>
+                  <tr><td colSpan="5" className="px-6 py-12 text-center text-zinc-500"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-zinc-300 mb-2" /><p>No users found matching your criteria</p></div></td></tr>
                 ) : (
                   paginatedUsers.map((user) => (
-                    <tr key={user.id || user.firestoreId} className="hover:bg-indigo-50/30 dark:hover:bg-slate-800/50 transition-all duration-200 group">
-                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100 flex items-center gap-3">
+                    <tr key={user.id || user.firestoreId} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-all duration-200 group">
+                      <td className="px-6 py-4 font-bold text-gray-900 dark:text-zinc-100 flex items-center gap-3">
                         <div className="relative">
                           {user.image ? (
-                            <img src={user.image} alt={user.name || user.firstName} className="h-10 w-10 rounded-full bg-gray-100 dark:bg-slate-800 object-cover ring-2 ring-white dark:ring-slate-900 shadow-sm" />
+                            <img src={user.image} alt={user.name || user.firstName} className="h-10 w-10 rounded-full bg-zinc-100 dark:bg-zinc-900 object-cover ring-2 ring-white dark:ring-zinc-950 shadow-sm" />
                           ) : (
-                            <div className="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center ring-2 ring-white dark:ring-slate-900 shadow-sm"><User className="h-5 w-5 text-indigo-500 dark:text-indigo-400" /></div>
+                            <div className="h-10 w-10 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center ring-2 ring-white dark:ring-zinc-950 shadow-sm"><User className="h-5 w-5 text-zinc-400 dark:text-zinc-600" /></div>
                           )}
-                          <span className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white dark:border-slate-900 ${user.status === 'Active' ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-slate-600'}`} />
+                          <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-zinc-950 ${user.status === 'Active' ? 'bg-emerald-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-semibold">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
+                          <span className="font-black text-xs uppercase tracking-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{user.email}</td>
+                      <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-medium">{user.email}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          user.role === 'admin' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-400'
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${
+                          user.role === 'admin' ? 'bg-brand-primary/10 text-brand-primary' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400'
                         }`}>
                           {user.role || 'user'}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${
                           user.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                         }`}>{user.status}</span>
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-1 group-hover:opacity-100 transition-opacity duration-200">
-                          <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/users/${user.firestoreId || user.id}`)} className="h-8 w-8 p-0 rounded-lg" title="View details"><Eye className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/users/${user.firestoreId || user.id}`)} className="h-8 w-8 p-0" title="View details"><Eye className="h-4 w-4" /></Button>
                           {isAdmin && (<>
-                            <Button variant="ghost" size="sm" onClick={() => openEditModal(user)} className="h-8 w-8 p-0 text-indigo-600 hover:bg-indigo-50 rounded-lg" title="Edit"><Edit2 className="h-4 w-4" /></Button>
-                            <Button variant="ghost" size="sm" onClick={() => openDeleteModal(user)} className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 rounded-lg" title="Delete"><Trash2 className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="sm" onClick={() => openEditModal(user)} className="h-8 w-8 p-0 text-brand-primary hover:bg-brand-primary/10" title="Edit"><Edit2 className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="sm" onClick={() => openDeleteModal(user)} className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30" title="Delete"><Trash2 className="h-4 w-4" /></Button>
                           </>)}
                         </div>
                       </td>
@@ -182,12 +182,12 @@ export default function Users() {
               </tbody>
             </table>
           </div>
-          <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/30 dark:bg-slate-900/30">
-            <span className="text-sm text-gray-500 dark:text-gray-400">Showing <span className="font-medium">{filteredUsers.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, filteredUsers.length)}</span> of <span className="font-medium">{filteredUsers.length}</span> results</span>
+          <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-50/30 dark:bg-zinc-900/30">
+            <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase italic"> {filteredUsers.length} accounts found</span>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || loading} className="rounded-lg"><ChevronLeft className="h-4 w-4" /></Button>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300 min-w-[5rem] text-center bg-white dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-slate-800">Page {currentPage} of {totalPages}</div>
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || loading} className="rounded-lg"><ChevronRight className="h-4 w-4" /></Button>
+              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || loading} className="h-8 w-8 p-0 min-w-0"><ChevronLeft className="h-4 w-4" /></Button>
+              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400 min-w-[5rem] text-center bg-white dark:bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">Page {currentPage} of {totalPages}</div>
+              <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || loading} className="h-8 w-8 p-0 min-w-0"><ChevronRight className="h-4 w-4" /></Button>
             </div>
           </div>
         </CardContent>

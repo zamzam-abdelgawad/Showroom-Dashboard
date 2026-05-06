@@ -10,13 +10,13 @@ export function AnimatedButton({
   disabled,
   ...props 
 }) {
-  const baseStyles = "inline-flex items-center justify-center font-bold rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:pointer-events-none disabled:opacity-50 tap-highlight-transparent";
+  const baseStyles = "inline-flex items-center justify-center font-black uppercase tracking-widest transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:pointer-events-none disabled:opacity-50 tap-highlight-transparent rounded-xl";
   
   const variants = {
-    primary: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-200 dark:shadow-none dark:bg-indigo-500 dark:hover:bg-indigo-600",
-    secondary: "bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-100 border-2 border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 shadow-sm",
-    danger: "bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-200 dark:shadow-none",
-    outline: "border-2 border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20",
+    primary: "bg-brand-primary text-white hover:bg-brand-primary/90 shadow-xl shadow-brand-primary/20",
+    secondary: "bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 shadow-sm font-bold",
+    danger: "bg-red-600 text-white hover:bg-red-700 shadow-xl shadow-red-200/20 dark:shadow-none font-bold",
+    outline: "border border-brand-primary/30 text-brand-primary hover:bg-brand-primary/5 font-black",
   };
 
   const sizes = {

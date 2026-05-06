@@ -1,10 +1,37 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-primary: #7c3aed;
+  --color-brand-secondary: #f59e0b;
+  --color-brand-dark: #09090b;
+  --color-brand-light: #fdfcfb;
+  
+  --shadow-brand: 0 10px 15px -3px rgba(124, 58, 237, 0.1), 0 4px 6px -4px rgba(124, 58, 237, 0.1);
+}
+
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  --accent: #7c3aed;
+  --accent-bg: rgba(124, 58, 237, 0.05);
+  --accent-border: rgba(124, 58, 237, 0.1);
+  --border: #f4f4f5; /* zinc-100 */
+  --text-h: #09090b; /* zinc-950 */
+  --social-bg: #fafafa;
+  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.02);
+}
+
+.dark {
+  --border: #18181b; /* zinc-900 */
+  --text-h: #f4f4f5; /* zinc-100 */
+  --social-bg: #09090b; /* zinc-950 */
+  --accent-bg: rgba(124, 58, 237, 0.1);
+  --accent-border: rgba(124, 58, 237, 0.2);
+}
+
 body {
-  @apply bg-gray-50 text-gray-900 transition-colors duration-300;
-  @apply dark:bg-[#0f172a] dark:text-gray-100;
+  @apply bg-zinc-50 text-zinc-900 transition-colors duration-500 selection:bg-brand-primary selection:text-white;
+  @apply dark:bg-zinc-950 dark:text-zinc-100;
 }
 
 @layer utilities {

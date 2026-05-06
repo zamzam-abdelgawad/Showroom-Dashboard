@@ -33,57 +33,58 @@ export function CustomerLayout() {
   return (
     <CustomerCarsProvider>
       <CustomerRequestsProvider>
-        <div className="min-h-screen bg-gray-50/50 dark:bg-slate-950 flex flex-col font-sans text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col font-sans text-zinc-900 dark:text-zinc-100 transition-colors duration-500">
           {/* Navbar */}
-          <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200/60 dark:border-slate-800/60 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-10 w-full shadow-sm">
-            <div className="flex items-center gap-6">
-              <Link to="/" className="flex items-center gap-3">
-                <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-xl text-white shadow-lg shadow-indigo-200">
+          <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800/80 h-20 flex items-center justify-between px-6 sm:px-8 lg:px-12 sticky top-0 z-50 w-full shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+            <div className="flex items-center gap-10">
+              <Link to="/" className="flex items-center gap-3.5 group">
+                <div className="bg-zinc-950 p-2.5 rounded-xl text-brand-primary shadow-2xl border border-white/5 transition-transform group-hover:scale-110">
                   <Car className="h-5 w-5" />
                 </div>
-                <h2 className="text-xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
-                  Showroom<span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Elite</span>
+                <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tighter uppercase whitespace-nowrap">
+                  Showroom<span className="text-brand-primary">Elite</span>
                 </h2>
               </Link>
-              <nav className="hidden sm:flex items-center gap-1">
-                <Link to="/" className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl hover:bg-indigo-50/50 dark:hover:bg-slate-800 transition-all duration-200 flex items-center gap-1.5">
-                  <Home className="h-3.5 w-3.5" />
+              <nav className="hidden md:flex items-center gap-2">
+                <Link to="/" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500 hover:text-brand-primary dark:hover:text-brand-primary rounded-xl transition-all duration-300 flex items-center gap-2.5 group">
+                  <Home className="h-3.5 w-3.5 opacity-50 group-hover:opacity-100" />
                   Home
                 </Link>
-                <Link to="/contact" className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl hover:bg-indigo-50/50 dark:hover:bg-slate-800 transition-all duration-200 flex items-center gap-1.5">
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  Contact Us
+                <Link to="/contact" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500 hover:text-brand-primary dark:hover:text-brand-primary rounded-xl transition-all duration-300 flex items-center gap-2.5 group">
+                  <MessageSquare className="h-3.5 w-3.5 opacity-50 group-hover:opacity-100" />
+                  Contact us
                 </Link>
               </nav>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
-              <ThemeToggle />
+            <div className="flex items-center gap-3 sm:gap-6">
+              <div className="hidden sm:block">
+                <ThemeToggle />
+              </div>
               {isAdmin && (
-                <Link to="/admin" className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-all duration-200">
-                  <ShieldCheck className="h-3.5 w-3.5" /> Admin Panel
+                <Link to="/admin" className="hidden lg:flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-primary bg-brand-primary/5 dark:bg-brand-primary/10 hover:bg-brand-primary/10 dark:hover:bg-brand-primary/20 px-4 py-2 rounded-xl transition-all border border-brand-primary/20">
+                  <ShieldCheck className="h-3.5 w-3.5" /> Terminal
                 </Link>
               )}
               {user ? (
-                <>
-                  <Link to="/profile" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-200 border border-gray-100 dark:border-slate-700 hover:shadow-sm">
-                    <div className="h-7 w-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-                      <UserIcon className="h-3.5 w-3.5 text-white" />
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <Link to="/profile" className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 bg-zinc-50/50 dark:bg-zinc-900/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-2.5 sm:px-4 py-2 rounded-xl transition-all border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                    <div className="h-7 w-7 rounded-full bg-zinc-950 flex items-center justify-center border border-white/10 overflow-hidden">
+                      {user.image ? <img src={user.image} alt={user.name} className="h-full w-full object-cover" /> : <UserIcon className="h-3.5 w-3.5 text-brand-primary" />}
                     </div>
-                    <span className="hidden sm:inline text-xs font-bold text-gray-900 dark:text-gray-100">{user.name || user.email}</span>
+                    <span className="hidden md:inline uppercase truncate max-w-[100px]">{user.name || user.email.split('@')[0]}</span>
                   </Link>
-                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium px-2 sm:px-3 rounded-xl transition-all duration-200">
-                    <LogOut className="h-4 w-4 sm:mr-2" />
-                    <span className="hidden sm:inline">Logout</span>
+                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-zinc-400 hover:text-red-500 hover:bg-red-50/50 dark:hover:bg-red-950/20 px-2 sm:px-3 rounded-xl transition-all">
+                    <LogOut className="h-4 w-4" />
                   </Button>
-                </>
+                </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <Link to="/login">
-                    <Button variant="ghost" size="sm" className="font-bold rounded-xl h-10 px-4">Sign In</Button>
+                <div className="flex items-center gap-3">
+                  <Link to="/login" className="hidden sm:block">
+                    <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase tracking-widest rounded-xl h-10 px-6">Sign In</Button>
                   </Link>
                   <Link to="/register">
-                    <Button size="sm" className="font-bold rounded-xl h-10 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-200 dark:shadow-none">Sign Up</Button>
+                    <Button size="sm" className="text-[10px] font-black uppercase tracking-[0.2em] rounded-xl h-10 px-8 bg-brand-primary hover:bg-brand-primary/90 shadow-xl shadow-brand-primary/20 transition-all active:scale-95">Sign Up</Button>
                   </Link>
                 </div>
               )}
@@ -98,39 +99,45 @@ export function CustomerLayout() {
           </main>
 
           {/* Footer */}
-          <footer className="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+          <footer className="bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900 py-16 px-6 sm:px-8 lg:px-12 transition-colors">
             <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-1.5 rounded-lg text-white">
-                      <Car className="h-4 w-4" />
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div className="md:col-span-2 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-zinc-950 p-2 rounded-xl text-brand-primary shadow-xl border border-white/5">
+                      <Car className="h-5 w-5" />
                     </div>
-                    <span className="font-extrabold text-gray-800 dark:text-gray-100">Showroom<span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Elite</span></span>
+                    <span className="text-xl font-black text-zinc-950 dark:text-zinc-50 uppercase tracking-tighter">Showroom<span className="text-brand-primary">Elite</span></span>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">Premium car dealership offering the finest selection of luxury and performance vehicles.</p>
+                  <p className="text-xs text-zinc-400/80 dark:text-zinc-500 leading-loose max-w-sm font-medium uppercase tracking-wide">
+                    premier destination for elite performance assets. Curating automotive excellence through rigorous validation protocols.
+                  </p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Quick Links</h4>
-                  <div className="space-y-2">
-                    <Link to="/" className="block text-sm text-gray-600 hover:text-indigo-600 transition-colors">Browse Cars</Link>
-                    <Link to="/contact" className="block text-sm text-gray-600 hover:text-indigo-600 transition-colors">Contact Us</Link>
+                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-6">Quick Links</h4>
+                  <div className="space-y-4">
+                    <Link to="/" className="block text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-brand-primary transition-colors">Home</Link>
+                    <Link to="/contact" className="block text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-brand-primary transition-colors">Contact Us</Link>
+                    <Link to="/profile" className="block text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-brand-primary transition-colors">Profile</Link>
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Contact</h4>
-                  <div className="space-y-2 text-sm text-gray-500">
-                    <p>support@showroomelite.com</p>
-                    <p>+1 (555) 123-4567</p>
-                    <p>123 Elite Drive, Los Angeles</p>
+                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-6">Channels</h4>
+                  <div className="space-y-4">
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-500">Comms: info@showcase.com</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-500">Voice: +201001001001</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-500">Base: Cairo, Egypt</p>
                   </div>
                 </div>
               </div>
-              <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-sm text-gray-400">
-                  © 2026 ShowroomElite. All rights reserved.
+              <div className="pt-10 border-t border-zinc-50 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.3em]">
+                  © 2026 ShowroomElite.
                 </div>
-                <div className="text-xs text-gray-400">Premium Car Dealership</div>
+                <div className="flex items-center gap-4">
+                   <div className="h-1 w-1 rounded-full bg-brand-primary animate-pulse" />
+                   <span className="text-[9px] font-black text-zinc-300 dark:text-zinc-700 uppercase tracking-[0.2em]">All rights reserved.</span>
+                </div>
               </div>
             </div>
           </footer>
