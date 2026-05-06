@@ -42,7 +42,7 @@ export function AdminNavbar({ onMenuClick }) {
       .map(m => ({
         id: m.firestoreId,
         type: 'message',
-        title: 'New Message',
+        title: m.subject || 'Direct Inquiry',
         description: `From: ${m.name || 'Anonymous User'}`,
         time: m.createdAt,
         path: '/admin/messages'
@@ -56,7 +56,7 @@ export function AdminNavbar({ onMenuClick }) {
         return {
           id: r.firestoreId,
           type: 'request',
-          title: 'New Request',
+          title: 'Purchase Request',
           description: `${u?.firstName || 'User'} is interested in ${c?.name || 'Asset'}`,
           time: r.timestamp,
           path: '/admin/requests'
@@ -123,71 +123,77 @@ export function AdminNavbar({ onMenuClick }) {
 
           {/* Notification Dropdown Panel */}
           {isNotificationsOpen && (
-            <div className="absolute right-0 mt-2 w-[380px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden">
-              {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-800">
-                <h3 className="text-sm font-bold text-gray-900 dark:text-zinc-100">Notifications</h3>
-                <button
-                  onClick={() => setIsNotificationsOpen(false)}
-                  className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
-                >
-                  <X className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
-                </button>
-              </div>
+            <>
+              {/* Mobile Backdrop */}
+              <div className="fixed inset-0 bg-black/20 dark:bg-black/40 z-40 md:hidden" onClick={() => setIsNotificationsOpen(false)} />
+              
+              {/* Dropdown Panel */}
+              <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-20 md:top-auto md:mt-2 w-auto md:w-[380px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[calc(100vh-6rem)] md:max-h-none">
+                {/* Header */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-zinc-100">Notifications</h3>
+                  <button
+                    onClick={() => setIsNotificationsOpen(false)}
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                  >
+                    <X className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
+                  </button>
+                </div>
 
-              {/* Notifications List */}
-              <div className="max-h-[420px] overflow-y-auto">
-                {allNotifications.length === 0 ? (
-                  <div className="py-16 flex flex-col items-center justify-center text-center px-4">
-                    <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-2xl mb-4 border border-gray-100 dark:border-zinc-800">
-                      <Bell className="h-7 w-7 text-gray-300 dark:text-zinc-700" />
-                    </div>
-                    <p className="text-sm font-semibold text-gray-600 dark:text-zinc-400">No notifications</p>
-                    <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
-                  </div>
-                ) : (
-                  <div className="p-2">
-                    {allNotifications.map((notif) => (
-                      <div 
-                        key={notif.id}
-                        onClick={() => handleNotificationClick(notif.path)}
-                        className="group cursor-pointer p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition-all border border-transparent hover:border-gray-100 dark:hover:border-zinc-800 flex items-start gap-3 mb-1"
-                      >
-                        <div className={`p-2.5 rounded-lg flex-shrink-0 transition-colors border ${
-                          notif.type === 'message' 
-                          ? 'bg-brand-primary/5 text-brand-primary border-brand-primary/10 group-hover:bg-brand-primary group-hover:text-white' 
-                          : 'bg-brand-secondary/5 text-brand-secondary border-brand-secondary/10 group-hover:bg-brand-secondary group-hover:text-brand-dark'
-                        }`}>
-                          {notif.type === 'message' ? <MessageSquare className="h-4 w-4" /> : <ClipboardList className="h-4 w-4" />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2 mb-1">
-                            <p className="text-[11px] font-black dark:text-zinc-100 uppercase tracking-tight truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
-                            <span className="text-[9px] font-black text-zinc-400 flex items-center gap-1 flex-shrink-0 whitespace-nowrap uppercase tracking-widest">
-                              <Clock className="h-3 w-3" />
-                              {notif.time?.toDate ? notif.time.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date(notif.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
-                          </div>
-                          <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 line-clamp-1  tracking-widest">{notif.description}</p>
-                        </div>
-                        <div className="flex items-center pt-1 pr-1">
-                          <div className="h-2 w-2 rounded-full bg-brand-primary animate-pulse" />
-                        </div>
+                {/* Notifications List */}
+                <div className="max-h-[calc(100vh-12rem)] md:max-h-[420px] overflow-y-auto">
+                  {allNotifications.length === 0 ? (
+                    <div className="py-16 flex flex-col items-center justify-center text-center px-4">
+                      <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-2xl mb-4 border border-gray-100 dark:border-zinc-800">
+                        <Bell className="h-7 w-7 text-gray-300 dark:text-zinc-700" />
                       </div>
-                    ))}
+                      <p className="text-sm font-semibold text-gray-600 dark:text-zinc-400">No notifications</p>
+                      <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
+                    </div>
+                  ) : (
+                    <div className="p-2">
+                      {allNotifications.map((notif) => (
+                        <div 
+                          key={notif.id}
+                          onClick={() => handleNotificationClick(notif.path)}
+                          className="group cursor-pointer p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900/50 active:bg-gray-100 dark:active:bg-zinc-800 transition-all border border-transparent hover:border-gray-100 dark:hover:border-zinc-800 flex items-start gap-3 mb-1"
+                        >
+                          <div className={`p-2.5 rounded-lg flex-shrink-0 transition-colors border ${
+                            notif.type === 'message' 
+                            ? 'bg-brand-primary/5 text-brand-primary border-brand-primary/10 group-hover:bg-brand-primary group-hover:text-white' 
+                            : 'bg-brand-secondary/5 text-brand-secondary border-brand-secondary/10 group-hover:bg-brand-secondary group-hover:text-brand-dark'
+                          }`}>
+                            {notif.type === 'message' ? <MessageSquare className="h-4 w-4" /> : <ClipboardList className="h-4 w-4" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <p className="text-[11px] font-black dark:text-zinc-100 uppercase tracking-tight truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
+                              <span className="text-[9px] font-black text-zinc-400 flex items-center gap-1 flex-shrink-0 whitespace-nowrap uppercase tracking-widest">
+                                <Clock className="h-3 w-3" />
+                                {notif.time?.toDate ? notif.time.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date(notif.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            </div>
+                            <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 line-clamp-1 uppercase tracking-widest">{notif.description}</p>
+                          </div>
+                          <div className="flex items-center pt-1 pr-1">
+                            <div className="h-2 w-2 rounded-full bg-brand-primary animate-pulse" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer */}
+                {allNotifications.length > 0 && (
+                  <div className="px-4 py-3 border-t border-zinc-50 dark:border-zinc-900 text-center bg-zinc-50/50 dark:bg-zinc-900/30 sticky bottom-0">
+                    <p className="text-[8px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-[0.4em]">
+                      Operational synchronization active
+                    </p>
                   </div>
                 )}
               </div>
-
-              {/* Footer */}
-              {allNotifications.length > 0 && (
-                <div className="px-4 py-3 border-t border-zinc-50 dark:border-zinc-900 text-center bg-zinc-50/50 dark:bg-zinc-900/30">
-                  <p className="text-[8px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-[0.4em]">
-                    Operational synchronization active
-                  </p>
-                </div>
-              )}
-            </div>
+            </>
           )}
         </div>
 

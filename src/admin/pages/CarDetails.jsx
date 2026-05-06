@@ -100,7 +100,7 @@ export default function CarDetails() {
               <div className="space-y-4 pt-2">
                 <Button className="w-full text-[11px] font-black uppercase tracking-[0.25em] py-7 rounded-xl shadow-lg ring-1 ring-white/10" size="lg" onClick={() => navigate('/admin/cars')}>Manage Inventory</Button>
                 <p className="text-center text-[9px] text-zinc-400 font-bold uppercase tracking-widest italic">
-                  {car.status === 'Available' ? 'Logistics ready for immediate deployment.' : 'Asset currently unavailable for acquisition.'}
+                  {car.status === 'Available' ? 'Logistics ready for immediate delivery.' : 'Asset currently unavailable for purchase.'}
                 </p>
               </div>
             </CardContent>

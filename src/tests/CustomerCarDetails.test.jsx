@@ -49,19 +49,19 @@ describe('CustomerCarDetails', () => {
   it('renders car details correctly', () => {
     renderWithContext();
     expect(screen.getByText('Test Car')).toBeInTheDocument();
-    expect(screen.getByText('$50,000')).toBeInTheDocument();
+    expect(screen.getAllByText('$50,000')[0]).toBeInTheDocument();
   });
 
   it('redirects to login when clicking Buy Now and not logged in', () => {
     renderWithContext({ user: null });
-    const buyBtn = screen.getByRole('button', { name: /Buy Now/i });
+    const buyBtn = screen.getAllByRole('button', { name: /Buy Now/i })[0];
     fireEvent.click(buyBtn);
     expect(mockNavigate).toHaveBeenCalledWith('/login', { state: { from: '/cars/car-1' } });
   });
 
   it('submits a request when clicking Buy Now and logged in', async () => {
     renderWithContext({ user: { uid: 'user-123' } }, { requests: [] });
-    const buyBtn = screen.getByRole('button', { name: /Buy Now/i });
+    const buyBtn = screen.getAllByRole('button', { name: /Buy Now/i })[0];
     fireEvent.click(buyBtn);
 
     await waitFor(() => {

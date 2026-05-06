@@ -52,3 +52,15 @@ vi.mock('firebase/firestore', () => {
 vi.mock('firebase/analytics', () => ({
   getAnalytics: vi.fn(() => ({})),
 }));
+
+vi.mock('firebase/storage', () => ({
+  getStorage: vi.fn(() => ({})),
+  ref: vi.fn(),
+  uploadBytesResumable: vi.fn(() => ({
+    on: vi.fn((event, progress, error, success) => success()),
+    snapshot: { ref: { fullPath: 'mock/path' } }
+  })),
+  uploadBytes: vi.fn(() => Promise.resolve({ ref: { fullPath: 'mock/path' } })),
+  getDownloadURL: vi.fn(() => Promise.resolve('https://firebasestorage.googleapis.com/v0/b/mock-url')),
+  deleteObject: vi.fn(() => Promise.resolve()),
+}));

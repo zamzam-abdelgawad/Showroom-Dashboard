@@ -32,17 +32,17 @@ describe('Register Component', () => {
   it('renders registration form', async () => {
     renderWithContext();
     expect(screen.getByRole('heading', { name: /Create Account/i })).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/John Doe/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("User")).toBeInTheDocument();
   });
 
   it('shows error on invalid email and short password', async () => {
     renderWithContext();
     
-    const nameInput = screen.getByPlaceholderText(/John Doe/i);
-    const emailInput = screen.getByPlaceholderText(/john@example.com/i);
+    const nameInput = screen.getByPlaceholderText("User");
+    const emailInput = screen.getByPlaceholderText("user@gmail.com");
     const passwordInput = screen.getAllByPlaceholderText(/••••••••/i)[0];
     const confirmInput = screen.getAllByPlaceholderText(/••••••••/i)[1];
-    const submitBtn = screen.getByRole('button', { name: /Create Account/i });
+    const submitBtn = screen.getByRole('button', { name: /Register/i });
 
     fireEvent.change(nameInput, { target: { value: 'Test User' } });
     fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
@@ -61,11 +61,11 @@ describe('Register Component', () => {
   it('calls register function successfully and navigates', async () => {
     renderWithContext();
     
-    const nameInput = screen.getByPlaceholderText(/John Doe/i);
-    const emailInput = screen.getByPlaceholderText(/john@example.com/i);
+    const nameInput = screen.getByPlaceholderText("User");
+    const emailInput = screen.getByPlaceholderText("user@gmail.com");
     const passwordInput = screen.getAllByPlaceholderText(/••••••••/i)[0];
     const confirmInput = screen.getAllByPlaceholderText(/••••••••/i)[1];
-    const submitBtn = screen.getByRole('button', { name: /Create Account/i });
+    const submitBtn = screen.getByRole('button', { name: /Register/i });
 
     fireEvent.change(nameInput, { target: { value: 'Test User' } });
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });

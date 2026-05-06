@@ -74,6 +74,7 @@ describe('AdminUsers', () => {
       expect(mockAddUser).toHaveBeenCalledWith({
         firstName: 'New',
         lastName: 'Tester',
+        name: 'New Tester',
         email: 'tester@example.com',
         status: 'Active'
       });

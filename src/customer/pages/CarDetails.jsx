@@ -169,7 +169,7 @@ export default function CarDetails() {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900 z-50 animate-in slide-in-from-bottom duration-700 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
                   <div className="flex items-center justify-between gap-6 max-w-7xl mx-auto">
                     <div className="flex flex-col space-y-0.5">
-                      <span className="text-[8px] text-zinc-400 font-black uppercase tracking-widest">Acquisition</span>
+                      <span className="text-[8px] text-zinc-400 font-black uppercase tracking-widest">Price</span>
                       <span className="text-xl font-black text-brand-primary tracking-tighter">${car.sellingPrice?.toLocaleString()}</span>
                     </div>
                     {car.status === 'Available' ? (
@@ -180,7 +180,7 @@ export default function CarDetails() {
                         disabled={hasExistingRequest}
                         variant={hasExistingRequest ? "secondary" : "primary"}
                       >
-                        {hasExistingRequest ? "Recorded" : "Acquire"}
+                        {hasExistingRequest ? "Recorded" : "Buy Now"}
                       </AnimatedButton>
                     ) : (
                       <Button disabled variant="secondary" className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl">Sold</Button>

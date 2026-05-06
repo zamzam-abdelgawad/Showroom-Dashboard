@@ -62,8 +62,8 @@ describe('Requests (Admin)', () => {
 
   it('allows admin to approve request and marks car as sold', async () => {
     renderWithContext();
-    const approveBtns = screen.getAllByRole('button', { name: /Approve/i });
-    fireEvent.click(approveBtns[0]); // First one is pending
+    const acceptBtns = screen.getAllByRole('button', { name: /Accept/i });
+    fireEvent.click(acceptBtns[0]); // First one is pending
 
     await waitFor(() => {
       expect(mockUpdateRequestStatus).toHaveBeenCalledWith('req-1', 'approved');
