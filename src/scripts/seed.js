@@ -32,7 +32,7 @@ const seedData = async () => {
     // Authenticate as Admin to bypass security rules
     console.log("🔐 Authenticating as Admin...");
     await signInWithEmailAndPassword(auth, "admin@admin.com", "admin123");
-    console.log("✅ Authenticated!");
+    console.log("✅ Authenticated as Admin!");
 
     // Function to clear a collection
     const clearCollection = async (colName) => {
@@ -49,40 +49,25 @@ const seedData = async () => {
     await clearCollection("requests");
     await clearCollection("schedules");
     await clearCollection("messages");
-    // We don't clear "users" fully to avoid deleting manually created auth-linked profiles,
-    // but we will overwrite the seeded ones.
 
     // 1. Seed Users (Roles)
-    console.log("👤 Seeding users...");
-    const users = [
-      {
-        uid: "admin-default-123",
-        firstName: "Admin",
-        lastName: "Manager",
-        email: "admin@admin.com",
-        role: "admin",
-        status: "Active",
-        image: "https://i.pravatar.cc/150?u=admin"
-      },
-      {
-        uid: "user-default-123",
-        firstName: "Regular",
-        lastName: "User",
-        email: "user@user.com",
-        role: "user",
-        status: "Active",
-        image: "https://i.pravatar.cc/150?u=user"
-      }
-    ];
+    console.log("👤 Seeding admin user profile...");
+    const adminUser = {
+      firstName: "Admin",
+      lastName: "Manager",
+      email: "admin@admin.com",
+      role: "admin",
+      status: "Active",
+      image: "https://i.pravatar.cc/150?u=admin"
+    };
 
-    for (const u of users) {
-      const { uid, ...data } = u;
-      await setDoc(doc(db, "users", uid), {
-        ...data,
-        createdAt: serverTimestamp()
-      });
-      console.log(`✅ User profile ${u.email} synced.`);
-    }
+    const adminCredential = await signInWithEmailAndPassword(auth, "admin@admin.com", "admin123");
+    const realAdminId = adminCredential.user.uid;
+    await setDoc(doc(db, "users", realAdminId), {
+      ...adminUser,
+      createdAt: serverTimestamp()
+    });
+    console.log(`✅ Admin profile synced with real UID: ${realAdminId}`);
 
     // 2. Seed Cars
     console.log("🚗 Seeding cars inventory with fixed IDs...");
@@ -202,8 +187,8 @@ const seedData = async () => {
       createdAt: serverTimestamp()
     });
     console.log(`✅ Schedule for Alice Johnson set.`);
-    
-    // 4.5 Seed Messages
+
+    // 5. Seed Messages
     console.log("💬 Seeding messages...");
     const messages = [
       {
@@ -212,7 +197,7 @@ const seedData = async () => {
         subject: "Inquiry: Lexus LC 500 Availability",
         message: "Is the Lexus LC 500 still available for a test drive this weekend?",
         read: true,
-        createdAt: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+        createdAt: new Date(Date.now() - 86400000).toISOString()
       },
       {
         name: "Regular User",
@@ -224,37 +209,55 @@ const seedData = async () => {
       }
     ];
 
-    for (const msg of messages) {
-      await setDoc(doc(db, "messages", `msg-${Date.now()}-${Math.random()}`), msg);
+    for (let i = 0; i < messages.length; i++) {
+      await setDoc(doc(db, "messages", `msg-${i}-${Date.now()}`), messages[i]);
     }
     console.log(`✅ ${messages.length} messages seeded.`);
 
-    // 5. Seed Requests
+    // 6. Get real user UID then seed requests
+    console.log("🔐 Signing in as regular user to get real UID...");
+    const userCredential = await signInWithEmailAndPassword(auth, "user@user.com", "user123");
+    const realUserId = userCredential.user.uid;
+    console.log(`✅ Real user UID: ${realUserId}`);
+
+    // Sync user profile with real UID
+    await setDoc(doc(db, "users", realUserId), {
+      firstName: "Regular",
+      lastName: "User",
+      email: "user@user.com",
+      role: "user",
+      status: "Active",
+      image: "https://i.pravatar.cc/150?u=user",
+      createdAt: serverTimestamp()
+    });
+    console.log(`✅ Regular user profile synced with real UID: ${realUserId}`);
+
+    // Seed Requests with real UID and number carId to match cars context
     console.log("📝 Seeding requests...");
     const requests = [
       {
-        userId: "user-default-123", 
-        carId: 1001,
+        userId: realUserId,
+        carId: 1001, // number — matches cars[].id in Firestore
         status: "approved",
         timestamp: new Date(Date.now() - 172800000).toISOString()
       },
       {
-        userId: "user-default-123",  
+        userId: realUserId,
         carId: 1002,
         status: "pending",
         timestamp: new Date(Date.now() - 86400000).toISOString()
       },
       {
-        userId: "user-default-123",
+        userId: realUserId,
         carId: 1005,
         status: "rejected",
         timestamp: new Date().toISOString()
       }
     ];
 
-    for (const request of requests) {
-      await setDoc(doc(db, "requests", `req-${Date.now()}-${Math.random()}`), request);
-      console.log(`✅ Request for car ${request.carId} created.`);
+    for (let i = 0; i < requests.length; i++) {
+      await setDoc(doc(db, "requests", `req-${i}-${Date.now()}`), requests[i]);
+      console.log(`✅ Request for car ${requests[i].carId} (${requests[i].status}) created.`);
     }
 
     console.log("\n🎉 Seeding complete! Your database is clean and ready.");

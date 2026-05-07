@@ -44,17 +44,27 @@ export function AuthProvider({ children }) {
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-            const existingData = querySnapshot.docs[0].data();
+              const existingData = querySnapshot.docs[0].data();
               const oldDocId = querySnapshot.docs[0].id;
               await setDoc(userDocRef, { ...existingData, lastSynced: new Date() });
-              // Delete the old seeded doc to prevent duplicates
+
+              // Migrate legacy requests to the new UID
               if (oldDocId !== firebaseUser.uid) {
+                const requestsRef = collection(db, "requests");
+                const qRequests = query(requestsRef, where("userId", "==", oldDocId));
+                const requestsSnap = await getDocs(qRequests);
+                const updatePromises = requestsSnap.docs.map(reqDoc => 
+                  updateDoc(doc(db, "requests", reqDoc.id), { userId: firebaseUser.uid })
+                );
+                await Promise.all(updatePromises);
+
                 try {
                   await deleteDoc(doc(db, "users", oldDocId));
                 } catch (delErr) {
                   console.warn("Could not delete legacy seeded document:", delErr);
                 }
               }
+
               setUser({
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,

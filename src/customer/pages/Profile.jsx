@@ -27,7 +27,7 @@ export default function Profile() {
   if (!user) return null;
 
   const handleOpenEdit = () => {
-    setEditFormData({ name: user.name || user.firstName || "", image: user.image || "" });
+setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || "", image: user.image || "" });
     setImageFile(null);
     setImagePreview("");
     setIsEditModalOpen(true);
@@ -101,6 +101,7 @@ export default function Profile() {
 
   const approvedCount = requests.filter(r => r.status === 'approved').length;
   const pendingCount = requests.filter(r => r.status === 'pending').length;
+  const rejectedCount = requests.filter(r => r.status === 'rejected').length;
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -138,7 +139,7 @@ export default function Profile() {
               </div>
               <div className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white dark:border-zinc-950 bg-brand-primary z-20 shadow-xl" />
             </div>
-            <h2 className="mt-6 text-xl font-black text-gray-900 dark:text-zinc-100 tracking-tight uppercase">{user.name || user.email}</h2>
+            <h2 className="mt-6 text-xl font-black text-gray-900 dark:text-zinc-100 tracking-tight uppercase">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</h2>
             <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] mt-1.5">{user.role} Profile</p>
           </CardContent>
         </Card>
@@ -155,7 +156,7 @@ export default function Profile() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-2.5">
                 <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><User className="h-3 w-3 text-brand-primary" /> Full Name</label>
-                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.name || "UNIDENTIFIED"}</div>
+                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</div>
               </div>
               <div className="space-y-2.5">
                 <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3 w-3 text-brand-primary" /> Email</label>
@@ -170,42 +171,56 @@ export default function Profile() {
         </Card>
       </div>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-          <CardContent className="p-6 flex items-center gap-5">
-            <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl shadow-inner group transition-all hover:bg-brand-primary/10">
-              <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
-            </div>
-            <div>
-              <p className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">{requests.length}</p>
-              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Total Requests</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-          <CardContent className="p-6 flex items-center gap-5">
-            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-2xl shadow-inner">
-              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
-            </div>
-            <div>
-              <p className="text-3xl font-black text-emerald-700 dark:text-emerald-500 tracking-tighter leading-none">{approvedCount}</p>
-              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Accepted Requests</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-          <CardContent className="p-6 flex items-center gap-5">
-            <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-2xl shadow-inner">
-              <AlertCircle className="h-5 w-5 text-brand-primary" />
-            </div>
-            <div>
-              <p className="text-3xl font-black text-brand-primary tracking-tighter leading-none">{pendingCount}</p>
-              <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Pending Requests</p>
-            </div>
-          </CardContent>
-        </Card>
+{/* Stats Row */}
+<div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+    <CardContent className="p-6 flex items-center gap-5">
+      <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl shadow-inner group transition-all hover:bg-brand-primary/10">
+        <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
       </div>
+      <div>
+        <p className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">{requests.length}</p>
+        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Total Requests</p>
+      </div>
+    </CardContent>
+  </Card>
+
+  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+    <CardContent className="p-6 flex items-center gap-5">
+      <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-2xl shadow-inner">
+        <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
+      </div>
+      <div>
+        <p className="text-3xl font-black text-emerald-700 dark:text-emerald-500 tracking-tighter leading-none">{approvedCount}</p>
+        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Accepted Requests</p>
+      </div>
+    </CardContent>
+  </Card>
+
+  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+    <CardContent className="p-6 flex items-center gap-5">
+      <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-2xl shadow-inner">
+        <AlertCircle className="h-5 w-5 text-brand-primary" />
+      </div>
+      <div>
+        <p className="text-3xl font-black text-brand-primary tracking-tighter leading-none">{pendingCount}</p>
+        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Pending Requests</p>
+      </div>
+    </CardContent>
+  </Card>
+
+  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+    <CardContent className="p-6 flex items-center gap-5">
+      <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl shadow-inner">
+        <XCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
+      </div>
+      <div>
+        <p className="text-3xl font-black text-red-600 dark:text-red-400 tracking-tighter leading-none">{rejectedCount}</p>
+        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Rejected Requests</p>
+      </div>
+    </CardContent>
+  </Card>
+</div>
 
       {/* My Requests */}
       <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl overflow-hidden">

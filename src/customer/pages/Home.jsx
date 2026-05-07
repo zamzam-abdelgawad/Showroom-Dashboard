@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCustomerCars } from "../context/CustomerCarsContext";
 import { CardContent } from "../../shared/components/ui/Card";
@@ -12,6 +12,18 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const filteredCars = useMemo(() => {
     return cars.filter(car => {
@@ -47,37 +59,62 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Search & Filter */}
-        <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-2xl p-5 -mt-16 relative z-10">
-          <div className="relative max-w-md w-full">
+        <div className="flex flex-row gap-3 items-center justify-between bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-2xl p-5 -mt-16 relative z-10">
+          <div className="relative flex-1 min-w-0">
             <Search className="absolute left-4 top-3.5 h-4 w-4 text-zinc-400" />
             <Input
               placeholder="SEARCH BY MODEL OR NOMENCLATURE..."
-              className="pl-12 h-12 w-full rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 focus:ring-brand-primary text-[11px] font-black tracking-widest placeholder:text-zinc-400"
+              className="pl-6 md:pl-12 h-12 w-full rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 focus:ring-brand-primary text-[11px] font-black tracking-widest placeholder:text-zinc-400"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-4 w-full md:w-auto">
-            <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-950 px-4 py-1 rounded-xl border border-zinc-100 dark:border-zinc-800 w-full md:w-auto">
-              <Filter className="h-4 w-4 text-brand-primary" />
-              <select
-                className="h-10 bg-transparent text-[11px] font-black uppercase tracking-widest focus:outline-none transition-shadow dark:text-zinc-100 w-full"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <option value="all">ALL ASSETS</option>
-                <option value="available">AVAILABLE</option>
-                <option value="sold">SOLD</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between px-2">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-            AVAILABLE VEHICLES <span className="text-zinc-900 dark:text-zinc-100 ml-2">{filteredCars.length}</span>
-          </p>
+          {/* Custom Filter Dropdown */}
+          <div className="relative flex-shrink-0" ref={filterRef}>
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center justify-center gap-3 bg-zinc-50 dark:bg-zinc-950 px-4 h-12 rounded-xl border border-zinc-100 dark:border-zinc-800 w-12 md:w-36 text-[11px] font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 hover:border-brand-primary/40 transition-all duration-300"
+            >
+              <Filter className="h-4 w-4 text-brand-primary flex-shrink-0" />
+              <span className="hidden md:block flex-1 text-left">
+                {statusFilter === 'all' ? 'All Assets' : statusFilter === 'available' ? 'Available' : 'Sold'}
+              </span>
+              <svg
+                className={`hidden md:block h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {isFilterOpen && (
+              <div className="absolute top-full mt-2 right-0 left-auto w-36 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden z-50">
+                {[
+                  { value: 'all', label: 'All Assets' },
+                  { value: 'available', label: 'Available' },
+                  { value: 'sold', label: 'Sold' },
+                ].map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => { setStatusFilter(opt.value); setIsFilterOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase tracking-widest transition-all duration-200 text-left
+              ${statusFilter === opt.value
+                        ? 'bg-brand-primary/10 text-brand-primary'
+                        : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                      }`}
+                  >
+                    {statusFilter === opt.value && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand-primary flex-shrink-0" />
+                    )}
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Car Grid */}
@@ -93,7 +130,9 @@ export default function Home() {
               <Car className="h-16 w-16 text-zinc-300 dark:text-zinc-700" />
             </div>
             <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Zero matches found</h3>
-            <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 mt-2 uppercase tracking-widest leading-relaxed">Adjust your deployment parameters <br /> to refine inventory results.</p>
+            <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 mt-2 uppercase tracking-widest leading-relaxed">
+              Adjust your deployment parameters <br /> to refine inventory results.
+            </p>
           </div>
         ) : (
           <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
@@ -115,13 +154,12 @@ export default function Home() {
                       {car.status === 'Available' ? 'Available' : 'Sold'}
                     </span>
                   </div>
-                  {/* Internal badge */}
                   <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                     <span className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md text-zinc-900 dark:text-zinc-100 font-black text-[10px] uppercase px-4 py-2 rounded-lg shadow-2xl tracking-[0.1em] border border-zinc-100 dark:border-zinc-800">
                       View
                     </span>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-700" />
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
