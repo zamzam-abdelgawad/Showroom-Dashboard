@@ -47,7 +47,7 @@ export default function CarDetails() {
     );
   }
 
-  const hasExistingRequest = user && requests.some(r => r.carId === car.id && r.status === 'pending');
+  const hasExistingRequest = user && requests.some(r => String(r.carId) === String(car.id) && r.status === 'pending');
   const isOutOfStock = (car.count ?? 0) <= 0;
   const isAvailable = car.status === 'Available' && !isOutOfStock;
 

@@ -193,7 +193,7 @@ export default function Home() {
                         <Package className="h-2.5 w-2.5" />
                         {(car.count ?? 0) > 0 ? `${car.count} in stock` : 'Sold Out'}
                       </span>
-                      {(user && requests.some(r => r.carId === car.id && r.status === 'pending')) ? (
+                      {(user && requests.some(r => String(r.carId) === String(car.id) && r.status === 'pending')) ? (
                         <span className="text-[9px] font-black text-emerald-500 flex items-center gap-2 uppercase tracking-[0.2em]">
                           Pending <CheckCircle2 className="h-3.5 w-3.5" />
                         </span>
