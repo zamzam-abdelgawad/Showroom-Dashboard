@@ -8,19 +8,19 @@ import { Button } from "../../shared/components/ui/Button";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 import { AnimatedButton } from "../../shared/components/animations/AnimatedButton";
 import { SmoothAccordion } from "../../shared/components/animations/SmoothAccordion";
-import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, ShoppingCart } from "lucide-react";
+import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, ShoppingCart, Package } from "lucide-react";
 import { useState } from "react";
 
 export default function CarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cars, loading } = useCustomerCars();
-  const { requests, addRequest } = useCustomerRequests();
+  const { cars, loading: carsLoading } = useCustomerCars();
+  const { requests, addRequest, loading: requestsLoading } = useCustomerRequests();
   const { user } = useAuth();
   const { addToast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (loading) {
+  if (carsLoading || (user && requestsLoading)) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <Skeleton className="h-4 w-32 rounded-md" />
@@ -48,6 +48,8 @@ export default function CarDetails() {
   }
 
   const hasExistingRequest = user && requests.some(r => r.carId === car.id && r.status === 'pending');
+  const isOutOfStock = (car.count ?? 0) <= 0;
+  const isAvailable = car.status === 'Available' && !isOutOfStock;
 
   const handleBuyRequest = async () => {
     if (!user) {
@@ -95,8 +97,8 @@ export default function CarDetails() {
               />
               <div className="absolute top-6 left-6 flex gap-3">
                 <span className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl backdrop-blur-md border border-white/10 ${
-                  car.status === 'Available' ? 'bg-brand-primary text-white' : 'bg-zinc-900 text-zinc-400'
-                }`}>{car.status === 'Available' ? 'Available' : 'Sold'}</span>
+                  isAvailable ? 'bg-brand-primary text-white' : 'bg-zinc-900 text-zinc-400'
+                }`}>{isAvailable ? 'Available' : isOutOfStock ? 'Sold Out' : 'Sold'}</span>
                 <span className="bg-zinc-950/90 backdrop-blur-md px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-2xl border border-white/10">{car.brand}</span>
               </div>
             </div>
@@ -143,8 +145,20 @@ export default function CarDetails() {
                   Taxes and registration excluded.
                 </p>
               </div>
+              <div className="flex items-center justify-between py-4 border-t border-zinc-50 dark:border-zinc-900">
+                <span className="flex items-center gap-2 text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+                  <Package className="h-3.5 w-3.5" /> Stock
+                </span>
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] font-black ${
+                  !isOutOfStock
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                    : 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                }`}>
+                  {!isOutOfStock ? `${car.count} in stock` : 'Out of stock'}
+                </span>
+              </div>
               <div className="space-y-5 pt-4">
-                {car.status === 'Available' ? (
+                {isAvailable ? (
                   hasExistingRequest ? (
                     <AnimatedButton className="w-full h-16 text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl" disabled>
                       <CheckCircle2 className="h-4 w-4 mr-3" /> Request Pending
@@ -161,7 +175,7 @@ export default function CarDetails() {
                   )
                 ) : (
                   <AnimatedButton className="w-full h-16 text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-600 cursor-not-allowed" disabled>
-                    Sold
+                    {isOutOfStock ? 'Out of Stock' : 'Sold'}
                   </AnimatedButton>
                 )}
                 
@@ -172,7 +186,7 @@ export default function CarDetails() {
                       <span className="text-[8px] text-zinc-400 font-black uppercase tracking-widest">Price</span>
                       <span className="text-xl font-black text-brand-primary tracking-tighter">${car.sellingPrice?.toLocaleString()}</span>
                     </div>
-                    {car.status === 'Available' ? (
+                    {isAvailable ? (
                       <AnimatedButton
                         className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl"
                         onClick={handleBuyRequest}
@@ -183,13 +197,15 @@ export default function CarDetails() {
                         {hasExistingRequest ? "Recorded" : "Buy Now"}
                       </AnimatedButton>
                     ) : (
-                      <Button disabled variant="secondary" className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl">Sold</Button>
+                      <Button disabled variant="secondary" className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl">
+                        {isOutOfStock ? 'Out of Stock' : 'Sold'}
+                      </Button>
                     )}
                   </div>
                 </div>
 
                 <p className="text-center text-[9px] font-black text-zinc-400 uppercase tracking-widest italic pt-2">
-                  {car.status === 'Available' ? 'Ready for 5-7 day deployment.' : 'Asset currently unavailable for engagement.'}
+                  {isAvailable ? 'Ready for 5-7 day deployment.' : 'Asset currently unavailable for engagement.'}
                 </p>
               </div>
             </CardContent>

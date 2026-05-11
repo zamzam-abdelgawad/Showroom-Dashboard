@@ -4,6 +4,7 @@ import { AuthProvider } from "./shared/context/AuthContext";
 import { ThemeProvider } from "./shared/context/ThemeContext";
 import { ProtectedRoute } from "./shared/components/layout/ProtectedRoute";
 import { AdminRoute } from "./shared/components/layout/AdminRoute";
+import { ScrollToTop } from "./shared/components/layout/ScrollToTop";
 
 // Customer pages
 import { CustomerLayout } from "./customer/components/layout/CustomerLayout";
@@ -30,6 +31,7 @@ import Messages from "./admin/pages/Messages";
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ThemeProvider>
         <ToastProvider>
           <AuthProvider>

@@ -58,6 +58,12 @@ Built with a modular frontend architecture, the system separates logic into clea
 *   **Car Specifications**: Full technical details including Engine, Mileage, Color, and Year.
 *   **Price Privacy**: Admins see internal MSRP (Official Price), while Customers only see the public Selling Price.
 *   **Image Galleries**: Dynamic rendering of vehicle assets.
+*   **Stock Count System**: Each car carries a live `count` field representing units in inventory.
+    *   Admins set the initial stock when adding a car via the **Stock Count** input.
+    *   Every admin "buy" action decrements `count` by 1 in real-time via Firestore.
+    *   When `count` reaches `0`, the car status is automatically flipped to **Sold**.
+    *   **Consistent availability logic**: A car is only shown as "Available" if `status === 'Available'` **AND** `count > 0` — preventing contradictory UI states across both Admin and Customer views.
+    *   Stock badges are colour-coded: 🟢 green when in stock, 🔴 red when sold out.
 
 ### 👥 Team Operations (B2B)
 *   **Staff Directory**: Manage internal dealership roles (Sales, Managers, Techs).
@@ -145,3 +151,4 @@ npx vitest --ui
 *   **Scalable Context Strategy**: Managed a complex dependency tree between Users, Cars, and Requests without state-draggling.
 *   **Aesthetic UI**: Leveraged curated HSL colors and glassmorphism for a premium "Showroom" feel.
 *   **Recruiter Ready**: Explicit demo credentials and clear "Next Steps" for backend migration.
+*   **Derived State Over Raw DB Fields**: Availability is computed as `status === 'Available' && count > 0` rather than trusting a single Firestore field — ensuring the UI is always self-consistent even if data is partially stale.

@@ -80,6 +80,7 @@ const seedData = async () => {
         officialPrice: 60000,
         sellingPrice: 65000,
         status: "Available",
+        count: 3,
         images: ["https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "3.0L V6", color: "Black", mileage: "12,000" }
       },
@@ -91,6 +92,7 @@ const seedData = async () => {
         officialPrice: 50000,
         sellingPrice: 52000,
         status: "Available",
+        count: 2,
         images: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "2.0L I4", color: "White", mileage: "5,000" }
       },
@@ -102,6 +104,7 @@ const seedData = async () => {
         officialPrice: 45000,
         sellingPrice: 48000,
         status: "Sold",
+        count: 0,
         images: ["https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "Electric", color: "Blue", mileage: "20,000" }
       },
@@ -113,6 +116,7 @@ const seedData = async () => {
         officialPrice: 130000,
         sellingPrice: 135000,
         status: "Available",
+        count: 1,
         images: ["https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "3.0L Flat-6", color: "Shark Blue", mileage: "1,200" }
       },
@@ -124,6 +128,7 @@ const seedData = async () => {
         officialPrice: 145000,
         sellingPrice: 140000,
         status: "Available",
+        count: 2,
         images: ["https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "Dual Motor Electric", color: "Tactical Green", mileage: "3,500" }
       },
@@ -135,6 +140,7 @@ const seedData = async () => {
         officialPrice: 105000,
         sellingPrice: 110000,
         status: "Available",
+        count: 1,
         images: ["https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "3.0L Inline-6", color: "Fuji White", mileage: "8,000" }
       },
@@ -146,6 +152,7 @@ const seedData = async () => {
         officialPrice: 240000,
         sellingPrice: 245000,
         status: "Sold",
+        count: 0,
         images: ["https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1000"],
         specs: { engine: "5.2L V10", color: "Verde Selvans", mileage: "500" }
       }

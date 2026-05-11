@@ -59,6 +59,7 @@ export function CarsProvider({ children }) {
       const newCar = {
         ...carData,
         id: Date.now(),
+        count: carData.count ?? 1,
         createdAt: new Date().toISOString()
       };
       const docRef = await addDoc(collection(db, "cars"), newCar);
@@ -99,11 +100,21 @@ export function CarsProvider({ children }) {
   };
 
   const markAsSold = async (id) => {
-    return updateCar(id, { status: "Sold" });
+    const car = cars.find(c => c.id === id);
+    if (!car) return;
+    const currentCount = car.count ?? 1;
+    const newCount = Math.max(0, currentCount - 1);
+    const updates = { count: newCount };
+    if (newCount === 0) {
+      updates.status = "Sold";
+    }
+    return updateCar(id, updates);
   };
 
+  const buyCar = markAsSold;
+
   return (
-    <CarsContext.Provider value={{ cars, loading, addCar, updateCar, deleteCar, markAsSold }}>
+    <CarsContext.Provider value={{ cars, loading, addCar, updateCar, deleteCar, markAsSold, buyCar }}>
       {children}
     </CarsContext.Provider>
   );

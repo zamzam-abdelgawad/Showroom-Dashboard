@@ -15,7 +15,7 @@ import { DeleteConfirmModal } from "../../shared/components/ui/DeleteConfirmModa
 export default function Cars() {
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
-  const { cars, loading, addCar, updateCar, deleteCar, markAsSold } = useCars();
+  const { cars, loading, addCar, updateCar, deleteCar, markAsSold, buyCar } = useCars();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 500);
@@ -56,7 +56,17 @@ export default function Cars() {
   const handleAddSubmit = async (data) => { setIsSubmitting(true); await addCar(data); setIsSubmitting(false); setIsFormOpen(false); addToast("Car added successfully", "success"); };
   const handleEditSubmit = async (data) => { setIsSubmitting(true); await updateCar(selectedCar.id, data); setIsSubmitting(false); setIsFormOpen(false); addToast("Car updated successfully", "success"); };
   const handleDeleteConfirm = async () => { setIsSubmitting(true); await deleteCar(selectedCar.id); setIsSubmitting(false); setIsDeleteOpen(false); setSelectedCar(null); addToast("Car deleted successfully", "success"); };
-  const handleMarkAsSold = async (car) => { await markAsSold(car.id); addToast(`Marked ${car.brand} ${car.name} as Sold`, "success"); };
+  const handleMarkAsSold = async (car) => {
+    const currentCount = car.count ?? 1;
+    const newCount = currentCount - 1;
+    if (newCount === 0) {
+      await buyCar(car.id);
+      addToast(`${car.brand} ${car.name} is now Sold Out`, "success");
+    } else {
+      await buyCar(car.id);
+      addToast(`${car.brand} ${car.name} — stock decreased to ${newCount}`, "success");
+    }
+  };
   const openAddModal = () => { setSelectedCar(null); setIsFormOpen(true); };
   const openEditModal = (car) => { setSelectedCar(car); setIsFormOpen(true); };
   const openDeleteModal = (car) => { setSelectedCar(car); setIsDeleteOpen(true); };
@@ -92,6 +102,7 @@ export default function Cars() {
                   <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Selling Price</th>
                   {isAdmin && <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Official Price</th>}
                   <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Status</th>
+                  <th className="px-6 py-4 uppercase tracking-wider text-[10px]">Stock</th>
                   <th className="px-6 py-4 text-right uppercase tracking-wider text-[10px]">Actions</th>
                 </tr>
               </thead>
@@ -107,7 +118,7 @@ export default function Cars() {
                     </tr>
                   ))
                 ) : paginatedCars.length === 0 ? (
-                  <tr><td colSpan="5" className="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-zinc-300 dark:text-zinc-700 mb-2" /><p>No cars found matching your criteria</p></div></td></tr>
+                  <tr><td colSpan="7" className="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400"><div className="flex flex-col items-center"><Search className="h-10 w-10 text-zinc-300 dark:text-zinc-700 mb-2" /><p>No cars found matching your criteria</p></div></td></tr>
                 ) : (
                   paginatedCars.map((car) => (
                     <tr key={car.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-colors">
@@ -125,9 +136,16 @@ export default function Cars() {
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${car.status === 'Available' ? 'bg-brand-primary/10 text-brand-primary' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400'}`}>{car.status}</span>
                       </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-md text-[10px] font-black ${
+                          (car.count ?? 0) > 0
+                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                            : 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                        }`}>{car.count ?? 0}</span>
+                      </td>
                       <td className="px-6 py-4 text-right flex justify-end gap-2">
                         <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/cars/${car.id}`)} className="h-8 w-8 p-0 text-zinc-400 hover:text-brand-primary" title="View Details"><Eye className="h-4 w-4" /></Button>
-                        {car.status === 'Available' && isAdmin && (<Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30" title="Mark as Sold"><CheckCircle className="h-4 w-4" /></Button>)}
+                        {car.status === 'Available' && (car.count ?? 0) > 0 && isAdmin && (<Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30" title={`Buy 1 (${(car.count ?? 0)} left)`}><CheckCircle className="h-4 w-4" /></Button>)}
                         {isAdmin && (<>
                           <Button variant="ghost" size="sm" onClick={() => openEditModal(car)} className="h-8 w-8 p-0 text-brand-primary hover:bg-brand-primary/10" title="Edit"><Edit2 className="h-4 w-4" /></Button>
                           <Button variant="ghost" size="sm" onClick={() => openDeleteModal(car)} className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30" title="Delete"><Trash2 className="h-4 w-4" /></Button>

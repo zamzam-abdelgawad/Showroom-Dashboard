@@ -5,10 +5,14 @@ import { CardContent } from "../../shared/components/ui/Card";
 import { Input } from "../../shared/components/ui/Input";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 import { StaggeredGrid, StaggeredCard } from "../../shared/components/animations/StaggeredGrid";
-import { Search, Filter, Car, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { Search, Filter, Car, Calendar, ArrowRight, Sparkles, Package, CheckCircle2 } from "lucide-react";
+import { useCustomerRequests } from "../context/CustomerRequestsContext";
+import { useAuth } from "../../shared/context/AuthContext";
 
 export default function Home() {
-  const { cars, loading } = useCustomerCars();
+  const { cars, loading: carsLoading } = useCustomerCars();
+  const { requests, loading: requestsLoading } = useCustomerRequests();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -118,7 +122,7 @@ export default function Home() {
         </div>
 
         {/* Car Grid */}
-        {loading ? (
+        {carsLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <Skeleton key={i} className="h-96 w-full rounded-2xl bg-zinc-100 dark:bg-zinc-900" />
@@ -142,16 +146,19 @@ export default function Home() {
                 className="p-0 border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl transition-all duration-700 cursor-pointer group overflow-hidden rounded-2xl dark:bg-zinc-950 bg-white"
                 onClick={() => navigate(`/cars/${car.id}`)}
               >
-                <div className="relative aspect-[16/11] bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
+                <div className="relative aspect-[16/11] bg-zinc-100 dark:bg-zinc-900 overflow-hidden rounded-t-2xl">
                   <img
                     src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=600"}
                     alt={car.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0 rounded-t-2xl"
                   />
                   <div className="absolute top-4 left-4 flex gap-2">
-                    <span className={`px-3 py-1.5 rounded-md text-[9px] font-black uppercase tracking-widest shadow-xl backdrop-blur-md border border-white/10 ${car.status === 'Available' ? 'bg-brand-primary text-white' : 'bg-zinc-900 text-zinc-400'
+                    <span className={`px-3 py-1.5 rounded-md text-[9px] font-black uppercase tracking-widest shadow-xl backdrop-blur-md border border-white/10 ${
+                      (car.status === 'Available' && (car.count ?? 0) > 0)
+                        ? 'bg-brand-primary text-white'
+                        : 'bg-zinc-900 text-zinc-400'
                       }`}>
-                      {car.status === 'Available' ? 'Available' : 'Sold'}
+                      {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Sold Out'}
                     </span>
                   </div>
                   <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
@@ -177,9 +184,25 @@ export default function Home() {
                       <p className="text-[8px] font-black text-zinc-400 uppercase tracking-widest">Price</p>
                       <p className="text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tighter">${car.sellingPrice?.toLocaleString()}</p>
                     </div>
-                    <span className="text-[9px] font-black text-brand-primary flex items-center gap-2 uppercase tracking-[0.2em] group-hover:gap-3 transition-all duration-500">
-                      View <ArrowRight className="h-3.5 w-3.5" />
-                    </span>
+                    <div className="flex flex-col items-end gap-1.5">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest ${
+                        (car.count ?? 0) > 0
+                          ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50'
+                          : 'bg-red-50 text-red-500 dark:bg-red-950/40 dark:text-red-400 border border-red-100 dark:border-red-900/50'
+                      }`}>
+                        <Package className="h-2.5 w-2.5" />
+                        {(car.count ?? 0) > 0 ? `${car.count} in stock` : 'Sold Out'}
+                      </span>
+                      {(user && requests.some(r => r.carId === car.id && r.status === 'pending')) ? (
+                        <span className="text-[9px] font-black text-emerald-500 flex items-center gap-2 uppercase tracking-[0.2em]">
+                          Pending <CheckCircle2 className="h-3.5 w-3.5" />
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-black text-brand-primary flex items-center gap-2 uppercase tracking-[0.2em] group-hover:gap-3 transition-all duration-500">
+                          View <ArrowRight className="h-3.5 w-3.5" />
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </StaggeredCard>

@@ -5,7 +5,7 @@ import { useRequests } from "../context/RequestsContext";
 import { useToast } from "../../shared/context/ToastContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Button } from "../../shared/components/ui/Button";
-import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, Package } from "lucide-react";
 
 export default function CarDetails() {
   const { id } = useParams();
@@ -91,11 +91,23 @@ export default function CarDetails() {
               </div>
               <div className="pt-8 border-t border-zinc-50 dark:border-zinc-900">
                 <div className="flex justify-between items-end mb-2">
-                  <p className="text-[10px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest">Sailing Price</p>
+                  <p className="text-[10px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest">Selling Price</p>
                   <p className="text-[10px] text-brand-primary font-black uppercase px-2 py-0.5 bg-brand-primary/5 rounded-md border border-brand-primary/10 tracking-widest">MSRP ${car.officialPrice?.toLocaleString()}</p>
                 </div>
                 <p className="text-5xl font-black text-brand-primary tracking-tighter leading-none">${car.sellingPrice?.toLocaleString()}</p>
                 <p className="text-[9px] text-zinc-400 dark:text-zinc-600 mt-4 font-bold uppercase tracking-widest bg-zinc-50 dark:bg-zinc-900/50 p-2.5 rounded-md flex items-center gap-2 border border-zinc-100 dark:border-zinc-800">Operational taxes and registration excluded.</p>
+              </div>
+              <div className="pt-4 border-t border-zinc-50 dark:border-zinc-900 flex items-center justify-between">
+                <span className="flex items-center gap-2 text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+                  <Package className="h-3.5 w-3.5" /> Stock
+                </span>
+                <span className={`inline-flex items-center justify-center min-w-[2.5rem] px-3 py-1 rounded-md text-[11px] font-black ${
+                  (car.count ?? 0) > 0
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                    : 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                }`}>
+                  {(car.count ?? 0) > 0 ? `${car.count} in stock` : 'Out of stock'}
+                </span>
               </div>
               <div className="space-y-4 pt-2">
                 <Button className="w-full text-[11px] font-black uppercase tracking-[0.25em] py-7 rounded-xl shadow-lg ring-1 ring-white/10" size="lg" onClick={() => navigate('/admin/cars')}>Manage Inventory</Button>

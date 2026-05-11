@@ -6,7 +6,7 @@ import { Input } from "../../../shared/components/ui/Input";
 export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, isSubmitting }) {
   const [formData, setFormData] = useState({
     name: "", brand: "", officialPrice: "", sellingPrice: "",
-    modelYear: "", status: "Available", engine: "", color: "", mileage: ""
+    modelYear: "", status: "Available", engine: "", color: "", mileage: "", count: 1
   });
   const [errors, setErrors] = useState({});
 
@@ -16,12 +16,13 @@ export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, is
         setFormData({
           name: initialData.name || "", brand: initialData.brand || "",
           officialPrice: initialData.officialPrice || "", sellingPrice: initialData.sellingPrice || "",
+          count: initialData.count ?? 1,
           modelYear: initialData.modelYear || "", status: initialData.status || "Available",
           engine: initialData.specs?.engine || "", color: initialData.specs?.color || "",
           mileage: initialData.specs?.mileage || ""
         });
       } else {
-        setFormData({ name: "", brand: "", officialPrice: "", sellingPrice: "", modelYear: "", status: "Available", engine: "", color: "", mileage: "" });
+        setFormData({ name: "", brand: "", officialPrice: "", sellingPrice: "", modelYear: "", status: "Available", engine: "", color: "", mileage: "", count: 1 });
       }
       setErrors({});
     }
@@ -34,6 +35,7 @@ export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, is
     if (!formData.officialPrice || isNaN(formData.officialPrice) || formData.officialPrice <= 0) newErrors.officialPrice = "Valid official price is required";
     if (!formData.sellingPrice || isNaN(formData.sellingPrice) || formData.sellingPrice <= 0) newErrors.sellingPrice = "Valid selling price is required";
     if (!formData.modelYear || isNaN(formData.modelYear) || formData.modelYear < 1900) newErrors.modelYear = "Valid year is required";
+    if (formData.count === "" || isNaN(formData.count) || Number(formData.count) < 0) newErrors.count = "Valid count is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -41,10 +43,12 @@ export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, is
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      const count = Number(formData.count);
       onSubmit({
         name: formData.name, brand: formData.brand,
         officialPrice: Number(formData.officialPrice), sellingPrice: Number(formData.sellingPrice),
-        modelYear: Number(formData.modelYear), status: formData.status,
+        modelYear: Number(formData.modelYear), status: count === 0 ? "Sold" : "Available",
+        count,
         specs: { engine: formData.engine, color: formData.color, mileage: formData.mileage }
       });
     }
@@ -79,18 +83,24 @@ export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, is
             <Input type="number" value={formData.modelYear} onChange={(e) => setFormData(prev => ({...prev, modelYear: e.target.value}))} error={errors.modelYear} placeholder="2024" disabled={isSubmitting} />
           </div>
           <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Stock Count</label>
+            <Input type="number" min="0" value={formData.count} onChange={(e) => setFormData(prev => ({...prev, count: e.target.value}))} error={errors.count} placeholder="e.g. 5" disabled={isSubmitting} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Engine</label>
             <Input value={formData.engine} onChange={(e) => setFormData(prev => ({...prev, engine: e.target.value}))} placeholder="e.g. 3.0L V6" disabled={isSubmitting} />
+          </div>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Mileage (km)</label>
+            <Input value={formData.mileage} onChange={(e) => setFormData(prev => ({...prev, mileage: e.target.value}))} placeholder="e.g. 10,000" disabled={isSubmitting} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Color</label>
             <Input value={formData.color} onChange={(e) => setFormData(prev => ({...prev, color: e.target.value}))} placeholder="e.g. Alpine White" disabled={isSubmitting} />
-          </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Mileage (km)</label>
-            <Input value={formData.mileage} onChange={(e) => setFormData(prev => ({...prev, mileage: e.target.value}))} placeholder="e.g. 10,000" disabled={isSubmitting} />
           </div>
         </div>
         <div className="space-y-1">
