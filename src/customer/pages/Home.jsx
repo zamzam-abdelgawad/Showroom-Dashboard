@@ -122,8 +122,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Live Showroom Activity */}
-        <ShowroomActivity />
+        {/* Live Showroom Activity - Hidden when searching/filtering to focus on results */}
+        {!searchTerm && statusFilter === 'all' && <ShowroomActivity />}
 
         {/* Car Grid */}
         {carsLoading ? (
@@ -213,6 +213,7 @@ export default function Home() {
             ))}
           </StaggeredGrid>
         )}
+
       </div>
     </div>
   );
