@@ -5,15 +5,46 @@ import { useRequests } from "../context/RequestsContext";
 import { useToast } from "../../shared/context/ToastContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Button } from "../../shared/components/ui/Button";
-import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, Package } from "lucide-react";
+import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, Package, RefreshCw, DollarSign, Layers } from "lucide-react";
+import { useState } from "react";
+import { Modal } from "../../shared/components/ui/Modal";
+import { Input } from "../../shared/components/ui/Input";
 
 export default function CarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cars } = useCars();
+  const { cars, updateCar } = useCars();
   const { user } = useAuth();
+  const { addToast } = useToast();
 
   const car = cars.find(c => String(c.id) === id);
+
+  const [isRestockOpen, setIsRestockOpen] = useState(false);
+  const [restockQty, setRestockQty] = useState("");
+  const [restockPrice, setRestockPrice] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleRestock = async (e) => {
+    e.preventDefault();
+    if (!restockQty || !restockPrice) return;
+
+    setIsSubmitting(true);
+    try {
+      await updateCar(car.id, {
+        count: parseInt(restockQty),
+        sellingPrice: parseFloat(restockPrice),
+        status: "Available"
+      });
+      addToast("Asset restocked and selling price updated.", "success");
+      setIsRestockOpen(false);
+      setRestockQty("");
+      setRestockPrice("");
+    } catch (err) {
+      addToast("Failed to restock asset.", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!car) {
     return (
@@ -101,20 +132,91 @@ export default function CarDetails() {
                 <span className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
                   <Package className="h-3.5 w-3.5 opacity-60" /> Inventory
                 </span>
-                <span className={`inline-flex items-center justify-center min-w-[2.5rem] px-3 py-1 rounded-lg text-xs font-semibold ${
-                  (car.count ?? 0) > 0
-                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                    : 'bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400'
-                }`}>
+                <span className={`inline-flex items-center justify-center min-w-[2.5rem] px-3 py-1 rounded-lg text-xs font-semibold ${(car.count ?? 0) > 0
+                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                  : 'bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                  }`}>
                   {(car.count ?? 0) > 0 ? `${car.count} available` : 'Sold Out'}
                 </span>
               </div>
               <div className="space-y-4 pt-4">
-                <Button className="w-full text-xs font-bold uppercase tracking-widest py-7 rounded-xl shadow-xl shadow-brand-primary/10 border border-white/10" size="lg" onClick={() => navigate('/admin/cars')}>Inventory Control</Button>
+                {car.status === "Available" ? (
+                  <Button
+                    className="w-full text-xs font-bold uppercase tracking-widest py-7 rounded-xl shadow-xl shadow-brand-primary/10 border border-white/10 transition-all duration-300 hover:shadow-brand-primary/20"
+                    size="lg"
+                    onClick={() => navigate('/admin/cars')}
+                  >
+                    Inventory Control
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full text-xs font-bold uppercase tracking-widest py-7 rounded-xl shadow-xl shadow-emerald-500/10 border border-emerald-500/10 bg-emerald-500 hover:bg-emerald-600 text-white transition-all duration-300"
+                    size="lg"
+                    onClick={() => {
+                      setRestockPrice(car.sellingPrice);
+                      setIsRestockOpen(true);
+                    }}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin-slow" /> Restock Asset
+                  </Button>
+                )}
                 <p className="text-center text-[10px] text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest">
-                  {car.status === 'Available' ? 'Ready for distribution.' : 'Asset unavailable.'}
+                  {car.status === 'Available' ? 'Ready for distribution.' : 'Asset currently depleted.'}
                 </p>
               </div>
+
+                <Modal
+                  isOpen={isRestockOpen}
+                  onClose={() => setIsRestockOpen(false)}
+                  title="Asset Replenishment"
+                >
+                  <form onSubmit={handleRestock} className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Stock Number</label>
+                        <Input
+                          type="number"
+                          min="1"
+                          placeholder="Quantity to add..."
+                          value={restockQty}
+                          onChange={(e) => setRestockQty(e.target.value)}
+                          className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12"
+                          required
+                          leftElement={<Layers className="h-4 w-4 text-zinc-300" />}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Selling Price ($)</label>
+                        <Input
+                          type="number"
+                          placeholder="New valuation..."
+                          value={restockPrice}
+                          onChange={(e) => setRestockPrice(e.target.value)}
+                          className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12"
+                          required
+                          leftElement={<DollarSign className="h-4 w-4 text-zinc-300" />}
+                        />
+                      </div>
+                    </div>
+                    <div className="pt-4 flex gap-3">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="flex-1 rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 border border-zinc-50 dark:border-zinc-900"
+                        onClick={() => setIsRestockOpen(false)}
+                        disabled={isSubmitting}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        className="flex-[2] rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 bg-brand-primary text-white shadow-lg shadow-brand-primary/20"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Processing...' : 'Authorize Restock'}
+                      </Button>
+                    </div>
+                  </form>
+                </Modal>
             </CardContent>
           </Card>
         </div>

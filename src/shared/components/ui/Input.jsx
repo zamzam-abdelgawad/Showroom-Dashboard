@@ -7,7 +7,7 @@ export const Input = forwardRef(({ className, type = "text", error, rightElement
       <input
         type={type}
         className={cn(
-          "flex h-10 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all dark:bg-zinc-950 dark:border-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-600 dark:focus:ring-brand-primary/50",
+          "flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 shadow-sm dark:bg-zinc-950 dark:border-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-600 dark:focus:ring-brand-primary/20 dark:focus:border-brand-primary/50",
           error && "border-red-500 focus:ring-red-500 dark:border-red-400 dark:focus:ring-red-400 font-medium",
           rightElement && "pr-10",
           className

@@ -8,9 +8,10 @@ import { Card, CardContent, CardHeader } from "../../shared/components/ui/Card";
 import { Input } from "../../shared/components/ui/Input";
 import { Button } from "../../shared/components/ui/Button";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
-import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, Trash2, Plus, Users as UsersIcon, User, ChevronDown } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Eye, Edit2, Trash2, Plus, Users as UsersIcon, User } from "lucide-react";
 import { UserFormModal } from "../components/users/UserFormModal";
 import { DeleteConfirmModal } from "../../shared/components/ui/DeleteConfirmModal";
+import { Select } from "../../shared/components/ui/Select";
 
 export default function Users() {
   const { user } = useAuth();
@@ -117,43 +118,17 @@ export default function Users() {
             <Input placeholder="Search users..." className="pl-10 h-10 w-full rounded-xl border-zinc-200 dark:border-zinc-800" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-2">
-            <div className="relative flex-shrink-0" ref={filterRef}>
-              <button
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-950 px-4 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 w-44 text-[11px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-500 hover:border-brand-primary transition-all duration-300 shadow-sm"
-              >
-                <Filter className="h-3.5 w-3.5 text-brand-primary flex-shrink-0 opacity-70" />
-                <span className="flex-1 text-left">
-                  {statusFilter === 'all' ? 'All Status' : statusFilter === 'active' ? 'Active' : 'Inactive'}
-                </span>
-                <ChevronDown className={`h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isFilterOpen && (
-                <div className="absolute top-full mt-2 right-0 w-44 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in duration-200">
-                  {[
-                    { value: 'all', label: 'All Status' },
-                    { value: 'active', label: 'Active' },
-                    { value: 'inactive', label: 'Inactive' },
-                  ].map(opt => (
-                    <button
-                      key={opt.value}
-                      onClick={() => { handleFilterChange(opt.value); setIsFilterOpen(false); }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold uppercase tracking-widest transition-all duration-200 text-left
-                        ${statusFilter === opt.value
-                          ? 'bg-brand-primary/10 text-brand-primary'
-                          : 'text-zinc-500 dark:text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'
-                        }`}
-                    >
-                      {statusFilter === opt.value && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-brand-primary flex-shrink-0" />
-                      )}
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Select 
+              className="w-44"
+              options={[
+                { value: 'all', label: 'All Status' },
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'Inactive' },
+              ]}
+              value={statusFilter}
+              onChange={handleFilterChange}
+              placeholder="Filter Status"
+            />
           </div>
         </CardHeader>
         <CardContent className="p-0">
