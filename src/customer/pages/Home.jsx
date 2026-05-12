@@ -8,6 +8,7 @@ import { StaggeredGrid, StaggeredCard } from "../../shared/components/animations
 import { Search, Filter, Car, Calendar, ArrowRight, Sparkles, Package, CheckCircle2 } from "lucide-react";
 import { useCustomerRequests } from "../context/CustomerRequestsContext";
 import { useAuth } from "../../shared/context/AuthContext";
+import { ShowroomActivity } from "../components/home/ShowroomActivity";
 
 export default function Home() {
   const { cars, loading: carsLoading } = useCustomerCars();
@@ -120,6 +121,9 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {/* Live Showroom Activity */}
+        <ShowroomActivity />
 
         {/* Car Grid */}
         {carsLoading ? (

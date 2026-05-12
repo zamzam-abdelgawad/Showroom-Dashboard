@@ -3,7 +3,7 @@ import { useCustomerRequests } from "../context/CustomerRequestsContext";
 import { useCustomerCars } from "../context/CustomerCarsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
-import { User, Mail, Shield, Calendar, Clock, Car, BadgeCheck, XCircle, ShoppingCart, CheckCircle, AlertCircle, Edit2 } from "lucide-react";
+import { User, Mail, Shield, Calendar, Clock, Car, BadgeCheck, XCircle, ShoppingCart, CheckCircle, AlertCircle, Edit2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../shared/components/ui/Modal";
 import { Input } from "../../shared/components/ui/Input";
@@ -110,6 +110,11 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
       default: return <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> Pending</span>;
     }
   };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(enrichedRequests.length / itemsPerPage) || 1;
+  const paginatedRequests = enrichedRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
@@ -244,38 +249,65 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
               <p className="text-xs text-zinc-400/80 font-normal mt-2">Explore the <button onClick={() => navigate('/')} className="text-brand-primary font-semibold hover:underline underline-offset-4">Asset Catalog</button> to initiate procurement.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left">
-                <thead className="bg-zinc-50/80 dark:bg-zinc-900/80 text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest border-b border-zinc-100 dark:border-zinc-800">
-                  <tr>
-                    <th className="px-8 py-5">Vehicle Inventory</th>
-                    <th className="px-8 py-5">Request Date</th>
-                    <th className="px-8 py-5">Operational Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900">
-                  {enrichedRequests.map(req => (
-                    <tr key={req.firestoreId} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
-                      <td className="px-8 py-6">
-                        <div className="flex flex-col">
-                          <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors tracking-tight">{req.carName}</span>
-                          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider mt-1">{req.carBrand}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-                        <Calendar className="h-3.5 w-3.5 text-brand-primary/50" />
-                        {new Date(req.timestamp).toLocaleDateString()}
-                      </td>
-                      <td className="px-8 py-6">
-                        {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
-                        {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-red-100 dark:border-red-900/50">Rejected</span>}
-                        {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-brand-primary/20">Pending</span>}
-                      </td>
+            <>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-left">
+                  <thead className="bg-zinc-50/80 dark:bg-zinc-900/80 text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest border-b border-zinc-100 dark:border-zinc-800">
+                    <tr>
+                      <th className="px-8 py-5">Vehicle Inventory</th>
+                      <th className="px-8 py-5">Request Date</th>
+                      <th className="px-8 py-5">Operational Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900">
+                    {paginatedRequests.map(req => (
+                      <tr key={req.firestoreId} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
+                        <td className="px-8 py-6">
+                          <div className="flex flex-col">
+                            <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors tracking-tight">{req.carName}</span>
+                            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider mt-1">{req.carBrand}</span>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                          <Calendar className="h-3.5 w-3.5 text-brand-primary/50" />
+                          {new Date(req.timestamp).toLocaleDateString()}
+                        </td>
+                        <td className="px-8 py-6">
+                          {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
+                          {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-red-100 dark:border-red-900/50">Rejected</span>}
+                          {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-brand-primary/20">Pending</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              {/* Pagination Controls */}
+              <div className="px-8 py-5 border-t border-zinc-100 dark:border-zinc-900 flex items-center justify-between bg-zinc-50/30 dark:bg-zinc-900/30">
+                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">Page {currentPage} of {totalPages}</span>
+                <div className="flex items-center gap-3">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))} 
+                    disabled={currentPage === 1}
+                    className="h-9 w-9 p-0 rounded-xl border-zinc-200 dark:border-zinc-800"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} 
+                    disabled={currentPage === totalPages}
+                    className="h-9 w-9 p-0 rounded-xl border-zinc-200 dark:border-zinc-800"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
