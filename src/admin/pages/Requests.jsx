@@ -4,8 +4,8 @@ import { useCars } from "../context/CarsContext";
 import { useToast } from "../../shared/context/ToastContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Button } from "../../shared/components/ui/Button";
-import { BadgeCheck, XCircle, Clock, Search, Filter, ShieldCheck, Mail, Car, Calendar, ArrowRight } from "lucide-react";
-import { useState, useMemo } from "react";
+import { BadgeCheck, XCircle, Clock, Search, Filter, ShieldCheck, Mail, Car, Calendar, ArrowRight, ChevronDown } from "lucide-react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Requests() {
@@ -16,6 +16,18 @@ export default function Requests() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const enrichedRequests = useMemo(() => {
     return requests.map(req => {
@@ -76,15 +88,44 @@ export default function Requests() {
             <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
             <input placeholder="Filter by user or vehicle..." className="pl-10 h-10 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:text-zinc-100" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-zinc-500" />
-              <select className="h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:text-zinc-100" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                <option value="all">All Interactions</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Accepted</option>
-                <option value="rejected">Rejected</option>
-              </select>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="relative flex-shrink-0" ref={filterRef}>
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-950 px-4 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 w-44 text-[10px] font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 hover:border-brand-primary transition-all duration-300 shadow-sm"
+              >
+                <Filter className="h-3.5 w-3.5 text-brand-primary flex-shrink-0" />
+                <span className="flex-1 text-left">
+                  {statusFilter === 'all' ? 'All Interactions' : statusFilter === 'pending' ? 'Pending' : statusFilter === 'approved' ? 'Accepted' : 'Rejected'}
+                </span>
+                <ChevronDown className={`h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isFilterOpen && (
+                <div className="absolute top-full mt-2 right-0 w-44 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in duration-200">
+                  {[
+                    { value: 'all', label: 'All Interactions' },
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'approved', label: 'Accepted' },
+                    { value: 'rejected', label: 'Rejected' },
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { setStatusFilter(opt.value); setIsFilterOpen(false); }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-200 text-left
+                        ${statusFilter === opt.value
+                          ? 'bg-brand-primary/10 text-brand-primary'
+                          : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                        }`}
+                    >
+                      {statusFilter === opt.value && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-primary flex-shrink-0" />
+                      )}
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </CardHeader>
