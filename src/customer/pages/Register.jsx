@@ -62,41 +62,41 @@ export default function Register() {
           <div className="mx-auto bg-zinc-950 p-4 rounded-2xl w-fit mb-2 shadow-2xl border border-white/5 group transition-transform hover:rotate-12">
             <UserPlus className="h-8 w-8 text-brand-primary" />
           </div>
-          <CardTitle className="text-3xl font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tighter">Create Account</CardTitle>
-          <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.3em]">Join the community</p>
+          <CardTitle className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Create Account</CardTitle>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Join the community</p>
         </CardHeader>
         <CardContent className="px-10 pb-12">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Full Name</label>
+              <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Full Name</label>
               <Input
                 placeholder="User"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 error={errors.name}
-                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black tracking-widest focus:ring-brand-primary"
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-medium focus:ring-brand-primary placeholder:text-zinc-400"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Email</label>
+              <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Email Address</label>
               <Input
                 type="email"
                 placeholder="user@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={errors.email}
-                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black tracking-widest focus:ring-brand-primary"
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-medium focus:ring-brand-primary placeholder:text-zinc-400"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Password</label>
+              <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Create Password</label>
               <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 error={errors.password}
-                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black tracking-widest focus:ring-brand-primary"
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-medium focus:ring-brand-primary placeholder:text-zinc-400"
                 rightElement={
                   <button
                     type="button"
@@ -113,14 +113,14 @@ export default function Register() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest ml-1">Confirm Password</label>
+              <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Confirm Security Hash</label>
               <Input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 error={errors.confirmPassword}
-                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black tracking-widest focus:ring-brand-primary"
+                className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-medium focus:ring-brand-primary placeholder:text-zinc-400"
                 rightElement={
                   <button
                     type="button"
@@ -136,13 +136,13 @@ export default function Register() {
                 }
               />
             </div>
-            <Button type="submit" className="w-full h-14 rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl shadow-brand-primary/20 bg-brand-primary hover:bg-brand-primary/90 mt-4" isLoading={loading}>
-              Register
+            <Button type="submit" className="w-full h-14 rounded-2xl text-sm font-bold uppercase tracking-widest shadow-2xl shadow-brand-primary/20 bg-brand-primary hover:bg-brand-primary/90 mt-4" isLoading={loading}>
+              Sign Up
             </Button>
-            <p className="text-center text-[10px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest pt-2">
+            <p className="text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider pt-2">
               Already have an account?{" "}
               <Link to="/login" className="text-brand-primary hover:underline underline-offset-4 decoration-2">
-                Login
+                Sign In
               </Link>
             </p>
           </form>

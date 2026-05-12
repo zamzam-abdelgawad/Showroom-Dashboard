@@ -30,10 +30,10 @@ export default function Team() {
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Organization Team</h1>
-          <p className="text-zinc-500 dark:text-zinc-500 text-[10px] uppercase font-bold tracking-widest">Internal staff management and credentialing.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Organization Team</h1>
+          <p className="text-zinc-500 dark:text-zinc-400 text-xs font-medium uppercase tracking-wider">Internal staff management and credentialing.</p>
         </div>
-        <Button className="shadow-md rounded-xl" onClick={() => setIsModalOpen(true)}><UserPlus className="h-4 w-4 mr-2" /> Recruit Personnel</Button>
+        <Button className="shadow-md rounded-xl text-xs font-semibold uppercase tracking-wider" onClick={() => setIsModalOpen(true)}><UserPlus className="h-4 w-4 mr-2" /> Add Staff</Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="col-span-full border border-zinc-100 dark:border-zinc-900 shadow-sm bg-white dark:bg-zinc-950 p-4 rounded-xl">
@@ -59,15 +59,15 @@ export default function Team() {
                 </div>
                 <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 p-1.5 rounded-full shadow-md text-brand-secondary border border-zinc-100 dark:border-zinc-900"><Star className="h-3.5 w-3.5 fill-current" /></div>
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-zinc-100">{member.name}</h3>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-primary/10 text-brand-primary text-[9px] font-black uppercase tracking-[0.1em] mt-2"><Briefcase className="h-3 w-3" /> {member.role}</div>
+              <h3 className="text-sm font-bold text-gray-900 dark:text-zinc-100 tracking-tight">{member.name}</h3>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-primary/10 text-brand-primary text-[10px] font-semibold uppercase tracking-wider mt-2"><Briefcase className="h-3 w-3" /> {member.role}</div>
               <div className="mt-8 space-y-4 text-left pt-6 border-t border-zinc-50 dark:border-zinc-900">
                 <div className="flex items-center gap-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-500"><Mail className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" /><span className="truncate">{member.email}</span></div>
                 <div className="flex items-center gap-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-500"><Phone className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" /><span>{member.phone}</span></div>
               </div>
               <div className="mt-8 pb-4">
-                <Button variant="outline" className="w-full text-[9px] font-black uppercase tracking-[0.2em] py-5 rounded-xl border-zinc-100 dark:border-zinc-900 text-zinc-400 dark:text-zinc-600 hover:text-brand-primary hover:border-brand-primary/30 hover:bg-brand-primary/[0.03] group transition-all" onClick={() => navigate(`/admin/team/${member.id || member.firestoreId}`)}>
-                  View Profile <ChevronRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
+                <Button variant="outline" className="w-full text-[10px] font-bold uppercase tracking-wider py-5 rounded-xl border-zinc-100 dark:border-zinc-900 text-zinc-500 dark:text-zinc-400 hover:text-brand-primary hover:border-brand-primary/30 hover:bg-brand-primary/[0.03] group transition-all" onClick={() => navigate(`/admin/team/${member.id || member.firestoreId}`)}>
+                  View Profile <ChevronRight className="h-3.5 w-3.5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </CardContent>

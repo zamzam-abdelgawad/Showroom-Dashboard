@@ -72,10 +72,10 @@ export default function ContactUs() {
         <div className="inline-flex p-4 bg-zinc-950 rounded-2xl text-brand-primary shadow-2xl border border-white/5 mb-8">
           <MessageSquare className="h-8 w-8" />
         </div>
-        <h1 className="text-4xl sm:text-6xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">
-          Contact<span className="text-brand-primary"> Us</span>
+        <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-tight">
+          Contact <span className="text-brand-primary">Us</span>
         </h1>
-        <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.3em] mt-6 max-w-xl mx-auto leading-loose">
+        <p className="text-zinc-500 dark:text-zinc-400 text-base sm:text-lg mt-6 max-w-xl mx-auto leading-relaxed font-medium">
           Have a question? Send us a message and we'll get back to you as soon as possible.
         </p>
       </div>
@@ -88,15 +88,15 @@ export default function ContactUs() {
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-primary/10 rounded-full blur-[100px] pointer-events-none" />
               <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-brand-primary/5 rounded-full blur-[80px] pointer-events-none" />
               
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-brand-primary mb-10 relative">Contact Info</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-primary mb-10 relative">Contact Info</h3>
               <div className="space-y-8 relative">
                 <div className="flex items-center gap-5">
                   <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
                     <Mail className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest leading-none mb-1.5">Email</p>
-                    <p className="text-xs font-black text-white uppercase tracking-tight">info@showcase.com</p>
+                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">Mailing</p>
+                    <p className="text-sm font-bold text-white tracking-tight">info@showcase.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
@@ -104,8 +104,8 @@ export default function ContactUs() {
                     <MessageSquare className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest leading-none mb-1.5">Phone</p>
-                    <p className="text-xs font-black text-white uppercase tracking-tight">+201111111111</p>
+                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">Tele-Line</p>
+                    <p className="text-sm font-bold text-white tracking-tight">+20 111 111 1111</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
@@ -113,26 +113,26 @@ export default function ContactUs() {
                     <FileText className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest leading-none mb-1.5">Location</p>
-                    <p className="text-xs font-black text-white uppercase tracking-tight">Cairo, Egypt</p>
+                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">HQ Location</p>
+                    <p className="text-sm font-bold text-white tracking-tight">Cairo, Egypt</p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-12 pt-10 border-t border-white/5">
-                <p className="text-[9px] text-zinc-500 mb-6 font-black uppercase tracking-[0.2em]">Working Hours</p>
-                <div className="space-y-4 text-[10px] font-bold uppercase tracking-widest">
+                <p className="text-xs text-zinc-500 mb-8 font-bold uppercase tracking-widest">Operating Schedule</p>
+                <div className="space-y-5 text-xs font-bold uppercase tracking-widest">
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-400">Weekdays</span>
-                    <span className="text-white border-b border-brand-primary/30">09:00 — 18:00</span>
+                    <span className="text-zinc-500">Business Days</span>
+                    <span className="text-white border-b border-brand-primary/40">09:00 — 18:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-400">Sunday</span>
-                    <span className="text-white border-b border-brand-primary/30">10:00 — 16:00</span>
+                    <span className="text-zinc-500">Sunday Ops</span>
+                    <span className="text-white border-b border-brand-primary/40">10:00 — 16:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-400">Fridays</span>
-                    <span className="text-zinc-600 italic">Closed</span>
+                    <span className="text-zinc-500">Fridays</span>
+                    <span className="text-zinc-600">Restricted</span>
                   </div>
                 </div>
               </div>
@@ -150,8 +150,8 @@ export default function ContactUs() {
                     <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-black text-emerald-800 dark:text-emerald-400 uppercase tracking-widest">Message Sent Successfully</p>
-                    <p className="text-[10px] font-bold text-emerald-600/80 dark:text-emerald-500/80 mt-1 uppercase tracking-wide">Response expected within 24 hours.</p>
+                    <p className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-widest">Inquiry Received</p>
+                    <p className="text-xs font-medium text-emerald-600/80 dark:text-emerald-500/80 mt-1 leading-relaxed">Our personnel will finalize a response within the next 24 business hours.</p>
                   </div>
                 </div>
               )}
@@ -159,20 +159,20 @@ export default function ContactUs() {
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
-                      <User className="h-3 w-3 text-brand-primary" /> Full Name
+                    <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                      <User className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Identity Name
                     </label>
                     <Input
                       placeholder="Enter your name"
                       value={formData.name}
                       onChange={(e) => handleChange("name", e.target.value)}
                       error={errors.name}
-                      className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
+                      className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-semibold tracking-tight focus:ring-brand-primary placeholder:text-zinc-400"
                     />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
-                      <Mail className="h-3 w-3 text-brand-primary" /> Email
+                    <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                      <Mail className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Mailing Node
                     </label>
                     <Input
                       type="email"
@@ -180,45 +180,45 @@ export default function ContactUs() {
                       value={formData.email}
                       onChange={(e) => handleChange("email", e.target.value)}
                       error={errors.email}
-                      className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
+                      className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-semibold tracking-tight focus:ring-brand-primary placeholder:text-zinc-400"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
-                    <FileText className="h-3 w-3 text-brand-primary" /> Subject
+                  <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                    <FileText className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Subject Dossier
                   </label>
                   <Input
                     placeholder="Enter your subject"
                     value={formData.subject}
                     onChange={(e) => handleChange("subject", e.target.value)}
                     error={errors.subject}
-                    className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
+                    className="rounded-xl h-12 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-semibold tracking-tight focus:ring-brand-primary placeholder:text-zinc-400"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
-                    <MessageSquare className="h-3 w-3 text-brand-primary" /> Message
+                  <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                    <MessageSquare className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Inquiry Narrative
                   </label>
                   <textarea
                     rows={6}
                     placeholder="Detail your message.."
                     value={formData.message}
                     onChange={(e) => handleChange("message", e.target.value)}
-                    className={`flex w-full rounded-2xl border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-zinc-100 dark:border-zinc-800 focus:ring-brand-primary'} bg-zinc-50 dark:bg-zinc-900 px-5 py-4 text-[11px] font-bold tracking-widest uppercase placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all resize-none shadow-inner`}
+                    className={`flex w-full rounded-2xl border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-zinc-100 dark:border-zinc-800 focus:ring-brand-primary'} bg-zinc-50 dark:bg-zinc-900 px-5 py-4 text-sm font-semibold tracking-tight placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all resize-none shadow-inner leading-relaxed`}
                   />
-                  {errors.message && <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">{errors.message}</p>}
+                  {errors.message && <p className="text-xs font-medium text-red-500">{errors.message}</p>}
                 </div>
 
                 <Button
                   type="submit"
                   isLoading={isSubmitting}
-                  className="w-full rounded-2xl h-16 text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl shadow-brand-primary/20 transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] bg-brand-primary hover:bg-brand-primary/90"
+                  className="w-full rounded-2xl h-16 text-xs font-bold uppercase tracking-widest shadow-2xl shadow-brand-primary/20 transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] bg-brand-primary hover:bg-brand-primary/90"
                 >
                   <Send className="h-4 w-4 mr-3" />
-                  Send Message
+                  Dispatch Inquiry
                 </Button>
               </form>
             </CardContent>

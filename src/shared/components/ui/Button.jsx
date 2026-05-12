@@ -1,7 +1,7 @@
 import { cn } from "../../lib/utils";
 
 export function Button({ className, variant = "primary", size = "md", isLoading, children, ...props }) {
-  const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] tap-highlight-transparent";
+  const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] tap-highlight-transparent";
   
   const variants = {
     primary: "bg-brand-primary text-white hover:bg-brand-primary/90 shadow-md shadow-brand-primary/10 dark:shadow-none",

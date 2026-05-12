@@ -44,8 +44,8 @@ export default function UserDetails() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in">
-      <Button variant="ghost" className="mb-4 text-zinc-400 dark:text-zinc-600 hover:text-brand-primary dark:hover:text-brand-primary font-black text-[10px] uppercase tracking-widest transition-all group" onClick={() => navigate("/admin/users")}>
-        <ArrowLeft className="h-3.5 w-3.5 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Users
+      <Button variant="ghost" className="mb-4 text-zinc-500 dark:text-zinc-400 hover:text-brand-primary dark:hover:text-brand-primary font-bold text-xs transition-all group uppercase tracking-widest" onClick={() => navigate("/admin/users")}>
+        <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Back
       </Button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="col-span-1 border border-zinc-100 dark:border-zinc-900 dark:bg-zinc-950 flex flex-col items-center text-center pt-10 pb-4 rounded-2xl shadow-sm">
@@ -59,21 +59,21 @@ export default function UserDetails() {
             </div>
           )}
           <CardContent className="mt-6 w-full px-6">
-            <h2 className="text-xl font-black text-gray-900 dark:text-zinc-100 leading-tight tracking-tight uppercase">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</h2>
-            {user.username && <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 mt-1 uppercase tracking-widest">{"@"}{user.username}</p>}
-            <div className="mt-8 pt-6 border-t border-zinc-50 dark:border-zinc-900 w-full flex justify-center">
-              <span className={`inline-flex items-center px-4 py-1 rounded-md text-[10px] font-black uppercase tracking-widest ${user.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>{user.status}</span>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 leading-tight tracking-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</h2>
+            {user.username && <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mt-2 tracking-wide">{"@"}{user.username}</p>}
+            <div className="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-900 w-full flex justify-center">
+              <span className={`inline-flex items-center px-4 py-1 rounded-lg text-xs font-semibold uppercase tracking-wider ${user.status === 'Active' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400'}`}>{user.status}</span>
             </div>
           </CardContent>
         </Card>
         <Card className="col-span-1 md:col-span-2 border border-zinc-100 dark:border-zinc-900 dark:bg-zinc-950 h-fit rounded-2xl shadow-sm">
-          <CardHeader className="border-b border-zinc-50 dark:border-zinc-900 pb-4 pt-6 px-6"><CardTitle className="text-xs font-black uppercase tracking-widest text-zinc-400">Personnel Dossier</CardTitle></CardHeader>
+          <CardHeader className="border-b border-zinc-100 dark:border-zinc-900 pb-4 pt-6 px-6"><CardTitle className="text-xs font-bold uppercase tracking-widest text-zinc-500">Personnel Dossier</CardTitle></CardHeader>
           <CardContent className="p-8">
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
-              <div className="space-y-1.5"><dt className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3 w-3" /> Communication</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-bold">{user.email}</dd></div>
-              <div className="space-y-1.5"><dt className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Phone className="h-3 w-3" /> Secure Line</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-bold">{user.phone || "N/A"}</dd></div>
-              <div className="space-y-1.5"><dt className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Briefcase className="h-3 w-3" /> Functional Designation</dt><dd className="text-sm text-brand-primary font-black uppercase tracking-tight">{user.company?.title || "N/A"}</dd></div>
-              <div className="space-y-1.5"><dt className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><MapPin className="h-3 w-3" /> Registered Locale</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-bold leading-relaxed">{user.address ? (<>{user.address.address}, <br />{user.address.city}, {user.address.state} {user.address.postalCode}</>) : "N/A"}</dd></div>
+              <div className="space-y-1.5"><dt className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3.5 w-3.5 opacity-70" /> Communication</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-semibold tracking-tight">{user.email}</dd></div>
+              <div className="space-y-1.5"><dt className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Phone className="h-3.5 w-3.5 opacity-70" /> Secure Line</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-semibold tracking-tight">{user.phone || "N/A"}</dd></div>
+              <div className="space-y-1.5"><dt className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Briefcase className="h-3.5 w-3.5 opacity-70" /> Functional Designation</dt><dd className="text-sm text-brand-primary font-bold tracking-tight">{user.company?.title || "N/A"}</dd></div>
+              <div className="space-y-1.5"><dt className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><MapPin className="h-3.5 w-3.5 opacity-70" /> Registered Locale</dt><dd className="text-sm text-gray-900 dark:text-zinc-100 font-semibold leading-relaxed tracking-tight">{user.address ? (<>{user.address.address}, <br />{user.address.city}, {user.address.state} {user.address.postalCode}</>) : "N/A"}</dd></div>
             </dl>
           </CardContent>
         </Card>

@@ -58,61 +58,61 @@ export function CarFormModal({ isOpen, onClose, onSubmit, initialData = null, is
     <Modal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit Car" : "Add New Car"}>
       <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto px-1">
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Car Name</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Asset Nomenclature</label>
             <Input value={formData.name} onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))} error={errors.name} placeholder="e.g. M3 Competition" disabled={isSubmitting} />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Brand</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Manufacturer</label>
             <Input value={formData.brand} onChange={(e) => setFormData(prev => ({...prev, brand: e.target.value}))} error={errors.brand} placeholder="e.g. BMW" disabled={isSubmitting} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Official Price ($)</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Market Value ($)</label>
             <Input type="number" value={formData.officialPrice} onChange={(e) => setFormData(prev => ({...prev, officialPrice: e.target.value}))} error={errors.officialPrice} placeholder="48000" disabled={isSubmitting} />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Selling Price ($)</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Acquisition Price ($)</label>
             <Input type="number" value={formData.sellingPrice} onChange={(e) => setFormData(prev => ({...prev, sellingPrice: e.target.value}))} error={errors.sellingPrice} placeholder="50000" disabled={isSubmitting} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Model Year</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Lifecycle Year</label>
             <Input type="number" value={formData.modelYear} onChange={(e) => setFormData(prev => ({...prev, modelYear: e.target.value}))} error={errors.modelYear} placeholder="2024" disabled={isSubmitting} />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Stock Count</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Available Units</label>
             <Input type="number" min="0" value={formData.count} onChange={(e) => setFormData(prev => ({...prev, count: e.target.value}))} error={errors.count} placeholder="e.g. 5" disabled={isSubmitting} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Engine</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Engine Specs</label>
             <Input value={formData.engine} onChange={(e) => setFormData(prev => ({...prev, engine: e.target.value}))} placeholder="e.g. 3.0L V6" disabled={isSubmitting} />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Mileage (km)</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Mileage Status</label>
             <Input value={formData.mileage} onChange={(e) => setFormData(prev => ({...prev, mileage: e.target.value}))} placeholder="e.g. 10,000" disabled={isSubmitting} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Color</label>
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Exterior Finish</label>
             <Input value={formData.color} onChange={(e) => setFormData(prev => ({...prev, color: e.target.value}))} placeholder="e.g. Alpine White" disabled={isSubmitting} />
           </div>
         </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">Status</label>
-          <select className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
+        <div className="space-y-1.5 cursor-default">
+          <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Inventory Status</label>
+          <select className="flex h-12 w-full rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50 transition-all shadow-inner" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
             <option value="Available">Available</option>
             <option value="Sold">Sold</option>
           </select>
         </div>
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6">
-          <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
-          <Button type="submit" isLoading={isSubmitting}>{initialData ? "Save Changes" : "Confirm Addition"}</Button>
+        <div className="flex items-center justify-end gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-900 mt-8">
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting} className="rounded-xl px-6">Cancel</Button>
+          <Button type="submit" isLoading={isSubmitting} className="rounded-xl px-8 shadow-xl shadow-brand-primary/10">{initialData ? "Apply Changes" : "Confirm Addition"}</Button>
         </div>
       </form>
     </Modal>

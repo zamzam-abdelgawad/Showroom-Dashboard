@@ -40,9 +40,9 @@ export default function CarDetails() {
         <div className="p-8 bg-zinc-50 dark:bg-zinc-900 rounded-full shadow-inner">
           <Car className="h-20 w-20 text-zinc-200 dark:text-zinc-800" />
         </div>
-        <h2 className="text-3xl font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tighter">Asset Displaced</h2>
-        <p className="text-[11px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-[0.2em] text-center max-w-xs leading-loose">We were unable to locate the requested <br /> vehicle in our current active register.</p>
-        <AnimatedButton onClick={() => navigate('/')} className="rounded-xl px-10 py-6 text-[11px] font-black uppercase tracking-[0.2em]">Return to Collection</AnimatedButton>
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Asset Not Found</h2>
+        <p className="text-sm font-normal text-zinc-500 dark:text-zinc-400 text-center max-w-xs leading-relaxed">We were unable to locate the requested <br /> vehicle in our current active register.</p>
+        <AnimatedButton onClick={() => navigate('/')} className="rounded-xl px-10 py-6 text-sm font-semibold tracking-wider">Return to Collection</AnimatedButton>
       </div>
     );
   }
@@ -82,8 +82,8 @@ export default function CarDetails() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
-      <button onClick={() => navigate('/')} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600 hover:text-brand-primary dark:hover:text-brand-primary transition-all group">
-        <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Collection
+      <button onClick={() => navigate('/')} className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-500 hover:text-brand-primary dark:hover:text-brand-primary transition-all group uppercase tracking-widest">
+        <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Catalog
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -96,21 +96,21 @@ export default function CarDetails() {
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale-[0.2] group-hover:grayscale-0"
               />
               <div className="absolute top-6 left-6 flex gap-3">
-                <span className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl backdrop-blur-md border border-white/10 ${
-                  isAvailable ? 'bg-brand-primary text-white' : 'bg-zinc-900 text-zinc-400'
+                <span className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shadow-2xl backdrop-blur-md border border-white/10 ${
+                  isAvailable ? 'bg-brand-primary text-white' : 'bg-zinc-800 text-zinc-400'
                 }`}>{isAvailable ? 'Available' : isOutOfStock ? 'Sold Out' : 'Sold'}</span>
-                <span className="bg-zinc-950/90 backdrop-blur-md px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-2xl border border-white/10">{car.brand}</span>
+                <span className="bg-zinc-950/90 backdrop-blur-md px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-white shadow-2xl border border-white/10">{car.brand}</span>
               </div>
             </div>
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <SmoothAccordion title={<span className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.2em]"><Car className="h-4 w-4 text-brand-primary" /> Technical Dossier</span>} defaultOpen={true}>
+            <SmoothAccordion title={<span className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-zinc-500"><Car className="h-4 w-4 text-brand-primary opacity-80" /> Technical Dossier</span>} defaultOpen={true}>
               <div className="grid grid-cols-2 gap-y-10 gap-x-6 pt-6 pb-4">
                 {specs.map((spec, i) => (
                   <div key={i} className="space-y-2.5">
-                    <p className="text-[9px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest flex items-center gap-2">{spec.icon} {spec.label}</p>
-                    <p className="font-black text-sm text-gray-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-2">{spec.icon} {spec.label}</p>
+                    <p className="font-bold text-base text-gray-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
                   </div>
                 ))}
               </div>
@@ -118,13 +118,13 @@ export default function CarDetails() {
 
             <Card className="border border-zinc-950 bg-zinc-950 text-white overflow-hidden relative rounded-2xl shadow-xl">
               <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32" /></div>
-              <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-[11px] font-black uppercase tracking-[0.2em] text-brand-primary">Premier Certification</CardTitle></CardHeader>
+              <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-sm font-semibold text-brand-primary">Premier certification</CardTitle></CardHeader>
               <CardContent className="space-y-6 px-6 pb-10">
-                <p className="text-xs text-zinc-400 leading-relaxed font-medium uppercase tracking-wide">Validated through our 150-point technical protocol for absolute performance assurance.</p>
+                <p className="text-sm text-zinc-400 leading-relaxed font-medium">Validated through our 150-point technical protocol for absolute performance assurance.</p>
                 <div className="space-y-4 pt-2">
-                  <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Extended Protocol Warranty</div>
-                  <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite Extraction Support</div>
-                  <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified Origin Dossier</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Extended protocol warranty</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite extraction support</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified origin dossier</div>
                 </div>
               </CardContent>
             </Card>
@@ -135,47 +135,47 @@ export default function CarDetails() {
           <Card className="border border-zinc-100 dark:border-zinc-900 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.1)] bg-white dark:bg-zinc-950 sticky top-24 rounded-3xl">
             <CardContent className="pt-10 space-y-10 px-8 pb-12">
               <div className="space-y-3">
-                <h1 className="text-4xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-tight uppercase">{car.name}</h1>
-                <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.3em]">Brand: {car.brand} • Model Year: {car.modelYear}</p>
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tightest leading-tight">{car.name}</h1>
+                <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{car.brand} • {car.modelYear} Specification Line</p>
               </div>
-              <div className="pt-10 border-t border-zinc-50 dark:border-zinc-900">
-                <p className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest mb-3">Price</p>
-                <p className="text-5xl font-black text-brand-primary tracking-tighter leading-none">${car.sellingPrice?.toLocaleString()}</p>
-                <p className="text-[9px] text-zinc-400 dark:text-zinc-600 mt-6 font-bold uppercase tracking-[0.1em] bg-zinc-50 dark:bg-zinc-900/50 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 leading-relaxed">
-                  Taxes and registration excluded.
+              <div className="pt-10 border-t border-zinc-100 dark:border-zinc-800">
+                <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">Investment Valuation</p>
+                <p className="text-5xl font-bold text-brand-primary tracking-tightest leading-none">${car.sellingPrice?.toLocaleString()}</p>
+                <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-8 font-medium bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-100 dark:border-zinc-800 leading-relaxed italic">
+                  Taxation and registration formalities are excluded from this preliminary quote.
                 </p>
               </div>
-              <div className="flex items-center justify-between py-4 border-t border-zinc-50 dark:border-zinc-900">
-                <span className="flex items-center gap-2 text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
-                  <Package className="h-3.5 w-3.5" /> Stock
+              <div className="flex items-center justify-between py-6 border-t border-zinc-100 dark:border-zinc-800">
+                <span className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
+                   <Package className="h-3.5 w-3.5 opacity-60" /> Inventory
                 </span>
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] font-black ${
-                  !isOutOfStock
-                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                    : 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${
+                   !isOutOfStock
+                     ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                     : 'bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400'
                 }`}>
-                  {!isOutOfStock ? `${car.count} in stock` : 'Out of stock'}
+                  {!isOutOfStock ? `${car.count} available` : 'Sold Out'}
                 </span>
               </div>
               <div className="space-y-5 pt-4">
                 {isAvailable ? (
                   hasExistingRequest ? (
-                    <AnimatedButton className="w-full h-16 text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl" disabled>
-                      <CheckCircle2 className="h-4 w-4 mr-3" /> Request Pending
+                    <AnimatedButton className="w-full h-16 text-xs font-bold uppercase tracking-widest rounded-2xl" disabled>
+                      <CheckCircle2 className="h-5 w-5 mr-3" /> Recorded
                     </AnimatedButton>
                   ) : (
                     <AnimatedButton
-                      className="w-full h-16 text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl shadow-xl shadow-brand-primary/20"
+                      className="w-full h-16 text-xs font-bold uppercase tracking-widest rounded-2xl shadow-2xl shadow-brand-primary/20 border border-white/10"
                       onClick={handleBuyRequest}
                       isLoading={isSubmitting}
                       variant="primary"
                     >
-                      <ShoppingCart className="h-4 w-4 mr-3" /> Buy Now
+                      <ShoppingCart className="h-5 w-5 mr-3" /> Procurement
                     </AnimatedButton>
                   )
                 ) : (
-                  <AnimatedButton className="w-full h-16 text-[11px] font-black uppercase tracking-[0.25em] rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-600 cursor-not-allowed" disabled>
-                    {isOutOfStock ? 'Out of Stock' : 'Sold'}
+                  <AnimatedButton className="w-full h-16 text-xs font-bold uppercase tracking-widest rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-600 cursor-not-allowed" disabled>
+                    {isOutOfStock ? 'Sold Out' : 'Unavailable'}
                   </AnimatedButton>
                 )}
                 
@@ -183,12 +183,12 @@ export default function CarDetails() {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900 z-50 animate-in slide-in-from-bottom duration-700 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
                   <div className="flex items-center justify-between gap-6 max-w-7xl mx-auto">
                     <div className="flex flex-col space-y-0.5">
-                      <span className="text-[8px] text-zinc-400 font-black uppercase tracking-widest">Price</span>
-                      <span className="text-xl font-black text-brand-primary tracking-tighter">${car.sellingPrice?.toLocaleString()}</span>
+                      <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium uppercase tracking-wider">Price</span>
+                      <span className="text-2xl font-bold text-brand-primary tracking-tight">${car.sellingPrice?.toLocaleString()}</span>
                     </div>
                     {isAvailable ? (
                       <AnimatedButton
-                        className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl"
+                        className="flex-1 max-w-[220px] h-12 text-sm font-semibold tracking-wider rounded-xl"
                         onClick={handleBuyRequest}
                         isLoading={isSubmitting}
                         disabled={hasExistingRequest}
@@ -197,14 +197,14 @@ export default function CarDetails() {
                         {hasExistingRequest ? "Recorded" : "Buy Now"}
                       </AnimatedButton>
                     ) : (
-                      <Button disabled variant="secondary" className="flex-1 max-w-[220px] h-12 text-[10px] font-black uppercase tracking-widest rounded-xl">
+                      <Button disabled variant="secondary" className="flex-1 max-w-[220px] h-12 text-sm font-semibold tracking-wider rounded-xl">
                         {isOutOfStock ? 'Out of Stock' : 'Sold'}
                       </Button>
                     )}
                   </div>
                 </div>
 
-                <p className="text-center text-[9px] font-black text-zinc-400 uppercase tracking-widest italic pt-2">
+                <p className="text-center text-[10px] font-medium text-zinc-400 dark:text-zinc-500 italic pt-2">
                   {isAvailable ? 'Ready for 5-7 day deployment.' : 'Asset currently unavailable for engagement.'}
                 </p>
               </div>

@@ -105,17 +105,17 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'approved': return <span className="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full text-xs font-bold flex items-center gap-1"><BadgeCheck className="h-3 w-3" /> Approved</span>;
-      case 'rejected': return <span className="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full text-xs font-bold flex items-center gap-1"><XCircle className="h-3 w-3" /> Rejected</span>;
-      default: return <span className="bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full text-xs font-bold flex items-center gap-1"><Clock className="h-3 w-3" /> Pending</span>;
+      case 'approved': return <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5" /> Approved</span>;
+      case 'rejected': return <span className="bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><XCircle className="h-3.5 w-3.5" /> Rejected</span>;
+      default: return <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> Pending</span>;
     }
   };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tighter">Personal Profile</h1>
-        <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-lg border border-zinc-200/50 dark:border-zinc-800">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Personal Profile</h1>
+        <div className="text-xs font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800 tracking-widest uppercase">
           Access Level: <span className="text-brand-primary ml-1">{user.role}</span>
         </div>
       </div>
@@ -139,32 +139,32 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
               </div>
               <div className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white dark:border-zinc-950 bg-brand-primary z-20 shadow-xl" />
             </div>
-            <h2 className="mt-6 text-xl font-black text-gray-900 dark:text-zinc-100 tracking-tight uppercase">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</h2>
-            <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] mt-1.5">{user.role} Profile</p>
+            <h2 className="mt-6 text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-tight">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</h2>
+            <p className="text-xs font-bold text-zinc-500 dark:text-zinc-500 mt-2 uppercase tracking-widest">{user.role} Account</p>
           </CardContent>
         </Card>
 
         {/* Account Details Card */}
         <Card className="md:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl">
-          <CardHeader className="pb-4 pt-8 px-8 flex flex-row items-center justify-between border-b border-zinc-50 dark:border-zinc-900">
-            <CardTitle className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">Identification Info</CardTitle>
-            <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-brand-primary hover:bg-brand-primary/5 text-[10px] font-black uppercase tracking-widest px-4 rounded-xl border border-brand-primary/20">
-              <Edit2 className="h-3.5 w-3.5 mr-2" /> Edit
+          <CardHeader className="pb-4 pt-8 px-8 flex flex-row items-center justify-between border-b border-zinc-100 dark:border-zinc-900">
+            <CardTitle className="text-xs font-bold uppercase tracking-widest text-zinc-500">Identification Info</CardTitle>
+            <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-brand-primary hover:bg-brand-primary/5 text-xs font-bold uppercase tracking-widest px-4 rounded-xl border border-brand-primary/20">
+              <Edit2 className="h-3.5 w-3.5 mr-2" /> Modify
             </Button>
           </CardHeader>
           <CardContent className="p-8 space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-2.5">
-                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><User className="h-3 w-3 text-brand-primary" /> Full Name</label>
-                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</div>
+                <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><User className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Identity Name</label>
+                <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner tracking-tight">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</div>
               </div>
               <div className="space-y-2.5">
-                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3 w-3 text-brand-primary" /> Email</label>
-                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner">{user.email}</div>
+                <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Mail className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Mailing Address</label>
+                <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner tracking-tight">{user.email}</div>
               </div>
               <div className="space-y-2.5">
-                <label className="text-[9px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-widest flex items-center gap-2"><Shield className="h-3 w-3 text-brand-primary" /> Role</label>
-                <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight capitalize bg-zinc-50 dark:bg-zinc-900/50 px-5 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-900 shadow-inner uppercase">{user.role}</div>
+                <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2"><Shield className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Clearance Level</label>
+                <div className="text-sm font-bold text-brand-primary bg-brand-primary/5 px-5 py-4 rounded-2xl border border-brand-primary/10 transition-all hover:bg-brand-primary/10 shadow-inner tracking-tight uppercase">{user.role}</div>
               </div>
             </div>
           </CardContent>
@@ -179,8 +179,8 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
       </div>
       <div>
-        <p className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tighter leading-none">{requests.length}</p>
-        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Total Requests</p>
+        <p className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-none">{requests.length}</p>
+        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Request Log</p>
       </div>
     </CardContent>
   </Card>
@@ -191,8 +191,8 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
       </div>
       <div>
-        <p className="text-3xl font-black text-emerald-700 dark:text-emerald-500 tracking-tighter leading-none">{approvedCount}</p>
-        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Accepted Requests</p>
+        <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-500 tracking-tightest leading-none">{approvedCount}</p>
+        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Accepted</p>
       </div>
     </CardContent>
   </Card>
@@ -203,8 +203,8 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         <AlertCircle className="h-5 w-5 text-brand-primary" />
       </div>
       <div>
-        <p className="text-3xl font-black text-brand-primary tracking-tighter leading-none">{pendingCount}</p>
-        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Pending Requests</p>
+        <p className="text-3xl font-bold text-brand-primary tracking-tightest leading-none">{pendingCount}</p>
+        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Pending</p>
       </div>
     </CardContent>
   </Card>
@@ -215,8 +215,8 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         <XCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
       </div>
       <div>
-        <p className="text-3xl font-black text-red-600 dark:text-red-400 tracking-tighter leading-none">{rejectedCount}</p>
-        <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest mt-1.5">Rejected Requests</p>
+        <p className="text-3xl font-bold text-red-600 dark:text-red-400 tracking-tightest leading-none">{rejectedCount}</p>
+        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Rejected</p>
       </div>
     </CardContent>
   </Card>
@@ -225,10 +225,10 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
       {/* My Requests */}
       <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl overflow-hidden">
         <CardHeader className="px-8 py-8 border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/30">
-          <CardTitle className="text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3">
-            <Car className="h-4 w-4 text-brand-primary" /> Request Log
+          <CardTitle className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 text-zinc-500">
+            <Car className="h-4 w-4 text-brand-primary opacity-80" /> Interaction Log
           </CardTitle>
-          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">{requests.length} Requests</span>
+          <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{requests.length} interactions</span>
         </CardHeader>
         <CardContent className="p-0">
           {reqLoading ? (
@@ -240,17 +240,17 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
               <div className="bg-zinc-50 dark:bg-zinc-900/50 p-8 rounded-full inline-block mb-6 shadow-inner">
                 <Car className="h-16 w-16 text-zinc-200 dark:text-zinc-800" />
               </div>
-              <p className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">Null deployment log recorded</p>
-              <p className="text-[10px] text-zinc-400/70 font-bold uppercase tracking-widest mt-2">Explore the <button onClick={() => navigate('/')} className="text-brand-primary font-black hover:underline underline-offset-4">Asset Catalog</button> to initiate procurement.</p>
+              <p className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">No activities recorded</p>
+              <p className="text-xs text-zinc-400/80 font-normal mt-2">Explore the <button onClick={() => navigate('/')} className="text-brand-primary font-semibold hover:underline underline-offset-4">Asset Catalog</button> to initiate procurement.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full text-left">
-                <thead className="bg-zinc-50/80 dark:bg-zinc-900/80 text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800">
+                <thead className="bg-zinc-50/80 dark:bg-zinc-900/80 text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest border-b border-zinc-100 dark:border-zinc-800">
                   <tr>
-                    <th className="px-8 py-5"> Vehicle</th>
-                    <th className="px-8 py-5"> Date</th>
-                    <th className="px-8 py-5"> Status</th>
+                    <th className="px-8 py-5">Vehicle Inventory</th>
+                    <th className="px-8 py-5">Request Date</th>
+                    <th className="px-8 py-5">Operational Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900">
@@ -258,8 +258,8 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
                     <tr key={req.firestoreId} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
                       <td className="px-8 py-6">
                         <div className="flex flex-col">
-                          <span className="font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight group-hover:text-brand-primary transition-colors">{req.carName}</span>
-                          <span className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.2em] mt-1">{req.carBrand}</span>
+                          <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors tracking-tight">{req.carName}</span>
+                          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider mt-1">{req.carBrand}</span>
                         </div>
                       </td>
                       <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
@@ -267,9 +267,9 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
                         {new Date(req.timestamp).toLocaleDateString()}
                       </td>
                       <td className="px-8 py-6">
-                        {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
-                        {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-red-100 dark:border-red-900/50">Rejected</span>}
-                        {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border border-brand-primary/20">Pending</span>}
+                        {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
+                        {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-red-100 dark:border-red-900/50">Rejected</span>}
+                        {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-brand-primary/20">Pending</span>}
                       </td>
                     </tr>
                   ))}
@@ -284,17 +284,17 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Modify Profile Intelligence">
         <form onSubmit={handleSaveProfile} className="space-y-8 py-4">
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">Name</label>
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Account Identity Name</label>
             <Input 
               value={editFormData.name} 
               onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })} 
               placeholder="Full Name"
               required
-              className="rounded-2xl h-14 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-[11px] font-black uppercase tracking-widest focus:ring-brand-primary"
+              className="rounded-2xl h-14 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-sm font-medium focus:ring-brand-primary"
             />
           </div>
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">Profile Picture</label>
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Profile Portrait</label>
             <div className="flex items-center gap-6 p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-inner">
               <div className="h-20 w-20 rounded-full bg-white dark:bg-zinc-950 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
                 {imagePreview || editFormData.image ? (
@@ -304,19 +304,19 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
                 )}
               </div>
               <div className="flex-1 space-y-3">
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handleImageChange}
-                  className="block w-full text-[10px] text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[9px] file:font-black file:uppercase file:bg-brand-primary file:text-white hover:file:opacity-90 transition-all cursor-pointer"
-                />
-                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Profile Picture (JPG, PNG, GIF formats).</p>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleImageChange}
+                    className="block w-full text-xs text-zinc-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-semibold file:uppercase file:bg-brand-primary file:text-white hover:file:opacity-90 transition-all cursor-pointer"
+                  />
+                  <p className="text-[10px] font-medium text-zinc-400 uppercase tracking-wide">JPG, PNG, GIF formats supported.</p>
               </div>
             </div>
           </div>
           <div className="pt-8 flex justify-end gap-4 border-t border-zinc-100 dark:border-zinc-900">
-            <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-[10px] font-black uppercase tracking-widest">Cancel</Button>
-            <Button type="submit" isLoading={isSaving} className="bg-brand-primary hover:bg-brand-primary/90 text-white shadow-2xl shadow-brand-primary/20 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-12">Update Profile</Button>
+            <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-xs font-semibold uppercase tracking-wider">Cancel</Button>
+            <Button type="submit" isLoading={isSaving} className="bg-brand-primary hover:bg-brand-primary/90 text-white shadow-2xl shadow-brand-primary/20 text-xs font-semibold uppercase tracking-wider px-8 rounded-xl h-12">Update Profile</Button>
           </div>
         </form>
       </Modal>

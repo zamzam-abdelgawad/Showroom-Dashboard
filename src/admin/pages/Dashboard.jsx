@@ -64,11 +64,11 @@ export default function Dashboard() {
     <div className="space-y-8 animate-in px-2 sm:px-0">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">ShowroomElite Dashboard</h1>
-          <p className="text-gray-500 dark:text-zinc-500 mt-1 text-sm font-medium">Welcome back, here's what's happening with your business today.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Dashboard</h1>
+          <p className="text-gray-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Welcome back, here's what's happening with your business today.</p>
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm w-fit uppercase tracking-widest">
-          <Clock className="h-3 w-3" /> System Sync: Today, 10:45 AM
+        <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
+          <Clock className="h-3.5 w-3.5" /> System Sync: Today, 10:45 AM
         </div>
       </div>
 
@@ -84,9 +84,9 @@ export default function Dashboard() {
           >
             <CardContent className="p-6 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-[0.1em]">{stat.title}</p>
-                <h4 className="text-2xl font-black text-gray-900 dark:text-zinc-100 mt-1">{stat.value}</h4>
-                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-2 flex items-center gap-1 uppercase tracking-wider bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded w-fit">
+                <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{stat.title}</p>
+                <h4 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2 tracking-tight">{stat.value}</h4>
+                <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-3 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md w-fit">
                   <TrendingUp className="h-3 w-3" />
                   {stat.trend}
                 </p>
@@ -103,7 +103,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border border-gray-100 dark:border-zinc-900 shadow-sm overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 dark:border-zinc-900 pb-4 bg-gray-50/30 dark:bg-zinc-900/20">
-            <CardTitle className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-500"><BarChart3 className="h-4 w-4 text-brand-primary" /> Sales Trajectory</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500"><BarChart3 className="h-4 w-4 text-brand-primary" /> Sales Trajectory</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="h-[350px] w-full">
@@ -132,7 +132,7 @@ export default function Dashboard() {
 
         <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 overflow-hidden h-fit">
           <CardHeader className="border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between pb-6 pt-7 bg-zinc-50/50 dark:bg-zinc-900/20 px-6">
-            <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-3 text-zinc-400"><Activity className="h-4 w-4 text-brand-primary" /> Recent Requests</CardTitle>
+            <CardTitle className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 text-zinc-500"><Activity className="h-4 w-4 text-brand-primary" /> Recent Requests</CardTitle>
             <button onClick={() => navigate('/admin/requests')} className="text-brand-primary hover:text-brand-primary/80 transition-colors">
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -141,8 +141,8 @@ export default function Dashboard() {
             {recentRequests.length === 0 ? (
               <div className="py-16 flex flex-col items-center justify-center text-center px-4">
                 <div className="bg-zinc-50 dark:bg-zinc-900 p-5 rounded-full mb-6 shadow-inner"><Clock className="h-8 w-8 text-zinc-200 dark:text-zinc-800" /></div>
-                <p className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">No requests yet</p>
-                <p className="text-[10px] text-zinc-400/70 font-medium uppercase tracking-widest mt-2 px-10">Await operational interactions to populate intelligence.</p>
+                <p className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">No requests yet</p>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium mt-2 px-10 leading-relaxed">Operational interactions will populate here once customers begin their journey.</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -153,11 +153,11 @@ export default function Dashboard() {
                         <User className="h-4 w-4 text-brand-primary" />
                       </div>
                       <div className="flex flex-col overflow-hidden">
-                        <span className="text-[11px] font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight group-hover:text-brand-primary transition-colors truncate">{req.userName}</span>
-                        <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase flex items-center gap-1.5 mt-1 tracking-widest"><Car className="h-2.5 w-2.5" /> {req.carName}</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors truncate tracking-tight">{req.userName}</span>
+                        <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mt-1 tracking-wider uppercase"><Car className="h-3 w-3" /> {req.carName}</span>
                       </div>
                     </div>
-                    <div className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border transition-all ${
+                    <div className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
                       req.status === 'approved' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-100/50' : 
                       req.status === 'rejected' ? 'bg-red-50 dark:bg-red-950/20 text-red-600 border-red-100/50' : 
                       'bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary border-brand-primary/20'

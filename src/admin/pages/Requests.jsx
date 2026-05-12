@@ -57,9 +57,9 @@ export default function Requests() {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'approved': return <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest flex items-center gap-1"><BadgeCheck className="h-3 w-3" /> Accepted</span>;
-      case 'rejected': return <span className="bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest flex items-center gap-1"><XCircle className="h-3 w-3" /> Rejected</span>;
-      default: return <span className="bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest flex items-center gap-1"><Clock className="h-3 w-3" /> Pending</span>;
+      case 'approved': return <span className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5" /> Accepted</span>;
+      case 'rejected': return <span className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1.5"><XCircle className="h-3.5 w-3.5" /> Rejected</span>;
+      default: return <span className="bg-brand-primary/5 text-brand-primary px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> Pending</span>;
     }
   };
 
@@ -71,15 +71,15 @@ export default function Requests() {
             <Car className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Purchase Requests</h1>
-            <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
-              {requests.length} total orders · <span className="text-brand-primary font-black">{pendingCount} pending review</span>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Purchase Requests</h1>
+            <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-1">
+              {requests.length} total orders · <span className="text-brand-primary">{pendingCount} pending review</span>
             </p>
           </div>
         </div>
         <div className="bg-white dark:bg-zinc-950 px-3 py-1.5 border border-zinc-100 dark:border-zinc-900 rounded-xl shadow-sm flex items-center gap-2">
           <ShieldCheck className="h-3.5 w-3.5 text-brand-primary" />
-          <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em]">Admin Control</span>
+          <span className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest leading-none">Admin Control</span>
         </div>
       </div>
       <Card className="border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
@@ -92,7 +92,7 @@ export default function Requests() {
             <div className="relative flex-shrink-0" ref={filterRef}>
               <button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-950 px-4 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 w-44 text-[10px] font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 hover:border-brand-primary transition-all duration-300 shadow-sm"
+                className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-950 px-4 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 w-44 text-[11px] font-semibold tracking-wider text-zinc-700 dark:text-zinc-300 hover:border-brand-primary transition-all duration-300 shadow-sm"
               >
                 <Filter className="h-3.5 w-3.5 text-brand-primary flex-shrink-0" />
                 <span className="flex-1 text-left">
@@ -112,7 +112,7 @@ export default function Requests() {
                     <button
                       key={opt.value}
                       onClick={() => { setStatusFilter(opt.value); setIsFilterOpen(false); }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-200 text-left
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-[11px] font-semibold tracking-wider transition-all duration-200 text-left
                         ${statusFilter === opt.value
                           ? 'bg-brand-primary/10 text-brand-primary'
                           : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
@@ -137,34 +137,34 @@ export default function Requests() {
           ) : (
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200 text-zinc-900 dark:text-zinc-100">
               <table className="min-w-full text-sm text-left">
-                <thead className="bg-white dark:bg-zinc-950 text-zinc-400 dark:text-zinc-500 font-black uppercase tracking-wider text-[10px] border-b border-zinc-100 dark:border-zinc-900">
+                <thead className="bg-white dark:bg-zinc-950 text-zinc-500 dark:text-zinc-400 font-semibold uppercase tracking-wider text-xs border-b border-zinc-100 dark:border-zinc-900">
                   <tr><th className="px-6 py-4">Customer</th><th className="px-6 py-4">Vehicle Assets</th><th className="px-6 py-4">Applied Date</th><th className="px-6 py-4">Status</th><th className="px-6 py-4 text-right">Operations</th></tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900/50">
                   {filteredRequests.length === 0 ? (
-                    <tr><td colSpan="5" className="px-6 py-16 text-center text-zinc-400"><div className="flex flex-col items-center"><Clock className="h-10 w-10 text-zinc-100 dark:text-zinc-800 mb-2" /><p className="text-zinc-500 dark:text-zinc-600 font-bold uppercase tracking-widest text-[10px]">No interactions recorded.</p></div></td></tr>
+                    <tr><td colSpan="5" className="px-6 py-16 text-center text-zinc-400"><div className="flex flex-col items-center"><Clock className="h-10 w-10 text-zinc-100 dark:text-zinc-800 mb-2" /><p className="text-zinc-500 dark:text-zinc-600 font-medium text-sm">No interactions recorded.</p></div></td></tr>
                   ) : (
                     filteredRequests.map((req) => (
                       <tr key={req.id || req.firestoreId} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-colors group">
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
-                            <span className="font-black text-xs uppercase tracking-tight text-gray-900 dark:text-zinc-100 mb-0.5 group-hover:text-brand-primary transition-colors">
+                            <span className="font-bold text-sm text-gray-900 dark:text-zinc-100 mb-0.5 group-hover:text-brand-primary transition-colors tracking-tight">
                               {req.userName}
-                              {req.status === 'pending' && <span className="ml-2 bg-brand-primary/10 text-brand-primary text-[8px] px-1.5 py-0.5 rounded-md">NEW</span>}
+                              {req.status === 'pending' && <span className="ml-2 bg-brand-primary/10 text-brand-primary text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider">NEW</span>}
                             </span>
-                            <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 flex items-center gap-1"><Mail className="h-3 w-3" /> {req.userEmail}</span>
+                            <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5"><Mail className="h-3 w-3 text-zinc-400" /> {req.userEmail}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-4"><div className="flex flex-col"><span className="font-bold text-zinc-600 dark:text-zinc-400 hover:text-brand-primary cursor-pointer flex items-center gap-1.5 transition-colors" onClick={() => navigate(`/admin/cars/${req.carId}`)}><Car className="h-3.5 w-3.5" /> {req.carName}</span><span className="text-[10px] text-zinc-400 dark:text-zinc-600 font-black uppercase tracking-widest">{req.carBrand}</span></div></td>
-                        <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-medium italic"><div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" />{new Date(req.timestamp).toLocaleDateString()}</div></td>
+                        <td className="px-6 py-4"><div className="flex flex-col"><span className="font-medium text-zinc-700 dark:text-zinc-300 hover:text-brand-primary cursor-pointer flex items-center gap-1.5 transition-colors" onClick={() => navigate(`/admin/cars/${req.carId}`)}><Car className="h-3.5 w-3.5" /> {req.carName}</span><span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium tracking-wide">{req.carBrand}</span></div></td>
+                        <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-normal"><div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700" />{new Date(req.timestamp).toLocaleDateString()}</div></td>
                         <td className="px-6 py-4">{getStatusBadge(req.status)}</td>
                         <td className="px-6 py-4 text-right">
                           {req.status === 'pending' ? (
-                            <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="sm" className="text-emerald-600 dark:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 h-8 font-black uppercase tracking-widest text-[9px]" onClick={() => handleStatusChange(req.firestoreId || req.id, 'approved', req.carId)}>Accept</Button>
-                              <Button variant="ghost" size="sm" className="text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 h-8 font-black uppercase tracking-widest text-[9px]" onClick={() => handleStatusChange(req.firestoreId || req.id, 'rejected', req.carId)}>Reject</Button>
+                            <div className="flex justify-end gap-2 text-zinc-800">
+                              <Button variant="ghost" size="sm" className="text-emerald-600 dark:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 h-8 font-bold uppercase tracking-widest text-[10px]" onClick={() => handleStatusChange(req.firestoreId || req.id, 'approved', req.carId)}>Accept</Button>
+                              <Button variant="ghost" size="sm" className="text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 h-8 font-bold uppercase tracking-widest text-[10px]" onClick={() => handleStatusChange(req.firestoreId || req.id, 'rejected', req.carId)}>Reject</Button>
                             </div>
-                          ) : (<span className="text-[10px] text-zinc-300 dark:text-zinc-700 font-black uppercase tracking-widest italic mr-4">Resolved</span>)}
+                          ) : (<span className="text-xs text-zinc-400 dark:text-zinc-600 font-medium italic mr-4">Resolved</span>)}
                         </td>
                       </tr>
                     ))

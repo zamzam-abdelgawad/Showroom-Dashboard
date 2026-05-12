@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUsers } from "../context/UsersContext";
 import { useDebounce } from "../../shared/hooks/useDebounce";
@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from "../../shared/components/ui/Card";
 import { Input } from "../../shared/components/ui/Input";
 import { Button } from "../../shared/components/ui/Button";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
-import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, Trash2, Plus, Users as UsersIcon, User } from "lucide-react";
+import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, Trash2, Plus, Users as UsersIcon, User, ChevronDown } from "lucide-react";
 import { UserFormModal } from "../components/users/UserFormModal";
 import { DeleteConfirmModal } from "../../shared/components/ui/DeleteConfirmModal";
 
@@ -28,6 +28,18 @@ export default function Users() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const urlStatus = searchParams.get('status');
@@ -88,8 +100,8 @@ export default function Users() {
             <UsersIcon className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">User Management</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{uniqueUsers.length} total users</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">User Management</h1>
+            <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">{uniqueUsers.length} total accounts</p>
           </div>
         </div>
         {isAdmin && (
@@ -105,18 +117,49 @@ export default function Users() {
             <Input placeholder="Search users..." className="pl-10 h-10 w-full rounded-xl border-zinc-200 dark:border-zinc-800" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-zinc-500" />
-            <select className="h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition-shadow dark:text-zinc-100" value={statusFilter} onChange={(e) => handleFilterChange(e.target.value)}>
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+            <div className="relative flex-shrink-0" ref={filterRef}>
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-950 px-4 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 w-44 text-[11px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-500 hover:border-brand-primary transition-all duration-300 shadow-sm"
+              >
+                <Filter className="h-3.5 w-3.5 text-brand-primary flex-shrink-0 opacity-70" />
+                <span className="flex-1 text-left">
+                  {statusFilter === 'all' ? 'All Status' : statusFilter === 'active' ? 'Active' : 'Inactive'}
+                </span>
+                <ChevronDown className={`h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isFilterOpen && (
+                <div className="absolute top-full mt-2 right-0 w-44 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in duration-200">
+                  {[
+                    { value: 'all', label: 'All Status' },
+                    { value: 'active', label: 'Active' },
+                    { value: 'inactive', label: 'Inactive' },
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { handleFilterChange(opt.value); setIsFilterOpen(false); }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold uppercase tracking-widest transition-all duration-200 text-left
+                        ${statusFilter === opt.value
+                          ? 'bg-brand-primary/10 text-brand-primary'
+                          : 'text-zinc-500 dark:text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                        }`}
+                    >
+                      {statusFilter === opt.value && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-primary flex-shrink-0" />
+                      )}
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-white dark:bg-zinc-950 text-zinc-400 dark:text-zinc-500 font-black uppercase tracking-wider text-[10px] border-b border-zinc-100 dark:border-zinc-900">
+              <thead className="bg-white dark:bg-zinc-950 text-zinc-500 dark:text-zinc-500 font-semibold uppercase tracking-wider text-xs border-b border-zinc-100 dark:border-zinc-900">
                 <tr>
                   <th className="px-6 py-4">User Name</th>
                   <th className="px-6 py-4">Email</th>
@@ -151,19 +194,19 @@ export default function Users() {
                           <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-zinc-950 ${user.status === 'Active' ? 'bg-emerald-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-black text-xs uppercase tracking-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
+                          <span className="font-bold text-sm tracking-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-medium">{user.email}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${
                           user.role === 'admin' ? 'bg-brand-primary/10 text-brand-primary' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400'
                         }`}>
                           {user.role || 'user'}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${
                           user.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                         }`}>{user.status}</span>
                       </td>
@@ -183,10 +226,10 @@ export default function Users() {
             </table>
           </div>
           <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-50/30 dark:bg-zinc-900/30">
-            <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase italic"> {filteredUsers.length} accounts found</span>
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider"> {filteredUsers.length} accounts found</span>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1 || loading} className="h-8 w-8 p-0 min-w-0"><ChevronLeft className="h-4 w-4" /></Button>
-              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400 min-w-[5rem] text-center bg-white dark:bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">Page {currentPage} of {totalPages}</div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 min-w-[5rem] text-center bg-white dark:bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">Page {currentPage} of {totalPages}</div>
               <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages || loading} className="h-8 w-8 p-0 min-w-0"><ChevronRight className="h-4 w-4" /></Button>
             </div>
           </div>

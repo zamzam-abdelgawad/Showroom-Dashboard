@@ -95,8 +95,8 @@ export function AdminNavbar({ onMenuClick }) {
           <div className="bg-brand-primary p-2 rounded-xl text-white shadow-lg shadow-brand-primary/10">
             <Car className="h-5 w-5" />
           </div>
-          <h2 className="text-xl font-extrabold text-gray-800 dark:text-zinc-200 tracking-tight hidden sm:block">
-            Showroom<span className="text-brand-primary italic">Precision</span>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-zinc-200 tracking-tightest hidden sm:block">
+            Showroom<span className="text-brand-primary">Precision</span>
           </h2>
         </div>
       </div>
@@ -115,7 +115,7 @@ export function AdminNavbar({ onMenuClick }) {
           >
             <Bell className="h-5 w-5" />
             {totalNotifications > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-brand-secondary text-brand-dark text-[9px] font-black h-4 min-w-[16px] flex items-center justify-center rounded-full px-1">
+              <span className="absolute -top-0.5 -right-0.5 bg-brand-secondary text-brand-dark text-[10px] font-bold h-4 min-w-[16px] flex items-center justify-center rounded-full px-1 tracking-tighter">
                 {totalNotifications > 9 ? "9+" : totalNotifications}
               </span>
             )}
@@ -131,7 +131,7 @@ export function AdminNavbar({ onMenuClick }) {
               <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-20 md:top-auto md:mt-2 w-auto md:w-[380px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[calc(100vh-6rem)] md:max-h-none">
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
-                  <h3 className="text-sm font-bold text-gray-900 dark:text-zinc-100">Notifications</h3>
+                  <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Global Intelligence</h3>
                   <button
                     onClick={() => setIsNotificationsOpen(false)}
                     className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
@@ -147,7 +147,7 @@ export function AdminNavbar({ onMenuClick }) {
                       <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-2xl mb-4 border border-gray-100 dark:border-zinc-800">
                         <Bell className="h-7 w-7 text-gray-300 dark:text-zinc-700" />
                       </div>
-                      <p className="text-sm font-semibold text-gray-600 dark:text-zinc-400">No notifications</p>
+                      <p className="text-sm font-medium text-gray-600 dark:text-zinc-400">No notifications</p>
                       <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
                     </div>
                   ) : (
@@ -165,15 +165,15 @@ export function AdminNavbar({ onMenuClick }) {
                           }`}>
                             {notif.type === 'message' ? <MessageSquare className="h-4 w-4" /> : <ClipboardList className="h-4 w-4" />}
                           </div>
-                          <div className="flex-1 min-w-0">
+                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2 mb-1">
-                              <p className="text-[11px] font-black dark:text-zinc-100 uppercase tracking-tight truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
-                              <span className="text-[9px] font-black text-zinc-400 flex items-center gap-1 flex-shrink-0 whitespace-nowrap uppercase tracking-widest">
+                              <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
+                              <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 flex items-center gap-1 flex-shrink-0 whitespace-nowrap uppercase tracking-widest">
                                 <Clock className="h-3 w-3" />
                                 {notif.time?.toDate ? notif.time.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date(notif.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
-                            <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 line-clamp-1 uppercase tracking-widest">{notif.description}</p>
+                            <p className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-500 tracking-tight leading-tight line-clamp-1">{notif.description}</p>
                           </div>
                           <div className="flex items-center pt-1 pr-1">
                             <div className="h-2 w-2 rounded-full bg-brand-primary animate-pulse" />
@@ -187,7 +187,7 @@ export function AdminNavbar({ onMenuClick }) {
                 {/* Footer */}
                 {allNotifications.length > 0 && (
                   <div className="px-4 py-3 border-t border-zinc-50 dark:border-zinc-900 text-center bg-zinc-50/50 dark:bg-zinc-900/30 sticky bottom-0">
-                    <p className="text-[8px] font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-[0.4em]">
+                    <p className="text-[8px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                       Operational synchronization active
                     </p>
                   </div>
@@ -197,19 +197,19 @@ export function AdminNavbar({ onMenuClick }) {
           )}
         </div>
 
-        <Link to="/admin/profile" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-900 hover:bg-gray-100 dark:hover:bg-zinc-800 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-200 border border-gray-100 dark:border-zinc-800 hover:shadow-sm">
+         <Link to="/admin/profile" className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-900 hover:bg-gray-100 dark:hover:bg-zinc-800 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-200 border border-gray-100 dark:border-zinc-800 hover:shadow-sm uppercase tracking-widest">
           <div className="h-7 w-7 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
             <UserIcon className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
           </div>
           <div className="hidden sm:flex flex-col items-start leading-tight">
-            <span className="text-xs font-bold text-gray-900 dark:text-zinc-100">{user?.name}</span>
-            <span className="text-[10px] text-gray-400 dark:text-zinc-500 uppercase tracking-tighter flex items-center gap-0.5">
-              <ShieldCheck className="h-2 w-2 text-brand-primary" />
+            <span className="text-[11px] font-bold text-gray-900 dark:text-zinc-100">{user?.name}</span>
+            <span className="text-[9px] text-brand-primary uppercase tracking-widest flex items-center gap-0.5">
+              <ShieldCheck className="h-2 w-2" />
               {user?.role}
             </span>
           </div>
         </Link>
-        <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium px-2 sm:px-3 rounded-xl transition-all duration-200">
+        <Button variant="ghost" size="sm" onClick={handleLogout} className="text-zinc-500 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-xs font-bold uppercase tracking-widest px-2 sm:px-3 rounded-xl transition-all duration-200">
           <LogOut className="h-4 w-4 sm:mr-2" />
           <span className="hidden sm:inline">Logout</span>
         </Button>

@@ -7,6 +7,25 @@
   --color-brand-light: #fdfcfb;
   
   --shadow-brand: 0 10px 15px -3px rgba(124, 58, 237, 0.1), 0 4px 6px -4px rgba(124, 58, 237, 0.1);
+
+  /* Typography Scale */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  --tracking-tightest: -0.05em;
+  --tracking-tighter: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -30,8 +49,11 @@
 }
 
 body {
-  @apply bg-zinc-50 text-zinc-900 transition-colors duration-500 selection:bg-brand-primary selection:text-white;
+  @apply bg-zinc-50 text-zinc-900 transition-colors duration-500 selection:bg-brand-primary selection:text-white antialiased;
   @apply dark:bg-zinc-950 dark:text-zinc-100;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {

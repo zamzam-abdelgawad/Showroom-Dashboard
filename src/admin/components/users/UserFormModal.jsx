@@ -49,29 +49,29 @@ export function UserFormModal({ isOpen, onClose, onSubmit, initialData = null, i
     <Modal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit User" : "Add New User"}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
-            <Input value={formData.firstName} onChange={(e) => setFormData(prev => ({...prev, firstName: e.target.value}))} error={errors.firstName} placeholder="John" disabled={isSubmitting} />
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Identity Name</label>
+            <Input value={formData.firstName} onChange={(e) => setFormData(prev => ({...prev, firstName: e.target.value}))} error={errors.firstName} placeholder="John" disabled={isSubmitting} className="rounded-xl h-11" />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
-            <Input value={formData.lastName} onChange={(e) => setFormData(prev => ({...prev, lastName: e.target.value}))} error={errors.lastName} placeholder="Doe" disabled={isSubmitting} />
+          <div className="space-y-1.5 cursor-default">
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Full Surname</label>
+            <Input value={formData.lastName} onChange={(e) => setFormData(prev => ({...prev, lastName: e.target.value}))} error={errors.lastName} placeholder="Doe" disabled={isSubmitting} className="rounded-xl h-11" />
           </div>
         </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
-          <Input type="email" value={formData.email} onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))} error={errors.email} placeholder="john.doe@example.com" disabled={isSubmitting} />
+        <div className="space-y-1.5 cursor-default">
+          <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Email Channel</label>
+          <Input type="email" value={formData.email} onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))} error={errors.email} placeholder="john.doe@example.com" disabled={isSubmitting} className="rounded-xl h-11" />
         </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
-          <select className="flex h-10 w-full rounded-md border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
+        <div className="space-y-1.5 cursor-default">
+          <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Account Lifecycle</label>
+          <select className="flex h-11 w-full rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50 transition-all shadow-inner" value={formData.status} onChange={(e) => setFormData(prev => ({...prev, status: e.target.value}))} disabled={isSubmitting}>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-slate-800 mt-6">
-          <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
-          <Button type="submit" isLoading={isSubmitting}>{initialData ? "Save Changes" : "Create User"}</Button>
+        <div className="flex items-center justify-end gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-900 mt-8">
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting} className="rounded-xl px-6">Cancel</Button>
+          <Button type="submit" isLoading={isSubmitting} className="rounded-xl px-8 shadow-xl shadow-brand-primary/10">{initialData ? "Apply Changes" : "Confirm Entry"}</Button>
         </div>
       </form>
     </Modal>
