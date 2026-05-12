@@ -47,15 +47,29 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')] opacity-[0.015] mix-blend-overlay dark:opacity-[0.02]" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-md px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-2xl">
+          <div className="absolute top-[20%] right-[10%] lg:right-[15%] w-64 h-32 bg-white/5 dark:bg-white-[0.02] backdrop-blur-3xl rounded-3xl border border-black/5 dark:border-white/5 rotate-[3deg] opacity-0 animate-[fadeIn_2s_ease-in-out_forwards,float_10s_ease-in-out_infinite] pointer-events-none -z-10 flex flex-col justify-between p-6">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-1.5 w-1.5">
+                <span className="animate-[pulse_4s_cubic-bezier(0.4,0,0.6,1)_infinite] absolute inline-flex h-full w-full rounded-full bg-emerald-500/50"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600/60"></span>
+              </div>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500/80">Network Sync</span>
+            </div>
+            <div className="space-y-1">
+              <div className="h-1.5 w-12 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-full" />
+              <div className="h-1.5 w-8 bg-zinc-200/30 dark:bg-zinc-800/30 rounded-full" />
+            </div>
+          </div>
+
+          <div className="inline-flex items-center gap-2 bg-zinc-100/50 dark:bg-white/[0.02] backdrop-blur-3xl px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-zinc-200/50 dark:border-white/5 shadow-sm">
             <Sparkles className="h-4 w-4" />
             Quality Cars · Best Selection
           </div>
-          <h1 className="text-5xl sm:text-7xl font-bold text-zinc-950 dark:text-white tracking-luxury leading-tight">
+          <h1 className="text-5xl sm:text-7xl font-bold text-zinc-950 dark:text-white tracking-luxury leading-tight relative z-10">
             Find your <br />
             <span className="text-brand-primary">Dream Car</span>
           </h1>
-          <p className="text-zinc-500 dark:text-zinc-400 text-base sm:text-lg mt-8 max-w-2xl mx-auto leading-relaxed font-medium tracking-tight">
+          <p className="text-zinc-500 dark:text-zinc-400 text-base sm:text-lg mt-8 max-w-2xl mx-auto leading-relaxed font-medium tracking-tight relative z-10">
             Browse our collection of hand-picked vehicles. Every car is thoroughly inspected to ensure it's in perfect condition.
           </p>
 
@@ -89,14 +103,14 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
         {/* Search & Filter */}
-        <div className="flex flex-row gap-3 items-center justify-between bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-2xl p-5 -mt-16 relative z-10">
+        <div className="flex flex-row gap-3 items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/20 backdrop-blur-2xl rounded-2xl border border-zinc-200/50 dark:border-zinc-800/30 p-2 md:p-3 relative z-10 mx-auto max-w-4xl transition-all duration-700 focus-within:scale-[1.005] hover:border-zinc-300 dark:hover:border-zinc-700/50">
           <div className="relative flex-1 min-w-0">
-            <Search className="absolute left-4 top-3.5 h-4 w-4 text-zinc-400" />
+            <Search className="absolute left-4 top-3.5 h-4 w-4 text-zinc-400 dark:text-zinc-500" />
             <Input
-              placeholder="Search by model or brand..."
-              className="pl-6 md:pl-12 h-12 w-full rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 focus:ring-brand-primary text-sm font-semibold tracking-tight placeholder:text-zinc-400"
+              placeholder="Search by exact model or brand..."
+              className="pl-6 md:pl-12 h-11 w-full rounded-xl border-transparent dark:border-transparent bg-white/60 dark:bg-zinc-950/40 focus:ring-brand-primary/20 focus:border-brand-primary/30 text-sm font-medium tracking-tight placeholder:text-zinc-400 dark:placeholder:text-zinc-500/80 transition-all duration-700 shadow-none dark:shadow-none"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -106,24 +120,16 @@ export default function Home() {
           <div className="relative flex-shrink-0" ref={filterRef}>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center justify-center gap-3 bg-zinc-50 dark:bg-zinc-950 px-4 h-12 rounded-xl border border-zinc-100 dark:border-zinc-800 w-12 md:w-36 text-sm font-semibold tracking-wider text-zinc-700 dark:text-zinc-300 hover:border-brand-primary/40 transition-all duration-300"
+              className="flex items-center justify-center gap-3 bg-white/60 dark:bg-zinc-950/40 px-4 h-11 rounded-xl border border-transparent w-12 md:w-36 text-sm font-semibold tracking-wider text-zinc-700 dark:text-zinc-400 hover:text-brand-primary transition-all duration-[800ms]"
             >
-              <Filter className="h-4 w-4 text-brand-primary flex-shrink-0" />
-              <span className="hidden md:block flex-1 text-left">
+              <Filter className="h-4 w-4 flex-shrink-0 opacity-70" />
+              <span className="hidden md:block flex-1 text-left text-[11px] uppercase tracking-widest">
                 {statusFilter === 'all' ? 'All Assets' : statusFilter === 'available' ? 'Available' : 'Sold'}
               </span>
-              <svg
-                className={`hidden md:block h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-              </svg>
             </button>
 
             {isFilterOpen && (
-              <div className="absolute top-full mt-2 right-0 left-auto w-36 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden z-50">
+              <div className="absolute top-full mt-2 right-0 left-auto w-40 bg-zinc-50 dark:bg-zinc-900/90 backdrop-blur-2xl border border-zinc-200/50 dark:border-zinc-800/80 rounded-2xl shadow-xl overflow-hidden z-50 py-1">
                 {[
                   { value: 'all', label: 'All Assets' },
                   { value: 'available', label: 'Available' },
@@ -132,15 +138,12 @@ export default function Home() {
                   <button
                     key={opt.value}
                     onClick={() => { setStatusFilter(opt.value); setIsFilterOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold tracking-wider transition-all duration-200 text-left
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-semibold tracking-widest uppercase transition-all duration-[600ms] text-left
               ${statusFilter === opt.value
-                        ? 'bg-brand-primary/10 text-brand-primary'
-                        : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                        ? 'text-brand-primary bg-brand-primary/5'
+                        : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50'
                       }`}
                   >
-                    {statusFilter === opt.value && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-primary flex-shrink-0" />
-                    )}
                     {opt.label}
                   </button>
                 ))}
@@ -184,53 +187,55 @@ export default function Home() {
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0 rounded-t-2xl"
                   />
                   <div className="absolute top-4 left-4 flex gap-2">
-                    <span className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-xl backdrop-blur-md border border-white/10 ${
-                      (car.status === 'Available' && (car.count ?? 0) > 0)
-                        ? 'bg-brand-primary text-white'
-                        : 'bg-zinc-900/80 text-zinc-400'
-                      }`}>
-                      {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Sold Out'}
-                    </span>
+                    <div className="relative">
+                      {(car.status === 'Available' && (car.count ?? 0) > 0) && (
+                         <span className="absolute -top-1 -right-1 flex h-2 w-2 z-20">
+                            <span className="animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+                         </span>
+                      )}
+                      <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-xl backdrop-blur-md border transition-all duration-700 ${
+                        (car.status === 'Available' && (car.count ?? 0) > 0)
+                          ? 'bg-zinc-900/80 text-white border-white/10 dark:bg-white/90 dark:text-zinc-950 dark:border-black/5'
+                          : 'bg-zinc-100/90 text-zinc-400 border-black/5 dark:bg-zinc-900/80 dark:text-zinc-500 dark:border-white/5'
+                        }`}>
+                        {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Out of Stock'}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <span className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md text-zinc-950 dark:text-zinc-100 font-semibold text-xs px-4 py-2 rounded-xl shadow-2xl tracking-wide border border-zinc-100 dark:border-zinc-800">
-                      View details
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000" />
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="space-y-1">
-                      <p className="text-xs font-bold text-brand-primary uppercase tracking-widest">{car.brand}</p>
-                      <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-500 tracking-tighter">{car.name}</h3>
+                    <div className="space-y-0.5">
+                      <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{car.brand}</p>
+                      <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-[800ms] tracking-tight">{car.name}</h3>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900/50 px-2.5 py-1.5 rounded-lg border border-zinc-100 dark:border-zinc-800 tracking-wider">
-                      <Calendar className="h-3.5 w-3.5" />
+                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-50/50 dark:bg-zinc-900/30 px-2.5 py-1 rounded-lg border border-transparent tracking-widest">
+                      <Calendar className="h-3 w-3" />
                       {car.modelYear}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-5 border-t border-zinc-50 dark:border-zinc-900">
+                  <div className="flex items-center justify-between pt-5 mt-2">
                     <div className="space-y-0.5">
-                      <p className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Pricing</p>
-                      <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tighter leading-none">${car.sellingPrice?.toLocaleString()}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Valuation</p>
+                        <span className={`text-[9px] font-bold uppercase tracking-widest transition-colors duration-500 ${
+                          (car.count ?? 0) > 0 ? 'text-zinc-500' : 'text-zinc-400/50 dark:text-zinc-600/50'
+                        }`}>
+                          {(car.count ?? 0) > 0 ? `${car.count} Available` : 'Depleted'}
+                        </span>
+                      </div>
+                      <p className="text-xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tight leading-none">${car.sellingPrice?.toLocaleString()}</p>
                     </div>
                     <div className="flex flex-col items-end gap-2.5">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${
-                        (car.count ?? 0) > 0
-                          ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 text-emerald-400 border border-emerald-100 dark:border-emerald-900/50'
-                          : 'bg-red-50 text-red-500 dark:bg-red-950/20 text-red-400 border border-red-100 dark:border-red-900/50'
-                      }`}>
-                        <Package className="h-3 w-3" />
-                        {(car.count ?? 0) > 0 ? `${car.count} in stock` : 'Sold Out'}
-                      </span>
                       {(user && requests.some(r => String(r.carId) === String(car.id) && r.status === 'pending')) ? (
-                        <span className="text-xs font-bold text-emerald-500 flex items-center gap-2 tracking-widest uppercase">
-                          Pending <CheckCircle2 className="h-4 w-4" />
+                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-500/80 bg-emerald-50 dark:bg-emerald-500/5 px-4 py-2 rounded-xl flex items-center gap-2 tracking-widest uppercase transition-all duration-[600ms]">
+                          Pending <CheckCircle2 className="h-3.5 w-3.5" />
                         </span>
                       ) : (
-                        <span className="text-xs font-bold text-brand-primary flex items-center gap-2 tracking-widest uppercase group-hover:gap-3 transition-all duration-500">
-                          Details <ArrowRight className="h-4 w-4" />
+                        <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-brand-primary group-hover:bg-brand-primary/5 px-4 py-2 rounded-xl border border-transparent group-hover:border-brand-primary/10 tracking-widest uppercase transition-all duration-[800ms] cursor-pointer">
+                          View Asset
                         </span>
                       )}
                     </div>
@@ -242,19 +247,20 @@ export default function Home() {
         )}
 
         {/* Why Choose Us - Operational Value */}
-        <div className="py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-zinc-50/30 to-zinc-50/50 dark:via-zinc-900/10 dark:to-zinc-900/20 pointer-events-none -mx-4 sm:-mx-8 px-4 sm:px-8 rounded-3xl" />
           {[
             { title: "Verified Inventory", desc: "Every vehicle undergoes a rigorous 150-point technical inspection.", icon: <ShieldCheck className="h-4 w-4" /> },
             { title: "Transparent Pricing", desc: "No hidden fees. Precise market-driven valuation for every asset.", icon: <LineChart className="h-4 w-4" /> },
             { title: "Real-Time Availability", desc: "Our live synchronization ensures inventory data is always accurate.", icon: <RefreshCw className="h-4 w-4" /> },
             { title: "Dedicated Support", desc: "Professional advisors available for seamless procurement.", icon: <Headset className="h-4 w-4" /> },
           ].map((item, i) => (
-            <div key={i} className="space-y-4 group">
-              <div className="h-8 w-8 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/60 flex items-center justify-center text-zinc-400 dark:text-zinc-500 group-hover:text-brand-primary group-hover:border-zinc-300 dark:group-hover:border-zinc-700 transition-all duration-[600ms]">
+            <div key={i} className="space-y-4 group relative z-10">
+              <div className="h-8 w-8 rounded-lg bg-zinc-50 dark:bg-zinc-800/40 border border-transparent flex items-center justify-center text-zinc-400 dark:text-zinc-500 group-hover:text-brand-primary transition-colors duration-[800ms]">
                 {item.icon}
               </div>
-              <h4 className="text-sm font-bold text-zinc-950 dark:text-white uppercase tracking-wider">{item.title}</h4>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{item.desc}</p>
+              <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest leading-snug">{item.title}</h4>
+              <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{item.desc}</p>
             </div>
           ))}
         </div>

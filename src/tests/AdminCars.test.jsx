@@ -53,14 +53,14 @@ describe('AdminCars', () => {
 
   it('opens add car modal when clicking Add Car', () => {
     renderWithContext(true);
-    const addBtn = screen.getByRole('button', { name: /Add Car/i });
+    const addBtn = screen.getByRole('button', { name: /Add Vehicle/i });
     fireEvent.click(addBtn);
     expect(screen.getByText('Add New Car')).toBeInTheDocument();
   });
 
   it('allows adding a new car', async () => {
     renderWithContext(true);
-    fireEvent.click(screen.getByRole('button', { name: /Add Car/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Add Vehicle/i }));
     
     // Fill out form
     fireEvent.change(screen.getByPlaceholderText(/M3 Competition/i), { target: { value: 'New Car' } });
@@ -80,6 +80,8 @@ describe('AdminCars', () => {
         sellingPrice: 6000,
         modelYear: 2024,
         status: 'Available',
+        count: 1,
+        images: [],
         specs: {
           engine: '',
           color: '',
@@ -106,7 +108,7 @@ describe('AdminCars', () => {
     fireEvent.change(screen.getByPlaceholderText(/50000/i), { target: { value: '1200' } });
     fireEvent.change(screen.getByPlaceholderText(/2024/i), { target: { value: '2022' } });
 
-    const saveBtn = screen.getByRole('button', { name: /Save Changes/i });
+    const saveBtn = screen.getByRole('button', { name: /Apply Changes/i });
     fireEvent.submit(saveBtn.closest('form'));
 
     await waitFor(() => {

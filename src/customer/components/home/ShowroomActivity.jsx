@@ -113,15 +113,15 @@ export function ShowroomActivity() {
   }, [cars, requests, carsLoading, requestsLoading]);
 
   return (
-    <section className="py-2 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-        <div className="space-y-1">
+    <section className="py-2 space-y-8 w-full max-w-[100vw] overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-7xl mx-auto">
+        <div className="space-y-1 relative z-10">
           <div className="flex items-center gap-2 mb-2">
-            <div className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+            <div className="relative flex h-1.5 w-1.5">
+              <span className="animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex h-full w-full rounded-full bg-emerald-500/50"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600/60"></span>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-brand-primary">Live Activity Feed</span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-500/70">Live Stream</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Operational Intelligence</h2>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-xl font-medium">
@@ -129,106 +129,79 @@ export function ShowroomActivity() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 sm:gap-6">
-          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm transition-all duration-500">
-            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Daily Volume</p>
-            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.today} <span className="text-[10px] sm:text-xs font-medium text-zinc-400 tracking-tight">units processed</span></p>
+        <div className="flex items-center gap-3 sm:gap-4 relative z-10">
+          <div className="flex-1 sm:flex-none bg-zinc-50/50 shadow-none dark:bg-zinc-900/30 backdrop-blur-2xl px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 transition-all duration-500">
+            <p className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-tight">Daily Volume</p>
+            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100">{metrics.today} <span className="text-[10px] sm:text-xs font-semibold text-zinc-400 tracking-tight">units</span></p>
           </div>
-          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm transition-all duration-500">
-            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Weekly Throughput</p>
-            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.week} <span className="text-[10px] sm:text-xs font-medium text-zinc-400 tracking-tight">completed assets</span></p>
+          <div className="flex-1 sm:flex-none bg-zinc-50/50 shadow-none dark:bg-zinc-900/30 backdrop-blur-2xl px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 transition-all duration-500">
+            <p className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-tight">Weekly Throughput</p>
+            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100">{metrics.week} <span className="text-[10px] sm:text-xs font-semibold text-zinc-400 tracking-tight">units</span></p>
           </div>
         </div>
       </div>
 
-      {/* Activity Feed Container */}
-      <div className="relative overflow-hidden">
-        {/* Desktop View (Grid) */}
+      {/* Horizontal Scroll Timeline */}
+      <div className="relative w-full pb-4">
         {!carsLoading && activities.length > 0 ? (
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 m-4">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            {/* Start Spacer to align with container */}
+            <div className="w-0 sm:w-1 lg:w-4 flex-shrink-0" />
             {activities.map((activity, index) => (
               <ActivityCard key={activity.id} activity={activity} index={index} />
             ))}
+            {/* End Spacer */}
+            <div className="w-4 sm:w-8 flex-shrink-0" />
           </div>
         ) : !carsLoading && (
-          <div className="py-12 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-[2.5rem] border border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center text-center">
-            <Activity className="h-10 w-10 text-zinc-300 dark:text-zinc-700 mb-4" />
-            <p className="text-xs font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">Awaiting Operational Synchronisation</p>
+          <div className="max-w-7xl mx-auto py-12 bg-zinc-50/30 dark:bg-zinc-900/10 rounded-[2rem] border border-dashed border-zinc-200/60 dark:border-zinc-800/50 flex flex-col items-center justify-center text-center">
+            <div className="h-8 w-8 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center mb-3">
+              <span className="w-1.5 h-1.5 bg-zinc-300 dark:bg-zinc-700 rounded-full" />
+            </div>
+            <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">Awaiting Operational Synchronization</p>
           </div>
         )}
-
-        {/* Mobile View (Auto-swipe Carousel) */}
-        <div className="md:hidden relative h-[220px]">
-          <AnimatePresence mode="wait">
-            {!carsLoading && activities.length > 0 && (
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="absolute inset-0"
-              >
-                <ActivityCard activity={activities[activeIndex]} index={activeIndex} isMobile />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Indicators (Mobile only) */}
-        <div className="flex justify-center gap-1.5 mt-4 md:hidden">
-          {activities.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`h-1 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-brand-primary' : 'w-1.5 bg-zinc-200 dark:bg-zinc-800'
-                }`}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
 }
 
-function ActivityCard({ activity, index, isMobile = false }) {
+function ActivityCard({ activity, index }) {
   return (
     <motion.div
-      initial={!isMobile ? { opacity: 0, y: 12 } : {}}
-      animate={!isMobile ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
-      className="h-full group"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="flex-shrink-0 w-[260px] sm:w-[280px] snap-center sm:snap-start group cursor-default"
     >
-      <div className="h-full bg-white dark:bg-zinc-900/40 backdrop-blur-xl p-5 rounded-[2rem] border border-zinc-100 dark:border-zinc-800/50 hover:border-brand-primary/20 hover:bg-white dark:hover:bg-zinc-900/60 transition-all duration-500 shadow-sm hover:shadow-xl">
-        <div className="flex items-center justify-between mb-5 gap-3">
-          <div className={`p-2.5 rounded-2xl border flex-shrink-0 ${activity.colorClass}`}>
+      <div className="h-full bg-white/60 dark:bg-zinc-900/20 backdrop-blur-3xl p-4 rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 hover:border-zinc-300 dark:hover:border-zinc-700/60 transition-all duration-[600ms] shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div className={`p-1.5 rounded-xl border ${activity.colorClass} flex-shrink-0 transition-colors duration-500`}>
             {activity.icon}
           </div>
-          <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 py-1 rounded-lg border border-transparent dark:border-zinc-700/30 whitespace-nowrap transition-colors duration-500">
-            <Clock className="h-3 w-3" />
+          <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-1.5">
+            <Clock className="h-3 w-3 opacity-60" />
             {activity.timestamp}
           </span>
         </div>
 
-        <div className="space-y-2">
-          <h3 className="text-[15px] sm:text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-300 line-clamp-1 leading-snug tracking-tight">
+        <div className="space-y-1.5 mb-6">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-[600ms] line-clamp-1 tracking-tight">
             {activity.vehicle}
           </h3>
-          <div className="flex items-center gap-2 text-[13px] text-zinc-500 dark:text-zinc-400">
-            <div className="h-5 w-5 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 overflow-hidden">
-              <User className="h-2.5 w-2.5 text-zinc-500" />
+          <div className="flex items-center gap-2 text-[11px] text-zinc-500 dark:text-zinc-500">
+            <div className="h-4 w-4 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center border border-zinc-200/50 dark:border-zinc-700/50">
+              <User className="h-2 w-2 text-zinc-400" />
             </div>
-            <span className="font-medium tracking-tight truncate">{activity.customer}</span>
+            <span className="font-semibold tracking-wide truncate">{activity.customer}</span>
           </div>
         </div>
 
-        <div className="mt-6 pt-5 border-t border-zinc-50 dark:border-zinc-800/50 flex items-center justify-between">
-          <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-colors duration-300 ${activity.badgeClass}`}>
+        <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800/40 flex items-center justify-between">
+          <span className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest border transition-colors duration-500 ${activity.badgeClass}`}>
             {activity.status}
           </span>
-          <div className="h-8 w-8 rounded-full flex items-center justify-center text-zinc-400 group-hover:text-brand-primary group-hover:bg-brand-primary/5 transition-all duration-300 border border-transparent group-hover:border-brand-primary/10">
-            <ArrowUpRight className="h-4 w-4" />
-          </div>
+          <ArrowUpRight className="h-3.5 w-3.5 text-zinc-300 dark:text-zinc-700 group-hover:text-zinc-900 dark:group-hover:text-zinc-400 transition-colors duration-500" />
         </div>
       </div>
     </motion.div>

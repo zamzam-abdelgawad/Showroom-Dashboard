@@ -17,7 +17,7 @@ vi.mock('react-router-dom', async () => {
 });
 
 const mockAddRequest = vi.fn();
-const mockCar = { id: 'car-1', name: 'Test Car', brand: 'Test Brand', status: 'Available', sellingPrice: 50000 };
+const mockCar = { id: 'car-1', name: 'Test Car', brand: 'Test Brand', status: 'Available', sellingPrice: 50000, count: 1 };
 
 const renderWithContext = (authExt, requestsExt, carId = 'car-1') => {
   const authVal = { user: null, ...authExt };
@@ -54,14 +54,14 @@ describe('CustomerCarDetails', () => {
 
   it('redirects to login when clicking Buy Now and not logged in', () => {
     renderWithContext({ user: null });
-    const buyBtn = screen.getAllByRole('button', { name: /Buy Now/i })[0];
+    const buyBtn = screen.getAllByRole('button', { name: /Reserve Vehicle/i })[0];
     fireEvent.click(buyBtn);
     expect(mockNavigate).toHaveBeenCalledWith('/login', { state: { from: '/cars/car-1' } });
   });
 
   it('submits a request when clicking Buy Now and logged in', async () => {
     renderWithContext({ user: { uid: 'user-123' } }, { requests: [] });
-    const buyBtn = screen.getAllByRole('button', { name: /Buy Now/i })[0];
+    const buyBtn = screen.getAllByRole('button', { name: /Reserve Vehicle/i })[0];
     fireEvent.click(buyBtn);
 
     await waitFor(() => {
@@ -74,7 +74,7 @@ describe('CustomerCarDetails', () => {
       { user: { uid: 'user-123' } },
       { requests: [{ carId: 'car-1', status: 'pending' }] }
     );
-    const pendingBtn = screen.getByRole('button', { name: /Request Pending/i });
+    const pendingBtn = screen.getAllByRole('button', { name: /Recorded/i })[0];
     expect(pendingBtn).toBeInTheDocument();
     expect(pendingBtn).toBeDisabled();
   });

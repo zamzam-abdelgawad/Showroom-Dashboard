@@ -42,7 +42,7 @@ describe('Register Component', () => {
     const emailInput = screen.getByPlaceholderText("user@gmail.com");
     const passwordInput = screen.getAllByPlaceholderText(/••••••••/i)[0];
     const confirmInput = screen.getAllByPlaceholderText(/••••••••/i)[1];
-    const submitBtn = screen.getByRole('button', { name: /Register/i });
+    const submitBtn = screen.getByRole('button', { name: /Sign Up/i });
 
     fireEvent.change(nameInput, { target: { value: 'Test User' } });
     fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
@@ -65,7 +65,7 @@ describe('Register Component', () => {
     const emailInput = screen.getByPlaceholderText("user@gmail.com");
     const passwordInput = screen.getAllByPlaceholderText(/••••••••/i)[0];
     const confirmInput = screen.getAllByPlaceholderText(/••••••••/i)[1];
-    const submitBtn = screen.getByRole('button', { name: /Register/i });
+    const submitBtn = screen.getByRole('button', { name: /Sign Up/i });
 
     fireEvent.change(nameInput, { target: { value: 'Test User' } });
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });

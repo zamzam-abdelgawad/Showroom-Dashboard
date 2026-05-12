@@ -55,7 +55,7 @@ describe('AdminUsers', () => {
     renderWithContext(true);
     const addBtn = screen.getByRole('button', { name: /Add User/i });
     fireEvent.click(addBtn);
-    expect(screen.getByText('Add New User')).toBeInTheDocument();
+    expect(screen.getByText('Register New Identity')).toBeInTheDocument();
   });
 
   it('adds a new user', async () => {
@@ -67,7 +67,7 @@ describe('AdminUsers', () => {
     fireEvent.change(screen.getByPlaceholderText('Doe'), { target: { value: 'Tester' } });
     fireEvent.change(screen.getByPlaceholderText(/john.doe@example.com/i), { target: { value: 'tester@example.com' } });
 
-    const submitBtn = screen.getByRole('button', { name: /Create User/i });
+    const submitBtn = screen.getByRole('button', { name: /Confirm Entry/i });
     fireEvent.submit(submitBtn.closest('form'));
 
     await waitFor(() => {
@@ -91,7 +91,7 @@ describe('AdminUsers', () => {
 
     fireEvent.change(firstNameInput, { target: { value: 'Johnny' } });
     
-    const saveBtn = screen.getByRole('button', { name: /Save Changes/i });
+    const saveBtn = screen.getByRole('button', { name: /Authorize Changes/i });
     fireEvent.submit(saveBtn.closest('form'));
 
     await waitFor(() => {

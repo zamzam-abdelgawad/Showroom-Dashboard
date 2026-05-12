@@ -57,7 +57,7 @@ export default function Login() {
         <CardContent className="px-10 pb-12">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-2">
-              <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest ml-1">Identity Access</label>
+              <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest ml-1">Email</label>
               <Input
                 type="email"
                 placeholder="user@gmail.com"
@@ -67,7 +67,7 @@ export default function Login() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest ml-1">Clearance Key</label>
+              <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest ml-1">Password</label>
               <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
