@@ -87,7 +87,7 @@ export default function Cars() {
   return (
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest">Vehicle Management</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tighter">Vehicle Management</h1>
         {isAdmin && (<Button onClick={openAddModal} className="rounded-xl shadow-lg shadow-brand-primary/10"><Plus className="h-4 w-4 mr-2" /> Add Vehicle</Button>)}
       </div>
       <Card>
@@ -140,28 +140,28 @@ export default function Cars() {
                 ) : (
                   paginatedCars.map((car) => (
                     <tr key={car.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors">
-                      <td className="px-6 py-4 font-medium text-zinc-950 dark:text-zinc-100">
+                      <td className="px-6 py-5 font-medium text-zinc-950 dark:text-zinc-100">
                         <button
                           onClick={() => navigate(`/admin/cars/${car.id}`)}
-                          className="font-bold text-sm text-zinc-950 dark:text-zinc-100 hover:text-brand-primary transition-colors cursor-pointer text-left tracking-tightest leading-tight"
+                          className="font-bold text-sm text-zinc-950 dark:text-zinc-100 hover:text-brand-primary transition-colors cursor-pointer text-left tracking-tighter leading-tight"
                         >
                           {car.brand} {car.name}
                         </button>
-                      </td>                      
-                      <td className="px-6 py-4 text-zinc-600 dark:text-zinc-400">{car.modelYear}</td>
-                      <td className="px-6 py-4 font-semibold text-brand-primary">${car.sellingPrice?.toLocaleString()}</td>
-                      {isAdmin && <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-normal">${car.officialPrice?.toLocaleString()}</td>}
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${car.status === 'Available' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{car.status}</span>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-md text-xs font-medium ${
+                      <td className="px-6 py-5 text-zinc-600 dark:text-zinc-400 font-medium">{car.modelYear}</td>
+                      <td className="px-6 py-5 font-bold text-brand-primary tracking-tight">${car.sellingPrice?.toLocaleString()}</td>
+                      {isAdmin && <td className="px-6 py-5 text-zinc-500 dark:text-zinc-500 font-medium">${car.officialPrice?.toLocaleString()}</td>}
+                      <td className="px-6 py-5">
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${car.status === 'Available' ? 'bg-emerald-50/50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-900/30' : 'bg-zinc-100/50 text-zinc-600 dark:bg-zinc-800/50 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/30'}`}>{car.status}</span>
+                      </td>
+                      <td className="px-6 py-5">
+                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2.5 py-1 rounded-lg text-[10px] font-bold ${
                           (car.count ?? 0) > 0
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                            : 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'
+                            ? 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'
+                            : 'bg-red-50/50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-100/50 dark:border-red-900/30'
                         }`}>{car.count ?? 0}</span>
                       </td>
-                      <td className="px-6 py-4 text-right flex justify-end gap-2">
+                      <td className="px-6 py-5 text-right flex justify-end gap-1.5">
                         <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/cars/${car.id}`)} className="h-8 w-8 p-0 text-zinc-400 hover:text-brand-primary" title="View Details"><Eye className="h-4 w-4" /></Button>
                         {car.status === 'Available' && (car.count ?? 0) > 0 && isAdmin && (<Button variant="ghost" size="sm" onClick={() => handleMarkAsSold(car)} className="h-8 w-8 p-0 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30" title={`Buy 1 (${(car.count ?? 0)} left)`}><CheckCircle className="h-4 w-4" /></Button>)}
                         {isAdmin && (<>

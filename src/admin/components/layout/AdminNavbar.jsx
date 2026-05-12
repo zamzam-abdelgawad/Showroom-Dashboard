@@ -91,11 +91,11 @@ export function AdminNavbar({ onMenuClick }) {
         >
           <Menu className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
         </Button>
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin')}>
-          <div className="bg-brand-primary p-2 rounded-xl text-white shadow-lg shadow-brand-primary/10">
+        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => navigate('/admin')}>
+          <div className="bg-zinc-950 dark:bg-white p-2 rounded-xl text-white dark:text-zinc-950 transition-colors group-hover:bg-brand-primary">
             <Car className="h-5 w-5" />
           </div>
-          <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 tracking-tightest hidden sm:block">
+          <h2 className="text-xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tighter hidden sm:block">
             Showroom<span className="text-brand-primary">Precision</span>
           </h2>
         </div>
@@ -131,7 +131,7 @@ export function AdminNavbar({ onMenuClick }) {
               <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-20 md:top-auto md:mt-2 w-auto md:w-[380px] bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[calc(100vh-6rem)] md:max-h-none">
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
-                  <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Global Intelligence</h3>
+                  <h3 className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">System Activity</h3>
                   <button
                     onClick={() => setIsNotificationsOpen(false)}
                     className="p-1 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"

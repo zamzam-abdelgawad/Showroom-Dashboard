@@ -15,22 +15,22 @@ import { formatDistanceToNow } from "date-fns";
 
 const EVENT_CONFIG = {
   new_arrival: {
-    icon: <Zap className="h-4 w-4" />,
-    colorClass: "text-amber-500 bg-amber-500/10 border-amber-500/20",
-    badgeClass: "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/50",
-    status: "Fresh Arrival"
+    icon: <Zap className="h-4 w-4 text-cyan-600 dark:text-cyan-500" />,
+    colorClass: "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-700/30",
+    badgeClass: "bg-transparent text-zinc-500 border-zinc-200 dark:border-zinc-800/50",
+    status: "New Inventory Added"
   },
   sold: {
-    icon: <CheckCircle2 className="h-4 w-4" />,
-    colorClass: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
-    badgeClass: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/50",
-    status: "Handover Complete"
+    icon: <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />,
+    colorClass: "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-700/30",
+    badgeClass: "bg-emerald-50/50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-500 border-emerald-200/30 dark:border-emerald-900/30",
+    status: "Purchase Approved"
   },
   request: {
-    icon: <History className="h-4 w-4" />,
-    colorClass: "text-brand-primary bg-brand-primary/10 border-brand-primary/20",
-    badgeClass: "bg-brand-primary/5 text-brand-primary border-brand-primary/10",
-    status: "Review Pending"
+    icon: <History className="h-4 w-4 text-amber-600 dark:text-amber-500" />,
+    colorClass: "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-700/30",
+    badgeClass: "bg-amber-50/50 text-amber-700 dark:bg-amber-950/20 dark:text-amber-500 border-amber-200/30 dark:border-amber-900/30",
+    status: "Vehicle Reserved"
   }
 };
 
@@ -123,20 +123,20 @@ export function ShowroomActivity() {
             </div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-brand-primary">Live Activity Feed</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Business Intelligence</h2>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Operational Intelligence</h2>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-xl font-medium">
-            Real-time insights into showroom operations and premium client engagements.
+            Real-time insights into showroom inventory lifecycle and client procurement activity.
           </p>
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
-          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
-            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Today</p>
-            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.today} <span className="text-[10px] sm:text-xs font-medium text-zinc-400">events</span></p>
+          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm transition-all duration-500">
+            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Daily Volume</p>
+            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.today} <span className="text-[10px] sm:text-xs font-medium text-zinc-400 tracking-tight">units processed</span></p>
           </div>
-          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
-            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Week</p>
-            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.week} <span className="text-[10px] sm:text-xs font-medium text-zinc-400">units</span></p>
+          <div className="flex-1 sm:flex-none bg-white dark:bg-zinc-900/50 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm transition-all duration-500">
+            <p className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-tight">Weekly Throughput</p>
+            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">{metrics.week} <span className="text-[10px] sm:text-xs font-medium text-zinc-400 tracking-tight">completed assets</span></p>
           </div>
         </div>
       </div>

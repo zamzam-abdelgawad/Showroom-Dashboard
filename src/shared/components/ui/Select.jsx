@@ -25,7 +25,7 @@ export function Select({ options, value, onChange, placeholder, className, disab
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
         className={cn(
-          "flex h-12 w-full items-center justify-between rounded-2xl border border-zinc-100 bg-zinc-50/50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-zinc-900 transition-all hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:bg-zinc-800",
+          "flex h-12 w-full items-center justify-between rounded-2xl border border-zinc-100 bg-zinc-50/50 px-4 py-2 text-xs font-semibold tracking-wide text-zinc-900 transition-all hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:bg-zinc-800",
           isOpen && "border-brand-primary/50 ring-2 ring-brand-primary/10"
         )}
       >
@@ -45,7 +45,7 @@ export function Select({ options, value, onChange, placeholder, className, disab
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "flex w-full items-center justify-between px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800",
+                  "flex w-full items-center justify-between px-4 py-3 text-left text-xs font-medium tracking-tight transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800",
                   value === option.value ? "text-brand-primary bg-brand-primary/5" : "text-zinc-600 dark:text-zinc-400"
                 )}
               >

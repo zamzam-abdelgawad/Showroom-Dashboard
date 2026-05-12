@@ -97,43 +97,43 @@ export function CustomerLayout() {
           </main>
 
           {/* Footer */}
-          <footer className="bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900 py-12 sm:py-16 px-4 sm:px-6 lg:px-12 transition-colors w-full overflow-x-hidden">
+          <footer className="bg-white dark:bg-zinc-950 border-t border-zinc-50 dark:border-zinc-900/50 py-16 sm:py-20 px-4 sm:px-6 lg:px-12 transition-colors w-full overflow-x-hidden">
             <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
-                <div className="sm:col-span-2 space-y-4 sm:space-y-6">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="bg-zinc-950 p-2 rounded-xl text-brand-primary shadow-xl border border-white/5">
-                      <Car className="h-4 w-4 sm:h-5 sm:w-5" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-16 sm:mb-20">
+                <div className="sm:col-span-2 space-y-6 sm:space-y-8 pr-0 md:pr-12">
+                  <div className="flex items-center gap-3 sm:gap-4 opacity-90 hover:opacity-100 transition-opacity duration-500">
+                    <div className="bg-zinc-950 dark:bg-white p-2.5 rounded-xl text-white dark:text-zinc-950">
+                      <Car className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
-                    <span className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-zinc-50 uppercase tracking-tightest">Showroom<span className="text-brand-primary">Elite</span></span>
+                    <span className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tighter">Showroom<span className="text-brand-primary">Elite</span></span>
                   </div>
-                  <p className="text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed max-w-sm font-normal">
-                    Premier destination for elite performance assets. Curating automotive excellence through rigorous validation protocols.
+                  <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed max-w-sm font-medium">
+                    The uncompromising standard in luxury automotive operations. Curating excellence through rigorous technical validation.
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4 sm:mb-6">Quick Links</h4>
-                  <div className="space-y-3 sm:space-y-4">
-                    <Link to="/" className="block text-xs font-medium text-zinc-500 hover:text-brand-primary transition-colors">Home</Link>
-                    <Link to="/contact" className="block text-xs font-medium text-zinc-500 hover:text-brand-primary transition-colors">Contact Us</Link>
-                    <Link to="/profile" className="block text-xs font-medium text-zinc-500 hover:text-brand-primary transition-colors">Profile</Link>
+                  <h4 className="text-[10px] font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest mb-6 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">Quick Links</h4>
+                  <div className="space-y-4">
+                    <Link to="/" className="block text-xs font-semibold text-zinc-500 hover:text-brand-primary transition-colors duration-300">Home</Link>
+                    <Link to="/contact" className="block text-xs font-semibold text-zinc-500 hover:text-brand-primary transition-colors duration-300">Contact Us</Link>
+                    <Link to="/profile" className="block text-xs font-semibold text-zinc-500 hover:text-brand-primary transition-colors duration-300">Profile</Link>
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4 sm:mb-6">Contact</h4>
-                  <div className="space-y-3 sm:space-y-4">
-                    <p className="text-xs font-medium text-zinc-500 break-all">info@showcase.com</p>
-                    <p className="text-xs font-medium text-zinc-500">+20 100 100 1001</p>
-                    <p className="text-xs font-medium text-zinc-500">Cairo, Egypt</p>
+                  <h4 className="text-[10px] font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest mb-6 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">Contact</h4>
+                  <div className="space-y-4">
+                    <p className="text-xs font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors duration-300 cursor-pointer break-all">info@showcase.com</p>
+                    <p className="text-xs font-semibold text-zinc-500">+20 100 100 1001</p>
+                    <p className="text-xs font-semibold text-zinc-500">Cairo, Egypt</p>
                   </div>
                 </div>
               </div>
-              <div className="pt-8 sm:pt-10 border-t border-zinc-50 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-                <div className="text-[10px] font-medium text-zinc-400 uppercase tracking-widest text-center sm:text-left">
-                  © 2026 ShowroomElite.
+              <div className="pt-8 sm:pt-10 border-t border-zinc-100/50 dark:border-zinc-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+                <div className="text-[10px] font-medium text-zinc-400 dark:text-zinc-600 uppercase tracking-widest text-center sm:text-left">
+                  © 2026 ShowroomElite. Operational Platform.
                 </div>
-                 <div className="flex items-center gap-4">
-                    <div className="h-1.5 w-1.5 rounded-full bg-brand-primary animate-pulse" />
+                 <div className="flex items-center gap-4 group">
+                    <div className="h-1.5 w-1.5 rounded-full bg-brand-primary opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
                     <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">All rights reserved.</span>
                  </div>
               </div>

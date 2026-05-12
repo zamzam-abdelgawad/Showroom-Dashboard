@@ -18,10 +18,10 @@ const chartData = [
 ];
 
 const statCardStyles = [
-  { border: "border-brand-primary/20", iconBg: "bg-brand-primary/10", iconColor: "text-brand-primary", shadowColor: "shadow-brand-primary/5" },
-  { border: "border-emerald-500/20", iconBg: "bg-emerald-100 dark:bg-emerald-900/30", iconColor: "text-emerald-600 dark:text-emerald-400", shadowColor: "shadow-emerald-500/5" },
-  { border: "border-brand-secondary/20", iconBg: "bg-brand-secondary/10", iconColor: "text-brand-secondary", shadowColor: "shadow-brand-secondary/5" },
-  { border: "border-zinc-500/20", iconBg: "bg-zinc-100 dark:bg-zinc-800", iconColor: "text-zinc-600 dark:text-zinc-400", shadowColor: "shadow-zinc-500/5" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-brand-primary/5", iconColor: "text-brand-primary", shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-emerald-500/5", iconColor: "text-emerald-600 dark:text-emerald-400", shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-amber-500/5", iconColor: "text-amber-600", shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-zinc-100 dark:bg-zinc-800", iconColor: "text-zinc-600 dark:text-zinc-400", shadowColor: "shadow-sm" },
 ];
 
 export default function Dashboard() {
@@ -64,8 +64,8 @@ export default function Dashboard() {
     <div className="space-y-8 animate-in px-2 sm:px-0">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Dashboard</h1>
-          <p className="text-zinc-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Welcome back, here's what's happening with your business today.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tighter leading-tight">Dashboard</h1>
+          <p className="text-zinc-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Performance metrics and operational overview.</p>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
           <Clock className="h-3.5 w-3.5" /> System Sync: Today, 10:45 AM
@@ -84,9 +84,9 @@ export default function Dashboard() {
           >
             <CardContent className="p-6 flex items-center justify-between">
               <div>
-                <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{stat.title}</p>
-                <h4 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50 mt-2 tracking-tightest leading-none">{stat.value}</h4>
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-3 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md w-fit">
+                <p className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-none">{stat.title}</p>
+                <h4 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50 mt-4 tracking-tighter leading-none">{stat.value}</h4>
+                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-4 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/20 px-2 py-0.5 rounded-lg w-fit border border-emerald-100/50 dark:border-emerald-900/30 tracking-wider">
                   <TrendingUp className="h-3 w-3" />
                   {stat.trend}
                 </p>

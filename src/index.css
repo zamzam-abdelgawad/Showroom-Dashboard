@@ -19,10 +19,11 @@
   --font-weight-extrabold: 800;
   --font-weight-black: 900;
 
-  --tracking-tightest: -0.05em;
-  --tracking-tighter: -0.02em;
+  --tracking-tightest: -0.035em;
+  --tracking-tighter: -0.015em;
   --tracking-tight: -0.01em;
   --tracking-normal: 0;
+  --tracking-luxury: -0.05em;
   --tracking-wide: 0.025em;
   --tracking-wider: 0.05em;
   --tracking-widest: 0.1em;

@@ -34,9 +34,9 @@ export function AdminSidebar({ isOpen }) {
             end={link.end}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative",
+                "flex items-center gap-3 px-3 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 group relative",
                 isActive
-                  ? "bg-brand-primary text-white shadow-lg shadow-brand/20"
+                  ? "bg-zinc-100 dark:bg-zinc-900 text-brand-primary dark:text-brand-primary border-l-2 border-brand-primary rounded-l-none"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-brand-primary dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900"
               )
             }
