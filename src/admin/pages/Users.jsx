@@ -101,7 +101,7 @@ export default function Users() {
             <UsersIcon className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">User Management</h1>
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">User Management</h1>
             <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">{uniqueUsers.length} total accounts</p>
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function Users() {
                 ) : (
                   paginatedUsers.map((user) => (
                     <tr key={user.id || user.firestoreId} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-all duration-200 group">
-                      <td className="px-6 py-4 font-bold text-gray-900 dark:text-zinc-100 flex items-center gap-3">
+                      <td className="px-6 py-4 font-bold text-zinc-950 dark:text-zinc-100 flex items-center gap-3">
                         <div className="relative">
                           {user.image ? (
                             <img src={user.image} alt={user.name || user.firstName} className="h-10 w-10 rounded-full bg-zinc-100 dark:bg-zinc-900 object-cover ring-2 ring-white dark:ring-zinc-950 shadow-sm" />
@@ -169,7 +169,7 @@ export default function Users() {
                           <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-zinc-950 ${user.status === 'Active' ? 'bg-emerald-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-bold text-sm tracking-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
+                          <span className="font-bold text-sm tracking-tightest leading-tight">{user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unknown User'}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-zinc-500 dark:text-zinc-500 font-medium">{user.email}</td>

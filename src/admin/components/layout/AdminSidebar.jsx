@@ -19,14 +19,14 @@ export function AdminSidebar({ isOpen }) {
 
   return (
     <aside className={cn(
-      "w-64 bg-zinc-950 text-zinc-300 border-r border-zinc-900 flex-shrink-0 flex flex-col fixed md:sticky top-16 h-[calc(100vh-4rem)] z-30 transition-transform duration-300 ease-in-out md:translate-x-0",
+      "w-64 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-300 border-r border-zinc-200/60 dark:border-zinc-900 flex-shrink-0 flex flex-col fixed md:sticky top-16 h-[calc(100vh-4rem)] z-30 transition-transform duration-300 ease-in-out md:translate-x-0 font-sans",
       !isOpen && "-translate-x-full"
     )}>
       {/* Subtle border line at top */}
-      <div className="h-[1px] bg-zinc-800 flex-shrink-0" />
+      <div className="h-[1px] bg-zinc-100 dark:bg-zinc-800 flex-shrink-0" />
 
       <div className="p-4 flex-1 space-y-1 overflow-y-auto">
-        <p className="px-3 text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 mt-2">Main Navigation</p>
+        <p className="px-3 text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4 mt-2">Main Navigation</p>
         {links.map((link) => (
           <NavLink
             key={link.path}
@@ -37,7 +37,7 @@ export function AdminSidebar({ isOpen }) {
                 "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative",
                 isActive
                   ? "bg-brand-primary text-white shadow-lg shadow-brand/20"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-brand-primary dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900"
               )
             }
           >
@@ -53,10 +53,10 @@ export function AdminSidebar({ isOpen }) {
           </NavLink>
         ))}
       </div>
-      <div className="p-4 border-t border-zinc-900 flex-shrink-0">
-        <div className="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800/50">
-          <p className="text-[10px] font-bold text-zinc-500 mb-1.5 uppercase tracking-widest text-center">System Integrity</p>
-          <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+      <div className="p-4 border-t border-zinc-100 dark:border-zinc-900 flex-shrink-0">
+        <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-xl p-4 border border-zinc-100 dark:border-zinc-800/50">
+          <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 mb-1.5 uppercase tracking-widest text-center">System Integrity</p>
+          <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-400 dark:text-zinc-500 font-bold uppercase tracking-widest">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-30 animate-pulse"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>

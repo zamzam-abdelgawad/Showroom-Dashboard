@@ -119,7 +119,7 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Personal Profile</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Personal Profile</h1>
         <div className="text-xs font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800 tracking-widest uppercase">
           Access Level: <span className="text-brand-primary ml-1">{user.role}</span>
         </div>
@@ -144,7 +144,7 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
               </div>
               <div className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white dark:border-zinc-950 bg-brand-primary z-20 shadow-xl" />
             </div>
-            <h2 className="mt-6 text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-tight">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</h2>
+            <h2 className="mt-6 text-2xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">{user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email}</h2>
             <p className="text-xs font-bold text-zinc-500 dark:text-zinc-500 mt-2 uppercase tracking-widest">{user.role} Account</p>
           </CardContent>
         </Card>
@@ -184,7 +184,7 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
       </div>
       <div>
-        <p className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-none">{requests.length}</p>
+        <p className="text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-none">{requests.length}</p>
         <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Request Log</p>
       </div>
     </CardContent>

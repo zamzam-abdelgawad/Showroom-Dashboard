@@ -87,13 +87,13 @@ export default function Cars() {
   return (
     <div className="space-y-6 animate-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Vehicle Management</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest">Vehicle Management</h1>
         {isAdmin && (<Button onClick={openAddModal} className="rounded-xl shadow-lg shadow-brand-primary/10"><Plus className="h-4 w-4 mr-2" /> Add Vehicle</Button>)}
       </div>
       <Card>
-        <CardHeader className="border-b border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 justify-between pb-4">
+        <CardHeader className="border-b border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row gap-4 justify-between pb-4">
           <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
             <Input placeholder="Search cars by name or brand..." className="pl-10 h-10 w-full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex items-center gap-2">
@@ -140,10 +140,10 @@ export default function Cars() {
                 ) : (
                   paginatedCars.map((car) => (
                     <tr key={car.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-zinc-100">
+                      <td className="px-6 py-4 font-medium text-zinc-950 dark:text-zinc-100">
                         <button
                           onClick={() => navigate(`/admin/cars/${car.id}`)}
-                          className="font-bold text-sm text-gray-900 dark:text-zinc-100 hover:text-brand-primary transition-colors cursor-pointer text-left tracking-tight"
+                          className="font-bold text-sm text-zinc-950 dark:text-zinc-100 hover:text-brand-primary transition-colors cursor-pointer text-left tracking-tightest leading-tight"
                         >
                           {car.brand} {car.name}
                         </button>

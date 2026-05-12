@@ -81,21 +81,21 @@ export function AdminNavbar({ onMenuClick }) {
   };
 
   return (
-    <header className="bg-brand-light/90 dark:bg-brand-dark/90 backdrop-blur-md border-b border-gray-200/60 dark:border-zinc-800/60 h-16 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-40 w-full shadow-sm flex-shrink-0 transition-colors duration-300">
+    <header className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50 h-16 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-40 w-full shadow-sm flex-shrink-0 transition-colors duration-500">
       <div className="flex items-center gap-3">
         <Button 
           variant="ghost" 
           size="sm" 
           onClick={onMenuClick} 
-          className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-xl"
+          className="md:hidden p-2 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-xl"
         >
-          <Menu className="h-5 w-5 text-gray-600 dark:text-zinc-400" />
+          <Menu className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
         </Button>
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin')}>
           <div className="bg-brand-primary p-2 rounded-xl text-white shadow-lg shadow-brand-primary/10">
             <Car className="h-5 w-5" />
           </div>
-          <h2 className="text-xl font-bold text-gray-800 dark:text-zinc-200 tracking-tightest hidden sm:block">
+          <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 tracking-tightest hidden sm:block">
             Showroom<span className="text-brand-primary">Precision</span>
           </h2>
         </div>
@@ -111,7 +111,7 @@ export function AdminNavbar({ onMenuClick }) {
             variant="ghost"
             size="sm"
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            className="relative p-2 rounded-xl text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+            className="relative p-2 rounded-xl text-zinc-500 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
           >
             <Bell className="h-5 w-5" />
             {totalNotifications > 0 && (
@@ -125,18 +125,18 @@ export function AdminNavbar({ onMenuClick }) {
           {isNotificationsOpen && (
             <>
               {/* Mobile Backdrop */}
-              <div className="fixed inset-0 bg-black/20 dark:bg-black/40 z-40 md:hidden" onClick={() => setIsNotificationsOpen(false)} />
+              <div className="fixed inset-0 bg-zinc-950/20 dark:bg-zinc-950/40 z-40 md:hidden" onClick={() => setIsNotificationsOpen(false)} />
               
               {/* Dropdown Panel */}
-              <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-20 md:top-auto md:mt-2 w-auto md:w-[380px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[calc(100vh-6rem)] md:max-h-none">
+              <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-20 md:top-auto md:mt-2 w-auto md:w-[380px] bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[calc(100vh-6rem)] md:max-h-none">
                 {/* Header */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
                   <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Global Intelligence</h3>
                   <button
                     onClick={() => setIsNotificationsOpen(false)}
-                    className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                    className="p-1 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
                   >
-                    <X className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
+                    <X className="h-4 w-4 text-zinc-400 dark:text-zinc-500" />
                   </button>
                 </div>
 
@@ -144,11 +144,11 @@ export function AdminNavbar({ onMenuClick }) {
                 <div className="max-h-[calc(100vh-12rem)] md:max-h-[420px] overflow-y-auto">
                   {allNotifications.length === 0 ? (
                     <div className="py-16 flex flex-col items-center justify-center text-center px-4">
-                      <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-2xl mb-4 border border-gray-100 dark:border-zinc-800">
-                        <Bell className="h-7 w-7 text-gray-300 dark:text-zinc-700" />
+                      <div className="p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl mb-4 border border-zinc-100 dark:border-zinc-800">
+                        <Bell className="h-7 w-7 text-zinc-300 dark:text-zinc-700" />
                       </div>
-                      <p className="text-sm font-medium text-gray-600 dark:text-zinc-400">No notifications</p>
-                      <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
+                      <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">No notifications</p>
+                      <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
                     </div>
                   ) : (
                     <div className="p-2">
@@ -156,7 +156,7 @@ export function AdminNavbar({ onMenuClick }) {
                         <div 
                           key={notif.id}
                           onClick={() => handleNotificationClick(notif.path)}
-                          className="group cursor-pointer p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900/50 active:bg-gray-100 dark:active:bg-zinc-800 transition-all border border-transparent hover:border-gray-100 dark:hover:border-zinc-800 flex items-start gap-3 mb-1"
+                          className="group cursor-pointer p-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 active:bg-zinc-100 dark:active:bg-zinc-800 transition-all border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800 flex items-start gap-3 mb-1"
                         >
                           <div className={`p-2.5 rounded-lg flex-shrink-0 transition-colors border ${
                             notif.type === 'message' 
@@ -167,7 +167,7 @@ export function AdminNavbar({ onMenuClick }) {
                           </div>
                            <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2 mb-1">
-                              <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
+                              <p className="text-xs font-bold text-zinc-950 dark:text-zinc-50 uppercase tracking-widest truncate group-hover:text-brand-primary transition-colors">{notif.title}</p>
                               <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 flex items-center gap-1 flex-shrink-0 whitespace-nowrap uppercase tracking-widest">
                                 <Clock className="h-3 w-3" />
                                 {notif.time?.toDate ? notif.time.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date(notif.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -197,12 +197,12 @@ export function AdminNavbar({ onMenuClick }) {
           )}
         </div>
 
-         <Link to="/admin/profile" className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-900 hover:bg-gray-100 dark:hover:bg-zinc-800 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-200 border border-gray-100 dark:border-zinc-800 hover:shadow-sm uppercase tracking-widest">
+         <Link to="/admin/profile" className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-200 border border-zinc-100 dark:border-zinc-800 hover:shadow-sm uppercase tracking-widest">
           <div className="h-7 w-7 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
             <UserIcon className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
           </div>
           <div className="hidden sm:flex flex-col items-start leading-tight">
-            <span className="text-[11px] font-bold text-gray-900 dark:text-zinc-100">{user?.name}</span>
+            <span className="text-[11px] font-bold text-zinc-950 dark:text-zinc-50">{user?.name}</span>
             <span className="text-[9px] text-brand-primary uppercase tracking-widest flex items-center gap-0.5">
               <ShieldCheck className="h-2 w-2" />
               {user?.role}

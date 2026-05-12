@@ -57,7 +57,7 @@ export default function Messages() {
             <MessageSquare className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Messages</h1>
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Messages</h1>
             <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
               {messages.length} Total · <span className="text-brand-primary">{unreadCount} Unread</span>
             </p>
@@ -143,12 +143,12 @@ export default function Messages() {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-sm font-semibold tracking-tight ${!msg.read ? 'text-gray-900 dark:text-zinc-100' : 'text-zinc-500 dark:text-zinc-500'}`}>{msg.name || "Anonymous"}</span>
+                        <span className={`text-sm font-semibold tracking-tight ${!msg.read ? 'text-zinc-950 dark:text-zinc-100' : 'text-zinc-500 dark:text-zinc-500'}`}>{msg.name || "Anonymous"}</span>
                         {!msg.read && (
                           <span className="bg-brand-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">new</span>
                         )}
                       </div>
-                      <p className={`text-sm ${!msg.read ? 'font-semibold text-gray-800 dark:text-zinc-200' : 'font-normal text-zinc-500 dark:text-zinc-400'} truncate mt-1 tracking-tight`}>{msg.subject || "No Subject"}</p>
+                      <p className={`text-sm ${!msg.read ? 'font-semibold text-zinc-800 dark:text-zinc-200' : 'font-normal text-zinc-500 dark:text-zinc-400'} truncate mt-1 tracking-tight`}>{msg.subject || "No Subject"}</p>
                       <div className="flex items-center gap-3 mt-2">
                         <span className="text-[11px] font-medium text-zinc-400 flex items-center gap-1"><Mail className="h-3.5 w-3.5 opacity-70" /> {msg.email}</span>
                         <span className="text-[11px] font-medium text-zinc-400 flex items-center gap-1 uppercase tracking-wider">
@@ -168,7 +168,7 @@ export default function Messages() {
                   {expandedId === msg.firestoreId && (
                     <div className="px-6 pb-5 pt-0 ml-14 animate-in">
                       <div className="bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
-                        <p className="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed whitespace-pre-wrap font-normal">{msg.message}</p>
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-wrap font-normal">{msg.message}</p>
                         <div className="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-50 dark:border-zinc-900">
                           <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your Inquiry')}`} onClick={(e) => e.stopPropagation()}>
                             <Button

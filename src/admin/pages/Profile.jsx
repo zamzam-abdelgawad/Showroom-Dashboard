@@ -93,7 +93,7 @@ export default function Profile() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Personal Workspace</h1>
+        <h1 className="text-2xl font-black text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Personal Workspace</h1>
         <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Administrative credentials and security profile.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -110,7 +110,7 @@ export default function Profile() {
               </div>
               <div className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-white dark:border-zinc-950 bg-emerald-500"></div>
             </div>
-            <h2 className="mt-4 text-xs font-black text-gray-900 dark:text-zinc-100 uppercase tracking-tight">{displayName}</h2>
+            <h2 className="mt-4 text-xs font-black text-zinc-950 dark:text-zinc-100 uppercase tracking-tight leading-none">{displayName}</h2>
             <p className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mt-1">{user.role}</p>
           </CardContent>
         </Card>
@@ -123,10 +123,10 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="space-y-8 p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><User className="h-3 w-3" /> Full Identity</label><p className="text-sm text-gray-900 dark:text-zinc-100 font-bold">{displayName}</p></div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><Mail className="h-3 w-3" /> Digital Contact</label><p className="text-sm text-gray-900 dark:text-zinc-100 font-bold">{user.email}</p></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><User className="h-3 w-3" /> Full Identity</label><p className="text-sm text-zinc-950 dark:text-zinc-100 font-bold">{displayName}</p></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><Mail className="h-3 w-3" /> Digital Contact</label><p className="text-sm text-zinc-950 dark:text-zinc-100 font-bold">{user.email}</p></div>
               <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><Shield className="h-3 w-3" /> Authority Level</label><p className="text-sm text-brand-primary font-black uppercase tracking-tight">{user.role}</p></div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><Calendar className="h-3 w-3" /> Onboarding Date</label><p className="text-sm text-gray-900 dark:text-zinc-100 font-bold">{displayCreatedAt}</p></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.1em] flex items-center gap-2"><Calendar className="h-3 w-3" /> Onboarding Date</label><p className="text-sm text-zinc-950 dark:text-zinc-100 font-bold">{displayCreatedAt}</p></div>
             </div>
           </CardContent>
         </Card>

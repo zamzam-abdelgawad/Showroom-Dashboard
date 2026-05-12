@@ -64,8 +64,8 @@ export default function Dashboard() {
     <div className="space-y-8 animate-in px-2 sm:px-0">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Dashboard</h1>
-          <p className="text-gray-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Welcome back, here's what's happening with your business today.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Dashboard</h1>
+          <p className="text-zinc-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Welcome back, here's what's happening with your business today.</p>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
           <Clock className="h-3.5 w-3.5" /> System Sync: Today, 10:45 AM
@@ -85,7 +85,7 @@ export default function Dashboard() {
             <CardContent className="p-6 flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{stat.title}</p>
-                <h4 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2 tracking-tight">{stat.value}</h4>
+                <h4 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50 mt-2 tracking-tightest leading-none">{stat.value}</h4>
                 <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-3 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md w-fit">
                   <TrendingUp className="h-3 w-3" />
                   {stat.trend}
@@ -101,8 +101,8 @@ export default function Dashboard() {
 
       {/* Charts + Recent Requests */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border border-gray-100 dark:border-zinc-900 shadow-sm overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 dark:border-zinc-900 pb-4 bg-gray-50/30 dark:bg-zinc-900/20">
+        <Card className="lg:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 bg-zinc-50/30 dark:bg-zinc-900/20">
             <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500"><BarChart3 className="h-4 w-4 text-brand-primary" /> Sales Trajectory</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
@@ -153,7 +153,7 @@ export default function Dashboard() {
                         <User className="h-4 w-4 text-brand-primary" />
                       </div>
                       <div className="flex flex-col overflow-hidden">
-                        <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors truncate tracking-tight">{req.userName}</span>
+                        <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors truncate tracking-tight">{req.userName}</span>
                         <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mt-1 tracking-wider uppercase"><Car className="h-3 w-3" /> {req.carName}</span>
                       </div>
                     </div>

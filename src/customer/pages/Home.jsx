@@ -41,22 +41,22 @@ export default function Home() {
   return (
     <div className="animate-in bg-zinc-50 dark:bg-zinc-950 min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-zinc-950 py-24 sm:py-32">
+      <div className="relative overflow-hidden bg-white dark:bg-zinc-950 py-24 sm:py-32 border-b border-zinc-100 dark:border-transparent transition-colors duration-500">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-[10%] -left-[5%] w-[40%] h-[40%] bg-brand-primary/10 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute -bottom-[10%] -right-[5%] w-[50%] h-[50%] bg-brand-primary/5 rounded-full blur-[120px]" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
+          <div className="absolute -top-[5%] -right-[5%] w-[30%] h-[30%] bg-zinc-200 dark:bg-brand-primary/5 rounded-full blur-[100px] opacity-20 dark:opacity-100" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02] dark:opacity-[0.03]" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-white/10 shadow-2xl">
+          <div className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-md px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-2xl">
             <Sparkles className="h-4 w-4" />
             Quality Cars · Best Selection
           </div>
-          <h1 className="text-5xl sm:text-7xl font-bold text-white tracking-tight leading-tight">
+          <h1 className="text-5xl sm:text-7xl font-bold text-zinc-950 dark:text-white tracking-tightest leading-tight">
             Find your <br />
             <span className="text-brand-primary">Dream Car</span>
           </h1>
-          <p className="text-zinc-400 text-base sm:text-lg mt-8 max-w-2xl mx-auto leading-relaxed font-medium">
+          <p className="text-zinc-500 dark:text-zinc-400 text-base sm:text-lg mt-8 max-w-2xl mx-auto leading-relaxed font-medium">
             Browse our collection of hand-picked vehicles. Every car is thoroughly inspected to ensure it's in perfect condition.
           </p>
         </div>
@@ -137,7 +137,7 @@ export default function Home() {
             <div className="bg-zinc-100 dark:bg-zinc-900 p-6 rounded-3xl inline-block mb-6 shadow-inner">
               <Car className="h-16 w-16 text-zinc-300 dark:text-zinc-700" />
             </div>
-            <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Zero matches found</h3>
+            <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-100 uppercase tracking-tightest">Zero matches found</h3>
             <p className="text-sm font-normal text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">
               Adjust your search parameters <br /> to refine inventory results.
             </p>
@@ -166,7 +166,7 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <span className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md text-zinc-900 dark:text-zinc-100 font-semibold text-xs px-4 py-2 rounded-xl shadow-2xl tracking-wide border border-zinc-100 dark:border-zinc-800">
+                    <span className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md text-zinc-950 dark:text-zinc-100 font-semibold text-xs px-4 py-2 rounded-xl shadow-2xl tracking-wide border border-zinc-100 dark:border-zinc-800">
                       View details
                     </span>
                   </div>
@@ -176,7 +176,7 @@ export default function Home() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-1">
                       <p className="text-xs font-bold text-brand-primary uppercase tracking-widest">{car.brand}</p>
-                      <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-500 tracking-tight">{car.name}</h3>
+                      <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-100 group-hover:text-brand-primary transition-colors duration-500 tracking-tightest">{car.name}</h3>
                     </div>
                     <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900/50 px-2.5 py-1.5 rounded-lg border border-zinc-100 dark:border-zinc-800 tracking-wider">
                       <Calendar className="h-3.5 w-3.5" />
@@ -186,7 +186,7 @@ export default function Home() {
                   <div className="flex items-center justify-between pt-5 border-t border-zinc-50 dark:border-zinc-900">
                     <div className="space-y-0.5">
                       <p className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Pricing</p>
-                      <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tightest">${car.sellingPrice?.toLocaleString()}</p>
+                      <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-none">${car.sellingPrice?.toLocaleString()}</p>
                     </div>
                     <div className="flex flex-col items-end gap-2.5">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${

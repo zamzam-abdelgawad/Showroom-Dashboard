@@ -122,7 +122,7 @@ export function ShowroomActivity() {
       {/* Activity Feed Container */}
       <div className="relative overflow-hidden">
         {/* Desktop View (Grid) */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 m-4">
           {ACTIVITIES.map((activity, index) => (
             <ActivityCard key={activity.id} activity={activity} index={index} />
           ))}

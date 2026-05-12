@@ -40,7 +40,7 @@ export default function CarDetails() {
         <div className="p-8 bg-zinc-50 dark:bg-zinc-900 rounded-full shadow-inner">
           <Car className="h-20 w-20 text-zinc-200 dark:text-zinc-800" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Asset Not Found</h2>
+        <h2 className="text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest uppercase leading-none">Asset Not Found</h2>
         <p className="text-sm font-normal text-zinc-500 dark:text-zinc-400 text-center max-w-xs leading-relaxed">We were unable to locate the requested <br /> vehicle in our current active register.</p>
         <AnimatedButton onClick={() => navigate('/')} className="rounded-xl px-10 py-6 text-sm font-semibold tracking-wider">Return to Collection</AnimatedButton>
       </div>
@@ -110,21 +110,21 @@ export default function CarDetails() {
                 {specs.map((spec, i) => (
                   <div key={i} className="space-y-2.5">
                     <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-2">{spec.icon} {spec.label}</p>
-                    <p className="font-bold text-base text-gray-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
+                    <p className="font-bold text-base text-zinc-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
                   </div>
                 ))}
               </div>
             </SmoothAccordion>
 
-            <Card className="border border-zinc-950 bg-zinc-950 text-white overflow-hidden relative rounded-2xl shadow-xl">
-              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32" /></div>
-              <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-sm font-semibold text-brand-primary">Premier certification</CardTitle></CardHeader>
+            <Card className="border border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-950 overflow-hidden relative rounded-3xl shadow-xl shadow-zinc-200/20 dark:shadow-none transition-colors duration-500">
+              <div className="absolute top-0 right-0 p-4 opacity-[0.03] dark:opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32 text-zinc-950 dark:text-white" /></div>
+              <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-xs font-bold uppercase tracking-widest text-brand-primary">Premier certification</CardTitle></CardHeader>
               <CardContent className="space-y-6 px-6 pb-10">
-                <p className="text-sm text-zinc-400 leading-relaxed font-medium">Validated through our 150-point technical protocol for absolute performance assurance.</p>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">Validated through our 150-point technical protocol for absolute performance assurance.</p>
                 <div className="space-y-4 pt-2">
-                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Extended protocol warranty</div>
-                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite extraction support</div>
-                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-100"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified origin dossier</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Extended protocol warranty</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite extraction support</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified origin dossier</div>
                 </div>
               </CardContent>
             </Card>
@@ -135,7 +135,7 @@ export default function CarDetails() {
           <Card className="border border-zinc-100 dark:border-zinc-900 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.1)] bg-white dark:bg-zinc-950 sticky top-24 rounded-3xl">
             <CardContent className="pt-10 space-y-10 px-8 pb-12">
               <div className="space-y-3">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-zinc-100 tracking-tightest leading-tight">{car.name}</h1>
+                <h1 className="text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">{car.name}</h1>
                 <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{car.brand} • {car.modelYear} Specification Line</p>
               </div>
               <div className="pt-10 border-t border-zinc-100 dark:border-zinc-800">

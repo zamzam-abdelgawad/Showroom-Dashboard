@@ -71,7 +71,7 @@ export default function Requests() {
             <Car className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Purchase Requests</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Purchase Requests</h1>
             <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-1">
               {requests.length} total orders · <span className="text-brand-primary">{pendingCount} pending review</span>
             </p>
@@ -148,7 +148,7 @@ export default function Requests() {
                       <tr key={req.id || req.firestoreId} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-colors group">
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
-                            <span className="font-bold text-sm text-gray-900 dark:text-zinc-100 mb-0.5 group-hover:text-brand-primary transition-colors tracking-tight">
+                            <span className="font-bold text-sm text-zinc-950 dark:text-zinc-100 mb-0.5 group-hover:text-brand-primary transition-colors tracking-tight">
                               {req.userName}
                               {req.status === 'pending' && <span className="ml-2 bg-brand-primary/10 text-brand-primary text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider">NEW</span>}
                             </span>

@@ -49,9 +49,9 @@ export default function CarDetails() {
   if (!car) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-        <Car className="h-16 w-16 text-gray-200 dark:text-gray-700" />
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Vehicle Not Found</h2>
-        <p className="text-gray-500 dark:text-gray-400 text-center max-w-xs">We couldn't find the car you were looking for.</p>
+        <Car className="h-16 w-16 text-zinc-200 dark:text-zinc-800" />
+        <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-tightest">Vehicle Not Found</h2>
+        <p className="text-zinc-500 dark:text-zinc-400 text-center max-w-xs font-medium">We couldn't find the car you were looking for.</p>
         <Button onClick={() => navigate('/admin/cars')}>Back to Inventory</Button>
       </div>
     );
@@ -92,21 +92,21 @@ export default function CarDetails() {
                 {specs.map((spec, i) => (
                   <div key={i} className="space-y-2">
                     <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-2">{spec.icon} {spec.label}</p>
-                    <p className="font-bold text-sm text-gray-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
+                    <p className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate tracking-tight">{spec.value}</p>
                   </div>
                 ))}
               </CardContent>
             </Card>
 
-            <Card className="border border-zinc-900 bg-zinc-950 text-white overflow-hidden relative rounded-2xl">
-              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32" /></div>
+            <Card className="border border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-950 overflow-hidden relative rounded-2xl transition-colors duration-500">
+              <div className="absolute top-0 right-0 p-4 opacity-[0.03] dark:opacity-5 pointer-events-none rotate-12"><ShieldCheck className="h-32 w-32 text-zinc-950 dark:text-white" /></div>
               <CardHeader className="pb-2 pt-6 px-6"><CardTitle className="text-xs font-bold uppercase tracking-widest text-brand-primary">Premier Certification</CardTitle></CardHeader>
               <CardContent className="space-y-5 px-6 pb-8">
-                <p className="text-sm text-zinc-400 leading-relaxed font-normal">Exhaustive mechanical validation and provenance verification for every showcase asset.</p>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">Exhaustive mechanical validation and provenance verification for every showcase asset.</p>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-xs font-semibold text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Comprehensive Warranty</div>
-                  <div className="flex items-center gap-3 text-xs font-semibold text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite Roadside Service</div>
-                  <div className="flex items-center gap-3 text-xs font-semibold text-white/90"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified History Dossier</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Comprehensive Warranty</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Elite Roadside Service</div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-zinc-950 dark:text-zinc-100 uppercase tracking-widest"><CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" /> Verified History Dossier</div>
                 </div>
               </CardContent>
             </Card>
@@ -117,7 +117,7 @@ export default function CarDetails() {
           <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 sticky top-6 rounded-2xl">
             <CardContent className="pt-8 space-y-8 px-8 pb-10">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tightest leading-none">{car.name}</h1>
+                <h1 className="text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-none">{car.name}</h1>
                 <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{car.brand} • {car.modelYear} Specification</p>
               </div>
               <div className="pt-8 border-t border-zinc-50 dark:border-zinc-900">
