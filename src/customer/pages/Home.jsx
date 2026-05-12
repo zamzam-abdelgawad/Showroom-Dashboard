@@ -41,27 +41,41 @@ export default function Home() {
   return (
     <div className="animate-in bg-zinc-50 dark:bg-zinc-950 min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-white dark:bg-zinc-950 py-24 sm:py-32 transition-colors duration-500">
+      <div className="relative overflow-hidden bg-zinc-50 dark:bg-zinc-950 py-24 sm:py-32 transition-colors duration-500">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(167,139,250,0.05),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(167,139,250,0.03),transparent_70%)] opacity-80 mix-blend-screen" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')] opacity-[0.015] mix-blend-overlay dark:opacity-[0.02]" />
+          {/* Ambient Visual Anchor */}
+          <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.35] dark:opacity-40">
+            <div className="w-full h-full lg:w-[120%] absolute top-[-5%] sm:top-[-15%]">
+              <img 
+                src="/hero-car-silhouette.png" 
+                alt="Automotive background contour" 
+                className="w-full h-full object-cover object-center grayscale-[0.5] dark:grayscale mix-blend-multiply dark:mix-blend-screen"
+                style={{ 
+                  maskImage: 'radial-gradient(ellipse at top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%)', 
+                  WebkitMaskImage: 'radial-gradient(ellipse at top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%)' 
+                }}
+              />
+            </div>
+          </div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(167,139,250,0.08),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(167,139,250,0.03),transparent_70%)] opacity-100 mix-blend-screen relative z-10" />
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')] opacity-[0.03] mix-blend-overlay dark:opacity-[0.02] relative z-10" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="absolute top-[20%] right-[10%] lg:right-[15%] w-64 h-32 bg-white/5 dark:bg-white-[0.02] backdrop-blur-3xl rounded-3xl border border-black/5 dark:border-white/5 rotate-[3deg] opacity-0 animate-[fadeIn_2s_ease-in-out_forwards,float_10s_ease-in-out_infinite] pointer-events-none -z-10 flex flex-col justify-between p-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center pt-8">
+          <div className="absolute top-[20%] right-[5%] lg:right-[15%] w-64 h-32 bg-white/40 dark:bg-white-[0.02] backdrop-blur-3xl rounded-3xl border border-black/5 dark:border-white/5 shadow-[0_30px_60px_rgba(0,0,0,0.05)] dark:shadow-none rotate-[3deg] opacity-0 animate-[fadeIn_2s_ease-in-out_forwards,float_10s_ease-in-out_infinite] pointer-events-none -z-10 flex flex-col justify-between p-6">
             <div className="flex items-center gap-3">
               <div className="relative flex h-1.5 w-1.5">
                 <span className="animate-[pulse_4s_cubic-bezier(0.4,0,0.6,1)_infinite] absolute inline-flex h-full w-full rounded-full bg-emerald-500/50"></span>
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600/60"></span>
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500/80">Network Sync</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-500/80">Network Sync</span>
             </div>
             <div className="space-y-1">
-              <div className="h-1.5 w-12 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-full" />
-              <div className="h-1.5 w-8 bg-zinc-200/30 dark:bg-zinc-800/30 rounded-full" />
+              <div className="h-1.5 w-12 bg-zinc-300/50 dark:bg-zinc-800/50 rounded-full" />
+              <div className="h-1.5 w-8 bg-zinc-300/40 dark:bg-zinc-800/30 rounded-full" />
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 bg-zinc-100/50 dark:bg-white/[0.02] backdrop-blur-3xl px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-zinc-200/50 dark:border-white/5 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-zinc-100/60 dark:bg-white/[0.02] backdrop-blur-3xl px-5 py-2 rounded-xl text-xs font-semibold tracking-wide text-brand-primary mb-8 border border-zinc-200/50 dark:border-white/5 shadow-sm">
             <Sparkles className="h-4 w-4" />
             Quality Cars · Best Selection
           </div>
@@ -74,7 +88,7 @@ export default function Home() {
           </p>
 
           {/* Trust Metrics Banner */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto pt-16">
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto pt-8">
             {[
               { label: "Vehicles Delivered", value: "1,200+" },
               { label: "Client Satisfaction", value: "98%" },
@@ -91,7 +105,7 @@ export default function Home() {
       </div>
 
       {/* Brand Showcase */}
-      <div className="bg-white dark:bg-zinc-950 py-6 overflow-hidden relative z-10">
+      <div className="py-8 overflow-hidden relative z-10 border-b border-zinc-200/50 dark:border-zinc-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             {['BMW', 'Mercedes-Benz', 'Audi', 'Porsche', 'Lexus', 'Range Rover'].map((brand) => (
@@ -103,7 +117,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-16">
         {/* Search & Filter */}
         <div className="flex flex-row gap-3 items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/20 backdrop-blur-2xl rounded-2xl border border-zinc-200/50 dark:border-zinc-800/30 p-2 md:p-3 relative z-10 mx-auto max-w-4xl transition-all duration-700 focus-within:scale-[1.005] hover:border-zinc-300 dark:hover:border-zinc-700/50">
           <div className="relative flex-1 min-w-0">
@@ -173,7 +187,7 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+          <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredCars.map((car) => (
               <StaggeredCard
                 key={car.id}
@@ -247,22 +261,26 @@ export default function Home() {
         )}
 
         {/* Why Choose Us - Operational Value */}
-        <div className="pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-zinc-50/30 to-zinc-50/50 dark:via-zinc-900/10 dark:to-zinc-900/20 pointer-events-none -mx-4 sm:-mx-8 px-4 sm:px-8 rounded-3xl" />
-          {[
-            { title: "Verified Inventory", desc: "Every vehicle undergoes a rigorous 150-point technical inspection.", icon: <ShieldCheck className="h-4 w-4" /> },
-            { title: "Transparent Pricing", desc: "No hidden fees. Precise market-driven valuation for every asset.", icon: <LineChart className="h-4 w-4" /> },
-            { title: "Real-Time Availability", desc: "Our live synchronization ensures inventory data is always accurate.", icon: <RefreshCw className="h-4 w-4" /> },
-            { title: "Dedicated Support", desc: "Professional advisors available for seamless procurement.", icon: <Headset className="h-4 w-4" /> },
-          ].map((item, i) => (
-            <div key={i} className="space-y-4 group relative z-10">
-              <div className="h-8 w-8 rounded-lg bg-zinc-50 dark:bg-zinc-800/40 border border-transparent flex items-center justify-center text-zinc-400 dark:text-zinc-500 group-hover:text-brand-primary transition-colors duration-[800ms]">
-                {item.icon}
+        <div className="mt-8 bg-zinc-100/50 dark:bg-zinc-900/30 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 p-8 sm:p-12 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {[
+              { title: "Verified Inventory", desc: "Every vehicle undergoes a rigorous 150-point technical inspection.", icon: <ShieldCheck className="h-4 w-4" /> },
+              { title: "Transparent Pricing", desc: "No hidden fees. Precise market-driven valuation for every asset.", icon: <LineChart className="h-4 w-4" /> },
+              { title: "Real-Time Availability", desc: "Our live synchronization ensures inventory data is always accurate.", icon: <RefreshCw className="h-4 w-4" /> },
+              { title: "Dedicated Support", desc: "Professional advisors available for seamless procurement.", icon: <Headset className="h-4 w-4" /> },
+            ].map((item, i) => (
+              <div key={i} className="space-y-3 group border-l border-zinc-200/50 dark:border-zinc-800/50 pl-6 relative">
+                <div className="absolute -left-[1px] top-0 h-0 w-[2px] bg-brand-primary group-hover:h-full transition-all duration-[800ms]" />
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/50 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-500 group-hover:text-brand-primary transition-colors duration-[800ms] shadow-sm">
+                    {item.icon}
+                  </div>
+                  <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest leading-snug">{item.title}</h4>
+                </div>
+                <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{item.desc}</p>
               </div>
-              <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest leading-snug">{item.title}</h4>
-              <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{item.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
       </div>

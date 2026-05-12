@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Zap,
@@ -7,7 +7,8 @@ import {
   History,
   ArrowUpRight,
   User,
-  Car as CarIcon
+  Car as CarIcon,
+  Activity
   } from "lucide-react";
 import { useCustomerCars } from "../../context/CustomerCarsContext";
 import { useCustomerRequests } from "../../context/CustomerRequestsContext";
@@ -39,6 +40,7 @@ export function ShowroomActivity() {
   const { requests, loading: requestsLoading } = useCustomerRequests();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const scrollContainerRef = useRef(null);
 
   const activities = useMemo(() => {
     if (carsLoading || requestsLoading) return [];
@@ -84,13 +86,27 @@ export function ShowroomActivity() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Auto Swipe Loop Logic
   useEffect(() => {
-    if (!isMobile || activities.length === 0) return;
+    if (activities.length === 0) return;
+
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % activities.length);
-    }, 4000);
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        // Check if we are at the end (with a tiny buffer threshold of 10px)
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          // Loop back
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Swipe to next card (~280px + 16px gap)
+          const cardWidth = window.innerWidth < 640 ? 276 : 296; 
+          scrollContainerRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+      }
+    }, 3500); // Wait 3.5s per auto swipe
+
     return () => clearInterval(interval);
-  }, [isMobile, activities.length]);
+  }, [activities]);
 
   const metrics = useMemo(() => {
     if (carsLoading || requestsLoading) return { today: 0, week: 0 };
@@ -144,7 +160,10 @@ export function ShowroomActivity() {
       {/* Horizontal Scroll Timeline */}
       <div className="relative w-full pb-4">
         {!carsLoading && activities.length > 0 ? (
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+          <div 
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] pb-5 pt-5 scroll-smooth"
+          >
             {/* Start Spacer to align with container */}
             <div className="w-0 sm:w-1 lg:w-4 flex-shrink-0" />
             {activities.map((activity, index) => (
