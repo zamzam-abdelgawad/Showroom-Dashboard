@@ -67,9 +67,9 @@ export default function Dashboard() {
           <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tighter leading-tight">Dashboard</h1>
           <p className="text-zinc-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Performance metrics and operational overview.</p>
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
+        {/* <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
           <Clock className="h-3.5 w-3.5" /> System Sync: Today, 10:45 AM
-        </div>
+        </div> */}
       </div>
 
       {/* Stat Cards */}

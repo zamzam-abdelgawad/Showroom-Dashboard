@@ -102,11 +102,11 @@ export default function Login() {
               <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest border-b border-zinc-100 dark:border-zinc-800 pb-2">Technical Dossier Access</p>
               <div className="flex justify-between items-center bg-white dark:bg-zinc-950 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
                 <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest">Administrator</span>
-                <span className="font-mono text-[10px] text-zinc-500 font-bold tracking-tight">admin@admin.com</span>
+                <span className="font-mono text-[10px] text-zinc-500 font-bold tracking-tight">admin@admin.com / admin123</span>
               </div>
               <div className="flex justify-between items-center bg-white dark:bg-zinc-950 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
                 <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest">Asset Client</span>
-                <span className="font-mono text-[10px] text-zinc-500 font-bold tracking-tight">user@user.com</span>
+                <span className="font-mono text-[10px] text-zinc-500 font-bold tracking-tight">user@user.com / user123</span>
               </div>
             </div>
           </form>

@@ -18,6 +18,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
   const filterRef = useRef(null);
 
   useEffect(() => {
@@ -37,6 +38,12 @@ export default function Home() {
       return matchSearch && matchStatus;
     });
   }, [cars, searchTerm, statusFilter]);
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [searchTerm, statusFilter]);
+
+  const visibleCars = filteredCars.slice(0, visibleCount);
 
   return (
     <div className="animate-in bg-zinc-50 dark:bg-zinc-950 min-h-screen">
@@ -108,16 +115,27 @@ export default function Home() {
       <div className="py-8 overflow-hidden relative z-10 border-b border-zinc-200/50 dark:border-zinc-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            {/* ── EDIT 1: Brand hover — underline-reveal + sharp color pop ── */}
             {['BMW', 'Mercedes-Benz', 'Audi', 'Porsche', 'Lexus', 'Range Rover'].map((brand) => (
-              <span key={brand} className="text-lg md:text-xl font-black tracking-widest text-zinc-500 opacity-60 dark:text-zinc-600 dark:opacity-50 cursor-default select-none grayscale transition-all duration-[800ms] ease-out hover:opacity-100 dark:hover:opacity-100 hover:-translate-y-[1px] hover:text-zinc-950 dark:hover:text-zinc-300">
+              <span
+                key={brand}
+                className="relative text-lg md:text-xl font-black tracking-widest text-zinc-400 dark:text-zinc-600 cursor-default select-none transition-colors duration-300 ease-out hover:text-zinc-950 dark:hover:text-zinc-100 group/brand"
+              >
                 {brand.toUpperCase()}
+                {/* animated underline accent */}
+                <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-brand-primary rounded-full transition-all duration-500 ease-out group-hover/brand:w-full" />
               </span>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-10">
+        {/* Live Showroom Activity - Hidden when searching/filtering to focus on results */}
+        {/* {!searchTerm && statusFilter === 'all' && } */}
+        <ShowroomActivity />
+
+        
         {/* Search & Filter */}
         <div className="flex flex-row gap-3 items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/20 backdrop-blur-2xl rounded-2xl border border-zinc-200/50 dark:border-zinc-800/30 p-2 md:p-3 relative z-10 mx-auto max-w-4xl transition-all duration-700 focus-within:scale-[1.005] hover:border-zinc-300 dark:hover:border-zinc-700/50">
           <div className="relative flex-1 min-w-0">
@@ -166,9 +184,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Live Showroom Activity - Hidden when searching/filtering to focus on results */}
-        {!searchTerm && statusFilter === 'all' && <ShowroomActivity />}
-
         {/* Car Grid */}
         {carsLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -188,38 +203,35 @@ export default function Home() {
           </div>
         ) : (
           <StaggeredGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCars.map((car) => (
+            {visibleCars.map((car) => (
               <StaggeredCard
                 key={car.id}
                 className="p-0 border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl transition-all duration-700 cursor-pointer group overflow-hidden rounded-2xl dark:bg-zinc-950 bg-white"
                 onClick={() => navigate(`/cars/${car.id}`)}
               >
-                <div className="relative aspect-[16/11] bg-zinc-100 dark:bg-zinc-900 overflow-hidden rounded-t-2xl">
-                  <img
-                    src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=600"}
-                    alt={car.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0 rounded-t-2xl"
-                  />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <div className="relative">
-                      {(car.status === 'Available' && (car.count ?? 0) > 0) && (
-                         <span className="absolute -top-1 -right-1 flex h-2 w-2 z-20">
-                            <span className="animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
-                         </span>
-                      )}
-                      <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-xl backdrop-blur-md border transition-all duration-700 ${
-                        (car.status === 'Available' && (car.count ?? 0) > 0)
-                          ? 'bg-zinc-900/80 text-white border-white/10 dark:bg-white/90 dark:text-zinc-950 dark:border-black/5'
-                          : 'bg-zinc-100/90 text-zinc-400 border-black/5 dark:bg-zinc-900/80 dark:text-zinc-500 dark:border-white/5'
-                        }`}>
-                        {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Out of Stock'}
-                      </span>
+                <div className="p-3 pb-0">
+                  <div className="relative aspect-[16/11] bg-zinc-100/50 dark:bg-zinc-900/50 overflow-hidden rounded-xl ring-1 ring-zinc-200/50 dark:ring-zinc-800/50">
+                    <img
+                      src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=600"}
+                      alt={car.name}
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03] grayscale-[0.3] group-hover:grayscale-0 rounded-xl"
+                    />
+                    <div className="absolute top-4 left-4 flex gap-2">
+                      <div className="relative">
+                        {/* ── EDIT 3: Available badge — emerald tint for in-stock, zinc for out ── */}
+                        <span className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-xl backdrop-blur-md transition-all duration-700 ${
+                          (car.status === 'Available' && (car.count ?? 0) > 0)
+                            ? 'bg-emerald-50/95 text-emerald-700 border border-emerald-200/60 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/20'
+                            : 'bg-zinc-100/90 text-zinc-400 border border-black/5 dark:bg-zinc-900/80 dark:text-zinc-500 dark:border-white/5'
+                          }`}>
+                          {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Out of Stock'}
+                        </span>
+                      </div>
                     </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000" />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000" />
                 </div>
-                <CardContent className="p-6">
+                <CardContent className="p-3 pt-4 sm:pt-5">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-0.5">
                       <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{car.brand}</p>
@@ -237,7 +249,7 @@ export default function Home() {
                         <span className={`text-[9px] font-bold uppercase tracking-widest transition-colors duration-500 ${
                           (car.count ?? 0) > 0 ? 'text-zinc-500' : 'text-zinc-400/50 dark:text-zinc-600/50'
                         }`}>
-                          {(car.count ?? 0) > 0 ? `${car.count} Available` : 'Depleted'}
+                          {(car.count ?? 0) > 0 ? `${car.count} Available` : 'Out of Stock'}
                         </span>
                       </div>
                       <p className="text-xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tight leading-none">${car.sellingPrice?.toLocaleString()}</p>
@@ -258,6 +270,20 @@ export default function Home() {
               </StaggeredCard>
             ))}
           </StaggeredGrid>
+        )}
+
+        {/* ── EDIT 2: "See 6 more" button — outlined pill with brand-primary fill on hover ── */}
+        {!carsLoading && visibleCars.length > 0 && visibleCount < filteredCars.length && (
+          <div className="pt-8 flex justify-center">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 6)}
+              className="group relative px-10 py-3 rounded-full border border-zinc-300 dark:border-zinc-700 bg-transparent hover:bg-brand-primary hover:border-brand-primary text-[10px] font-bold text-zinc-500 dark:text-zinc-400 hover:text-white uppercase tracking-widest transition-all duration-300 ease-out overflow-hidden shadow-sm hover:shadow-brand-primary/20 hover:shadow-lg"
+            >
+              {/* ripple fill */}
+              <span className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-out bg-brand-primary rounded-full -z-10" />
+              See 6 more
+            </button>
+          </div>
         )}
 
         {/* Why Choose Us - Operational Value */}

@@ -1,20 +1,22 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useCars } from "../context/CarsContext";
 import { useAuth } from "../../shared/context/AuthContext";
-import { useRequests } from "../context/RequestsContext";
 import { useToast } from "../../shared/context/ToastContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Button } from "../../shared/components/ui/Button";
-import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, Package, RefreshCw, DollarSign, Layers } from "lucide-react";
+import { ChevronLeft, Car, Fuel, Calendar, Gauge, Palette, ShieldCheck, CheckCircle2, Package, RefreshCw, DollarSign, Layers, Edit2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Modal } from "../../shared/components/ui/Modal";
 import { Input } from "../../shared/components/ui/Input";
+import { CarFormModal } from "../components/cars/CarFormModal";
+import { DeleteConfirmModal } from "../../shared/components/ui/DeleteConfirmModal";
 
 export default function CarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cars, updateCar } = useCars();
+  const { cars, updateCar, deleteCar } = useCars();
   const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const { addToast } = useToast();
 
   const car = cars.find(c => String(c.id) === id);
@@ -23,11 +25,12 @@ export default function CarDetails() {
   const [restockQty, setRestockQty] = useState("");
   const [restockPrice, setRestockPrice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const handleRestock = async (e) => {
     e.preventDefault();
     if (!restockQty || !restockPrice) return;
-
     setIsSubmitting(true);
     try {
       await updateCar(car.id, {
@@ -44,6 +47,23 @@ export default function CarDetails() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleEditSubmit = async (data) => {
+    setIsSubmitting(true);
+    await updateCar(car.id, data);
+    setIsSubmitting(false);
+    setIsFormOpen(false);
+    addToast("Vehicle updated successfully", "success");
+  };
+
+  const handleDeleteConfirm = async () => {
+    setIsSubmitting(true);
+    await deleteCar(car.id);
+    setIsSubmitting(false);
+    setIsDeleteOpen(false);
+    addToast("Vehicle deleted successfully", "success");
+    navigate("/admin/cars");
   };
 
   if (!car) {
@@ -66,9 +86,33 @@ export default function CarDetails() {
 
   return (
     <div className="space-y-6 animate-in">
-      <button onClick={() => navigate('/admin/cars')} className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-400 hover:text-brand-primary dark:hover:text-brand-primary transition-all group uppercase tracking-widest">
-        <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Inventory
-      </button>
+      {/* Top bar: Back + Admin actions */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => navigate('/admin/cars')}
+          className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-400 hover:text-brand-primary dark:hover:text-brand-primary transition-all group uppercase tracking-widest"
+        >
+          <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Inventory
+        </button>
+
+        {isAdmin && (
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => setIsFormOpen(true)}
+              className="rounded-xl shadow-lg shadow-indigo-200 text-xs"
+            >
+              <Edit2 className="h-4 w-4 mr-2" /> Edit Vehicle
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setIsDeleteOpen(true)}
+              className="rounded-xl text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 border border-red-100 dark:border-red-900/40"
+            >
+              <Trash2 className="h-4 w-4 mr-2" /> Delete
+            </Button>
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
@@ -165,62 +209,43 @@ export default function CarDetails() {
                 </p>
               </div>
 
-                <Modal
-                  isOpen={isRestockOpen}
-                  onClose={() => setIsRestockOpen(false)}
-                  title="Asset Replenishment"
-                >
-                  <form onSubmit={handleRestock} className="space-y-6">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Stock Number</label>
-                        <Input
-                          type="number"
-                          min="1"
-                          placeholder="Quantity to add..."
-                          value={restockQty}
-                          onChange={(e) => setRestockQty(e.target.value)}
-                          className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12"
-                          required
-                          leftElement={<Layers className="h-4 w-4 text-zinc-300" />}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Selling Price ($)</label>
-                        <Input
-                          type="number"
-                          placeholder="New valuation..."
-                          value={restockPrice}
-                          onChange={(e) => setRestockPrice(e.target.value)}
-                          className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12"
-                          required
-                          leftElement={<DollarSign className="h-4 w-4 text-zinc-300" />}
-                        />
-                      </div>
+              <Modal isOpen={isRestockOpen} onClose={() => setIsRestockOpen(false)} title="Asset Replenishment">
+                <form onSubmit={handleRestock} className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Stock Number</label>
+                      <Input type="number" min="1" placeholder="Quantity to add..." value={restockQty} onChange={(e) => setRestockQty(e.target.value)} className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12" required leftElement={<Layers className="h-4 w-4 text-zinc-300" />} />
                     </div>
-                    <div className="pt-4 flex gap-3">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="flex-1 rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 border border-zinc-50 dark:border-zinc-900"
-                        onClick={() => setIsRestockOpen(false)}
-                        disabled={isSubmitting}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        className="flex-[2] rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 bg-brand-primary text-white shadow-lg shadow-brand-primary/20"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? 'Processing...' : 'Authorize Restock'}
-                      </Button>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">Selling Price ($)</label>
+                      <Input type="number" placeholder="New valuation..." value={restockPrice} onChange={(e) => setRestockPrice(e.target.value)} className="rounded-xl border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 h-12" required leftElement={<DollarSign className="h-4 w-4 text-zinc-300" />} />
                     </div>
-                  </form>
-                </Modal>
+                  </div>
+                  <div className="pt-4 flex gap-3">
+                    <Button type="button" variant="ghost" className="flex-1 rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 border border-zinc-50 dark:border-zinc-900" onClick={() => setIsRestockOpen(false)} disabled={isSubmitting}>Cancel</Button>
+                    <Button className="flex-[2] rounded-xl text-[10px] font-bold uppercase tracking-widest py-6 bg-brand-primary text-white shadow-lg shadow-brand-primary/20" disabled={isSubmitting}>{isSubmitting ? 'Processing...' : 'Authorize Restock'}</Button>
+                  </div>
+                </form>
+              </Modal>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      <CarFormModal
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmit={handleEditSubmit}
+        initialData={car}
+        isSubmitting={isSubmitting}
+      />
+      <DeleteConfirmModal
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        isDeleting={isSubmitting}
+        itemName={`${car.brand} ${car.name}`}
+      />
     </div>
   );
 }

@@ -102,10 +102,10 @@ export function CustomerLayout() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-16 sm:mb-20">
                 <div className="sm:col-span-2 space-y-6 sm:space-y-8 pr-0 md:pr-12">
                   <div className="flex items-center gap-3 sm:gap-4 opacity-90 hover:opacity-100 transition-opacity duration-500">
-                    <div className="bg-zinc-950 dark:bg-white p-2.5 rounded-xl text-white dark:text-zinc-950">
+                    <div className="bg-zinc-950 p-2.5 rounded-xl text-brand-primary shadow-2xl border border-white/5">
                       <Car className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
-                    <span className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tighter">Showroom<span className="text-brand-primary">Elite</span></span>
+                    <span className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tightest uppercase whitespace-nowrap">Showroom<span className="text-brand-primary">Elite</span></span>
                   </div>
                   <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed max-w-sm font-medium">
                     The uncompromising standard in luxury automotive operations. Curating excellence through rigorous technical validation.

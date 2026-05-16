@@ -3,7 +3,7 @@ import { useCustomerRequests } from "../context/CustomerRequestsContext";
 import { useCustomerCars } from "../context/CustomerCarsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../shared/components/ui/Card";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
-import { User, Mail, Shield, Calendar, Clock, Car, BadgeCheck, XCircle, ShoppingCart, CheckCircle, AlertCircle, Edit2, ChevronLeft, ChevronRight } from "lucide-react";
+import { User, Mail, Shield, Calendar, Clock, Car, BadgeCheck, XCircle, ShoppingCart, CheckCircle, AlertCircle, Edit2, ChevronLeft, ChevronRight, X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../shared/components/ui/Modal";
 import { Input } from "../../shared/components/ui/Input";
@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export default function Profile() {
   const { user, updateUserProfile } = useAuth();
-  const { requests, loading: reqLoading } = useCustomerRequests();
+  const { requests, loading: reqLoading, cancelRequest } = useCustomerRequests();
   const { cars } = useCustomerCars();
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -24,10 +24,14 @@ export default function Profile() {
   const [imagePreview, setImagePreview] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
+  // Cancel confirmation state
+  const [cancelTargetId, setCancelTargetId] = useState(null);
+  const [isCancelling, setIsCancelling] = useState(false);
+
   if (!user) return null;
 
   const handleOpenEdit = () => {
-setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || "", image: user.image || "" });
+    setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName || ""}`.trim() || "", image: user.image || "" });
     setImageFile(null);
     setImagePreview("");
     setIsEditModalOpen(true);
@@ -94,6 +98,25 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
     }
   };
 
+  const handleCancelRequest = async (requestId, e) => {
+    e.stopPropagation(); // prevent row navigation
+    setCancelTargetId(requestId);
+  };
+
+  const handleConfirmCancel = async () => {
+    setIsCancelling(true);
+    try {
+      await cancelRequest(cancelTargetId);
+      addToast("Request cancelled successfully.", "success");
+    } catch (error) {
+      console.error("Cancel request error:", error);
+      addToast(error.message || "Failed to cancel request", "error");
+    } finally {
+      setIsCancelling(false);
+      setCancelTargetId(null);
+    }
+  };
+
   const enrichedRequests = requests.map(req => {
     const car = cars.find(c => c.id === req.carId);
     return { ...req, carName: car?.name || "Unknown Vehicle", carBrand: car?.brand || "N/A" };
@@ -103,26 +126,18 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
   const pendingCount = requests.filter(r => r.status === 'pending').length;
   const rejectedCount = requests.filter(r => r.status === 'rejected').length;
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'approved': return <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5" /> Approved</span>;
-      case 'rejected': return <span className="bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><XCircle className="h-3.5 w-3.5" /> Rejected</span>;
-      default: return <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> Pending</span>;
-    }
-  };
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(enrichedRequests.length / itemsPerPage) || 1;
   const paginatedRequests = enrichedRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  // Find the request being cancelled (for the modal label)
+  const cancelTarget = enrichedRequests.find(r => r.firestoreId === cancelTargetId);
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Personal Profile</h1>
-        <div className="text-xs font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800 tracking-widest uppercase">
-          Access Level: <span className="text-brand-primary ml-1">{user.role}</span>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -152,9 +167,9 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         {/* Account Details Card */}
         <Card className="md:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl">
           <CardHeader className="pb-4 pt-8 px-8 flex flex-row items-center justify-between border-b border-zinc-100 dark:border-zinc-900">
-            <CardTitle className="text-xs font-bold uppercase tracking-widest text-zinc-500">Identification Info</CardTitle>
+            <CardTitle className="text-xs font-bold uppercase tracking-widest text-zinc-500">Profile Info</CardTitle>
             <Button variant="ghost" size="sm" onClick={handleOpenEdit} className="text-brand-primary hover:bg-brand-primary/5 text-xs font-bold uppercase tracking-widest px-4 rounded-xl border border-brand-primary/20">
-              <Edit2 className="h-3.5 w-3.5 mr-2" /> Modify
+              <Edit2 className="h-3.5 w-3.5 mr-2" /> Update
             </Button>
           </CardHeader>
           <CardContent className="p-8 space-y-8">
@@ -176,62 +191,62 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         </Card>
       </div>
 
-{/* Stats Row */}
-<div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-    <CardContent className="p-6 flex items-center gap-5">
-      <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl shadow-inner group transition-all hover:bg-brand-primary/10">
-        <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
-      </div>
-      <div>
-        <p className="text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-none">{requests.length}</p>
-        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Request Log</p>
-      </div>
-    </CardContent>
-  </Card>
+      {/* Stats Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl shadow-inner group transition-all hover:bg-brand-primary/10">
+              <ShoppingCart className="h-5 w-5 text-zinc-400 dark:text-zinc-600 group-hover:text-brand-primary" />
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-none">{requests.length}</p>
+              <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Request Log</p>
+            </div>
+          </CardContent>
+        </Card>
 
-  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-    <CardContent className="p-6 flex items-center gap-5">
-      <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-2xl shadow-inner">
-        <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
-      </div>
-      <div>
-        <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-500 tracking-tightest leading-none">{approvedCount}</p>
-        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Accepted</p>
-      </div>
-    </CardContent>
-  </Card>
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-2xl shadow-inner">
+              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-500 tracking-tightest leading-none">{approvedCount}</p>
+              <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Accepted</p>
+            </div>
+          </CardContent>
+        </Card>
 
-  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-    <CardContent className="p-6 flex items-center gap-5">
-      <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-2xl shadow-inner">
-        <AlertCircle className="h-5 w-5 text-brand-primary" />
-      </div>
-      <div>
-        <p className="text-3xl font-bold text-brand-primary tracking-tightest leading-none">{pendingCount}</p>
-        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Pending</p>
-      </div>
-    </CardContent>
-  </Card>
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-2xl shadow-inner">
+              <AlertCircle className="h-5 w-5 text-brand-primary" />
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-brand-primary tracking-tightest leading-none">{pendingCount}</p>
+              <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Pending</p>
+            </div>
+          </CardContent>
+        </Card>
 
-  <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
-    <CardContent className="p-6 flex items-center gap-5">
-      <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl shadow-inner">
-        <XCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
+        <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 rounded-2xl">
+          <CardContent className="p-6 flex items-center gap-5">
+            <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl shadow-inner">
+              <XCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-red-600 dark:text-red-400 tracking-tightest leading-none">{rejectedCount}</p>
+              <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Rejected</p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-      <div>
-        <p className="text-3xl font-bold text-red-600 dark:text-red-400 tracking-tightest leading-none">{rejectedCount}</p>
-        <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Rejected</p>
-      </div>
-    </CardContent>
-  </Card>
-</div>
 
       {/* My Requests */}
       <Card className="border border-zinc-100 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 rounded-3xl overflow-hidden">
         <CardHeader className="px-8 py-8 border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/30">
           <CardTitle className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 text-zinc-500">
-            <Car className="h-4 w-4 text-brand-primary opacity-80" /> Interaction Log
+            <Car className="h-4 w-4 text-brand-primary opacity-80" /> Request Log
           </CardTitle>
           <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{requests.length} interactions</span>
         </CardHeader>
@@ -257,25 +272,43 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
                       <th className="px-8 py-5">Vehicle Inventory</th>
                       <th className="px-8 py-5">Request Date</th>
                       <th className="px-8 py-5">Operational Status</th>
+                      <th className="px-8 py-5">Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-50 dark:divide-zinc-900">
                     {paginatedRequests.map(req => (
-                      <tr key={req.firestoreId} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/cars/${req.carId}`)}>
+                      <tr
+                        key={req.firestoreId}
+                        className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer"
+                        onClick={() => navigate(`/cars/${req.carId}`)}
+                      >
                         <td className="px-8 py-6">
                           <div className="flex flex-col">
                             <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors tracking-tight">{req.carName}</span>
                             <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider mt-1">{req.carBrand}</span>
                           </div>
                         </td>
-                        <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-                          <Calendar className="h-3.5 w-3.5 text-brand-primary/50" />
-                          {new Date(req.timestamp).toLocaleDateString()}
+                        <td className="px-8 py-6 text-xs font-black text-zinc-500 dark:text-zinc-400">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-3.5 w-3.5 text-brand-primary/50" />
+                            {new Date(req.timestamp).toLocaleDateString()}
+                          </div>
                         </td>
                         <td className="px-8 py-6">
                           {req.status === 'approved' && <span className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/50">Approved</span>}
                           {req.status === 'rejected' && <span className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-red-100 dark:border-red-900/50">Rejected</span>}
                           {req.status === 'pending' && <span className="bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border border-brand-primary/20">Pending</span>}
+                        </td>
+                        <td className="px-8 py-6">
+                          {req.status === 'pending' && (
+                            <button
+                              onClick={(e) => handleCancelRequest(req.firestoreId, e)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest text-red-500 dark:text-red-400 border border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/10 hover:bg-red-100 dark:hover:bg-red-950/30 hover:border-red-300 dark:hover:border-red-800 transition-all duration-200"
+                            >
+                              <X className="h-3 w-3" />
+                              Cancel
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -312,11 +345,53 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
         </CardContent>
       </Card>
 
+      {/* Cancel Confirmation Modal */}
+      <Modal isOpen={!!cancelTargetId} onClose={() => setCancelTargetId(null)} title="Cancel Request">
+        <div className="py-4 space-y-6">
+          <div className="flex items-start gap-4 p-5 bg-red-50 dark:bg-red-950/20 rounded-2xl border border-red-100 dark:border-red-900/40">
+            <div className="p-2 bg-red-100 dark:bg-red-900/40 rounded-xl flex-shrink-0">
+              <XCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                Cancel request for <span className="text-red-600 dark:text-red-400">{cancelTarget?.carName}</span>?
+              </p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                This action cannot be undone. The request will be permanently removed from the system.
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setCancelTargetId(null)}
+              disabled={isCancelling}
+              className="text-xs font-semibold uppercase tracking-wider"
+            >
+              Keep Request
+            </Button>
+            <button
+              onClick={handleConfirmCancel}
+              disabled={isCancelling}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white text-xs font-bold uppercase tracking-widest transition-all duration-200 shadow-lg shadow-red-600/20"
+            >
+              {isCancelling ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <X className="h-3.5 w-3.5" />
+              )}
+              {isCancelling ? "Cancelling..." : "Yes, Cancel"}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
       {/* Edit Profile Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Modify Profile Intelligence">
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Update Profile">
         <form onSubmit={handleSaveProfile} className="space-y-8 py-4">
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Account Identity Name</label>
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Name</label>
             <Input 
               value={editFormData.name} 
               onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })} 
@@ -326,7 +401,7 @@ setEditFormData({ name: user.name || `${user.firstName || ""} ${user.lastName ||
             />
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Profile Portrait</label>
+            <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Profile Picture</label>
             <div className="flex items-center gap-6 p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-inner">
               <div className="h-20 w-20 rounded-full bg-white dark:bg-zinc-950 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
                 {imagePreview || editFormData.image ? (

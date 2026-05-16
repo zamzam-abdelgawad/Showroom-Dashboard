@@ -129,8 +129,8 @@ export function ShowroomActivity() {
   }, [cars, requests, carsLoading, requestsLoading]);
 
   return (
-    <section className="py-2 space-y-8 w-full max-w-[100vw] overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-7xl mx-auto">
+    <section className="py-2 space-y-8 w-full">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 w-full">
         <div className="space-y-1 relative z-10">
           <div className="flex items-center gap-2 mb-2">
             <div className="relative flex h-1.5 w-1.5">
@@ -139,7 +139,7 @@ export function ShowroomActivity() {
             </div>
             <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-500/70">Live Stream</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Operational Intelligence</h2>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Showroom Activity</h2>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-xl font-medium">
             Real-time insights into showroom inventory lifecycle and client procurement activity.
           </p>
@@ -164,13 +164,9 @@ export function ShowroomActivity() {
             ref={scrollContainerRef}
             className="flex overflow-x-auto snap-x snap-mandatory gap-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] pb-5 pt-5 scroll-smooth"
           >
-            {/* Start Spacer to align with container */}
-            <div className="w-0 sm:w-1 lg:w-4 flex-shrink-0" />
             {activities.map((activity, index) => (
               <ActivityCard key={activity.id} activity={activity} index={index} />
             ))}
-            {/* End Spacer */}
-            <div className="w-4 sm:w-8 flex-shrink-0" />
           </div>
         ) : !carsLoading && (
           <div className="max-w-7xl mx-auto py-12 bg-zinc-50/30 dark:bg-zinc-900/10 rounded-[2rem] border border-dashed border-zinc-200/60 dark:border-zinc-800/50 flex flex-col items-center justify-center text-center">

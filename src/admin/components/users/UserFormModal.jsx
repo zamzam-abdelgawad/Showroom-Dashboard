@@ -76,7 +76,7 @@ export function UserFormModal({ isOpen, onClose, onSubmit, initialData = null, i
           />
         </div>
         <div className="flex items-center justify-end gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-900 mt-8">
-          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting} className="rounded-2xl px-8 h-12 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-zinc-50 dark:hover:bg-zinc-900">Abort</Button>
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting} className="rounded-2xl px-8 h-12 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-zinc-50 dark:hover:bg-zinc-900">Cancel</Button>
           <Button type="submit" isLoading={isSubmitting} className="rounded-2xl px-10 h-12 bg-brand-primary text-white shadow-xl shadow-brand-primary/20 text-[10px] font-bold uppercase tracking-widest">{initialData ? "Authorize Changes" : "Confirm Entry"}</Button>
         </div>
       </form>

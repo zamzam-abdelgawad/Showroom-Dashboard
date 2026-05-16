@@ -120,7 +120,7 @@ export default function Cars() {
                   <th className="px-6 py-4">Selling Price</th>
                   {isAdmin && <th className="px-6 py-4">Official Price</th>}
                   <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Inventory</th>
+                  <th className="px-6 py-4">Stock</th>
                   <th className="px-6 py-4 text-right">Operations</th>
                 </tr>
               </thead>

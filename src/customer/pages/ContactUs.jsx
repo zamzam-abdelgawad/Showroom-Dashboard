@@ -69,7 +69,7 @@ export default function ContactUs() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-in bg-zinc-50/30 dark:bg-zinc-950/30 min-h-screen">
       {/* Hero */}
       <div className="text-center mb-16 px-4">
-        <div className="inline-flex p-4 bg-zinc-950 rounded-2xl text-brand-primary shadow-2xl border border-white/5 mb-8">
+        <div className="inline-flex p-4 bg-zinc-950 dark:bg-zinc-100 rounded-2xl text-brand-primary shadow-2xl border border-white/5 dark:border-zinc-900/5 mb-8">
           <MessageSquare className="h-8 w-8" />
         </div>
         <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight leading-tight">
@@ -83,7 +83,7 @@ export default function ContactUs() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
         {/* Contact Info */}
         <div className="lg:col-span-2 space-y-8">
-          <Card className="border border-zinc-900 shadow-2xl bg-zinc-950 text-white overflow-hidden rounded-3xl relative">
+          <Card className="border border-zinc-200 dark:border-zinc-900 shadow-2xl bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white overflow-hidden rounded-3xl relative">
             <CardContent className="p-10 relative">
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-primary/10 rounded-full blur-[100px] pointer-events-none" />
               <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-brand-primary/5 rounded-full blur-[80px] pointer-events-none" />
@@ -91,48 +91,48 @@ export default function ContactUs() {
               <h3 className="text-xs font-bold uppercase tracking-widest text-brand-primary mb-10 relative">Contact Info</h3>
               <div className="space-y-8 relative">
                 <div className="flex items-center gap-5">
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+                  <div className="p-3 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/10 backdrop-blur-md">
                     <Mail className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">Mailing</p>
-                    <p className="text-sm font-bold text-white tracking-tight">info@showcase.com</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest mb-1">Mailing</p>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-white tracking-tight">info@showcase.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+                  <div className="p-3 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/10 backdrop-blur-md">
                     <MessageSquare className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">Tele-Line</p>
-                    <p className="text-sm font-bold text-white tracking-tight">+20 111 111 1111</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest mb-1">Tele-Line</p>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-white tracking-tight">+20 111 111 1111</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+                  <div className="p-3 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/10 backdrop-blur-md">
                     <FileText className="h-4 w-4 text-brand-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">HQ Location</p>
-                    <p className="text-sm font-bold text-white tracking-tight">Cairo, Egypt</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 font-bold uppercase tracking-widest mb-1">HQ Location</p>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-white tracking-tight">Cairo, Egypt</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 pt-10 border-t border-white/5">
-                <p className="text-xs text-zinc-500 mb-8 font-bold uppercase tracking-widest">Operating Schedule</p>
+              <div className="mt-12 pt-10 border-t border-zinc-200 dark:border-white/5">
+                <p className="text-xs text-zinc-500 dark:text-zinc-500 mb-8 font-bold uppercase tracking-widest">Operating Schedule</p>
                 <div className="space-y-5 text-xs font-bold uppercase tracking-widest">
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-500">Business Days</span>
-                    <span className="text-white border-b border-brand-primary/40">09:00 — 18:00</span>
+                    <span className="text-zinc-500 dark:text-zinc-500">Business Days</span>
+                    <span className="text-zinc-900 dark:text-white border-b border-brand-primary/40">09:00 — 18:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-500">Sunday Ops</span>
-                    <span className="text-white border-b border-brand-primary/40">10:00 — 16:00</span>
+                    <span className="text-zinc-500 dark:text-zinc-500">Sunday Ops</span>
+                    <span className="text-zinc-900 dark:text-white border-b border-brand-primary/40">10:00 — 16:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-zinc-500">Fridays</span>
-                    <span className="text-zinc-600">Restricted</span>
+                    <span className="text-zinc-500 dark:text-zinc-500">Fridays</span>
+                    <span className="text-zinc-600 dark:text-zinc-600">Restricted</span>
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function ContactUs() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                   <div className="space-y-3">
                     <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                      <User className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Identity Name
+                      <User className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Name
                     </label>
                     <Input
                       placeholder="Enter your name"
@@ -172,7 +172,7 @@ export default function ContactUs() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                      <Mail className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Mailing Node
+                      <Mail className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Email
                     </label>
                     <Input
                       type="email"
@@ -187,7 +187,7 @@ export default function ContactUs() {
 
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                    <FileText className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Subject Dossier
+                    <FileText className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Subject
                   </label>
                   <Input
                     placeholder="Enter your subject"
@@ -200,7 +200,7 @@ export default function ContactUs() {
 
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                    <MessageSquare className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Inquiry Narrative
+                    <MessageSquare className="h-3.5 w-3.5 text-brand-primary opacity-70" /> Message
                   </label>
                   <textarea
                     rows={6}
@@ -218,7 +218,7 @@ export default function ContactUs() {
                   className="w-full rounded-2xl h-16 text-xs font-bold uppercase tracking-widest shadow-2xl shadow-brand-primary/20 transition-all duration-500 hover:scale-[1.01] active:scale-[0.99] bg-brand-primary hover:bg-brand-primary/90"
                 >
                   <Send className="h-4 w-4 mr-3" />
-                  Dispatch Inquiry
+                  Send Message
                 </Button>
               </form>
             </CardContent>
