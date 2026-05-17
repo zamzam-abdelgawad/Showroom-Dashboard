@@ -8,14 +8,7 @@ import { Car, DollarSign, Activity, CheckCircle, BarChart3, ArrowRight, Clock, U
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 
-const chartData = [
-  { name: "Jan", sales: 40000 },
-  { name: "Feb", sales: 30000 },
-  { name: "Mar", sales: 55000 },
-  { name: "Apr", sales: 48000 },
-  { name: "May", sales: 70000 },
-  { name: "Jun", sales: 85000 },
-];
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const statCardStyles = [
   { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-brand-primary/5", iconColor: "text-brand-primary", shadowColor: "shadow-sm" },
@@ -36,28 +29,57 @@ export default function Dashboard() {
       <div className="space-y-6">
         <div><Skeleton className="h-8 w-48 mb-2" /><Skeleton className="h-4 w-64" /></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
         </div>
         <Skeleton className="h-[400px] w-full rounded-2xl mt-6" />
       </div>
     );
   }
 
-  const availableCarsCount = cars.filter(c => c.status === "Available").length;
+  // ── Stat card values (all derived from real Firestore data via CarsContext) ──
+  const availableCarsCount = cars.filter(c => c.status === "Available" && c.count > 0).length;
   const soldCarsCount = cars.filter(c => c.status === "Sold").length;
-  const totalSalesValue = cars.filter(c => c.status === "Sold").reduce((acc, curr) => acc + (curr.sellingPrice || 0), 0);
-  
+  const totalSalesValue = cars
+    .filter(c => c.status === "Sold")
+    .reduce((acc, curr) => acc + (curr.sellingPrice || 0), 0);
+
+  // ── Chart: monthly revenue grouped by soldAt timestamp ──
+  // Requires cars to have a `soldAt` Firestore Timestamp written when a request is approved.
+  // Falls back gracefully (all zeros) if soldAt is not yet present on older records.
+  const currentYear = new Date().getFullYear();
+
+  const chartData = (() => {
+    const monthlySales = Array(12).fill(0);
+
+    cars
+      .filter(c => c.status === "Sold" && c.soldAt)
+      .forEach(car => {
+        // Support both Firestore Timestamp objects and ISO strings
+        const date = car.soldAt?.toDate ? car.soldAt.toDate() : new Date(car.soldAt);
+        if (!isNaN(date) && date.getFullYear() === currentYear) {
+          monthlySales[date.getMonth()] += car.sellingPrice || 0;
+        }
+      });
+
+    return monthlySales.map((sales, i) => ({ name: MONTH_NAMES[i], sales }));
+  })();
+
+  // ── Recent requests enriched with user & car names ──
   const recentRequests = requests.slice(0, 5).map(req => {
     const user = users.find(u => u.id === req.userId);
     const car = cars.find(c => c.id === req.carId);
-    return { ...req, userName: user ? `${user.firstName} ${user.lastName}` : "User", carName: car?.name || "Vehicle" };
+    return {
+      ...req,
+      userName: user ? `${user.firstName} ${user.lastName}` : "User",
+      carName: car?.name || "Vehicle",
+    };
   });
 
   const statCards = [
-    { title: "Total Vehicles", value: cars.length, icon: <Car className="h-5 w-5" />, trend: "+12%", onClick: () => navigate('/admin/cars') },
-    { title: "Available", value: availableCarsCount, icon: <Activity className="h-5 w-5" />, trend: "+5%", onClick: () => navigate('/admin/cars?status=available') },
-    { title: "Sold", value: soldCarsCount, icon: <CheckCircle className="h-5 w-5" />, trend: "+10%", onClick: () => navigate('/admin/cars?status=sold') },
-    { title: "Revenue", value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, trend: "+18%", onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Total Vehicles", value: cars.length, icon: <Car className="h-5 w-5" />, trend: `${cars.length} total`, onClick: () => navigate('/admin/cars') },
+    { title: "Available", value: availableCarsCount, icon: <Activity className="h-5 w-5" />, trend: `${availableCarsCount} in stock`, onClick: () => navigate('/admin/cars?status=available') },
+    { title: "Sold", value: soldCarsCount, icon: <CheckCircle className="h-5 w-5" />, trend: `${soldCarsCount} units`, onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Revenue", value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, trend: `${currentYear}`, onClick: () => navigate('/admin/cars?status=sold') },
   ];
 
   return (
@@ -67,19 +89,16 @@ export default function Dashboard() {
           <h1 className="text-3xl sm:text-4xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tighter leading-tight">Dashboard</h1>
           <p className="text-zinc-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">Performance metrics and operational overview.</p>
         </div>
-        {/* <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-3 py-2 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm w-fit tracking-wider uppercase">
-          <Clock className="h-3.5 w-3.5" /> System Sync: Today, 10:45 AM
-        </div> */}
       </div>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat, idx) => (
-          <Card 
-            key={idx} 
-            className={`transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 cursor-pointer border ${statCardStyles[idx].border} bg-white dark:bg-zinc-950 shadow-sm ${statCardStyles[idx].shadowColor}`} 
-            onClick={stat.onClick} 
-            role="button" 
+          <Card
+            key={idx}
+            className={`transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 cursor-pointer border ${statCardStyles[idx].border} bg-white dark:bg-zinc-950 shadow-sm ${statCardStyles[idx].shadowColor}`}
+            onClick={stat.onClick}
+            role="button"
             tabIndex={0}
           >
             <CardContent className="p-6 flex items-center justify-between">
@@ -103,36 +122,52 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
           <CardHeader className="flex flex-row items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 bg-zinc-50/30 dark:bg-zinc-900/20">
-            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500"><BarChart3 className="h-4 w-4 text-brand-primary" /> Sales Trajectory</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500">
+              <BarChart3 className="h-4 w-4 text-brand-primary" /> Sales Trajectory — {currentYear}
+            </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="h-[350px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.15}/>
-                      <stop offset="95%" stopColor="#7c3aed" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#18181b' : '#f3f4f6'} />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600}} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600}} tickFormatter={(value) => `$${value / 1000}k`} />
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '12px', border: '1px solid #27272a', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px', backgroundColor: theme === 'dark' ? '#09090b' : '#ffffff', color: theme === 'dark' ? '#f1f5f9' : '#0f172a' }} 
-                    cursor={{stroke: theme === 'dark' ? '#27272a' : '#e2e8f0', strokeWidth: 1}} 
-                    formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]} 
-                  />
-                  <Area type="monotone" dataKey="sales" stroke="#7c3aed" strokeWidth={4} fillOpacity={1} fill="url(#colorSales)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+            {chartData.every(d => d.sales === 0) ? (
+              <div className="h-[350px] flex flex-col items-center justify-center text-center px-8">
+                <div className="bg-zinc-50 dark:bg-zinc-900 p-5 rounded-full mb-6 shadow-inner">
+                  <BarChart3 className="h-8 w-8 text-zinc-200 dark:text-zinc-800" />
+                </div>
+                <p className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">No sales data yet</p>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium mt-2 leading-relaxed max-w-xs">
+                  Monthly revenue will appear here once approved sales include a <span className="font-mono text-zinc-500">soldAt</span> timestamp.
+                </p>
+              </div>
+            ) : (
+              <div className="h-[350px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.15} />
+                        <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#18181b' : '#f3f4f6'} />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }} dy={10} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }} tickFormatter={(value) => `$${value / 1000}k`} />
+                    <Tooltip
+                      contentStyle={{ borderRadius: '12px', border: '1px solid #27272a', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px', backgroundColor: theme === 'dark' ? '#09090b' : '#ffffff', color: theme === 'dark' ? '#f1f5f9' : '#0f172a' }}
+                      cursor={{ stroke: theme === 'dark' ? '#27272a' : '#e2e8f0', strokeWidth: 1 }}
+                      formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]}
+                    />
+                    <Area type="monotone" dataKey="sales" stroke="#7c3aed" strokeWidth={4} fillOpacity={1} fill="url(#colorSales)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <Card className="border border-zinc-100 dark:border-zinc-900 shadow-xl bg-white dark:bg-zinc-950 overflow-hidden h-fit">
           <CardHeader className="border-b border-zinc-50 dark:border-zinc-900 flex flex-row items-center justify-between pb-6 pt-7 bg-zinc-50/50 dark:bg-zinc-900/20 px-6">
-            <CardTitle className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 text-zinc-500"><Activity className="h-4 w-4 text-brand-primary" /> Recent Requests</CardTitle>
+            <CardTitle className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 text-zinc-500">
+              <Activity className="h-4 w-4 text-brand-primary" /> Recent Requests
+            </CardTitle>
             <button onClick={() => navigate('/admin/requests')} className="text-brand-primary hover:text-brand-primary/80 transition-colors">
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -140,26 +175,36 @@ export default function Dashboard() {
           <CardContent className="px-3 pt-6 pb-6">
             {recentRequests.length === 0 ? (
               <div className="py-16 flex flex-col items-center justify-center text-center px-4">
-                <div className="bg-zinc-50 dark:bg-zinc-900 p-5 rounded-full mb-6 shadow-inner"><Clock className="h-8 w-8 text-zinc-200 dark:text-zinc-800" /></div>
+                <div className="bg-zinc-50 dark:bg-zinc-900 p-5 rounded-full mb-6 shadow-inner">
+                  <Clock className="h-8 w-8 text-zinc-200 dark:text-zinc-800" />
+                </div>
                 <p className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">No requests yet</p>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium mt-2 px-10 leading-relaxed">Operational interactions will populate here once customers begin their journey.</p>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium mt-2 px-10 leading-relaxed">
+                  Operational interactions will populate here once customers begin their journey.
+                </p>
               </div>
             ) : (
               <div className="space-y-2">
                 {recentRequests.map((req) => (
-                  <div key={req.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer group border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800" onClick={() => navigate('/admin/requests')}>
+                  <div
+                    key={req.id}
+                    className="flex items-center justify-between p-4 rounded-2xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer group border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800"
+                    onClick={() => navigate('/admin/requests')}
+                  >
                     <div className="flex items-center gap-4 overflow-hidden">
                       <div className="bg-zinc-950/5 dark:bg-zinc-950 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 transition-colors group-hover:bg-brand-primary/10 group-hover:border-brand-primary/20">
                         <User className="h-4 w-4 text-brand-primary" />
                       </div>
                       <div className="flex flex-col overflow-hidden">
                         <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-brand-primary transition-colors truncate tracking-tight">{req.userName}</span>
-                        <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mt-1 tracking-wider uppercase"><Car className="h-3 w-3" /> {req.carName}</span>
+                        <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mt-1 tracking-wider uppercase">
+                          <Car className="h-3 w-3" /> {req.carName}
+                        </span>
                       </div>
                     </div>
                     <div className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
-                      req.status === 'approved' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-100/50' : 
-                      req.status === 'rejected' ? 'bg-red-50 dark:bg-red-950/20 text-red-600 border-red-100/50' : 
+                      req.status === 'approved' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-100/50' :
+                      req.status === 'rejected' ? 'bg-red-50 dark:bg-red-950/20 text-red-600 border-red-100/50' :
                       'bg-brand-primary/5 dark:bg-brand-primary/10 text-brand-primary border-brand-primary/20'
                     }`}>
                       {req.status === 'approved' ? 'Approved' : req.status === 'rejected' ? 'Rejected' : 'Pending'}
