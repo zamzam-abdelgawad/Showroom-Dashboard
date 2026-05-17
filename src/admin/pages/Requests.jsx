@@ -9,25 +9,16 @@ import {
   BadgeCheck, XCircle, Clock, Search, Filter, ShieldCheck,
   Mail, Car, Calendar, ChevronDown, X, MapPin, Phone,
   Eye, Package, User, CreditCard, Banknote, TrendingUp,
+  ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-// ─── Section label ─────────────────────────────────────────────────────────────
-function SectionLabel({ children }) {
-  return (
-    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2 flex items-center gap-2">
-      <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
-      {children}
-      <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
-    </p>
-  );
-}
-
-// ─── Delivery Details Modal ────────────────────────────────────────────────────
+// ─── Delivery Details Modal ───────────────────────────────────────────────────
 function DeliveryDetailsModal({ req, onClose }) {
   if (!req) return null;
 
+  // All delivery data lives inside the nested delivery map
   const d = req.delivery || {};
 
   const hasDelivery    = d.address || d.phone || d.date || d.slot;
@@ -36,10 +27,12 @@ function DeliveryDetailsModal({ req, onClose }) {
   const monthlyPayment = d.monthlyPayment;
   const hasPayment     = !!paymentMode;
 
+  // Prices come from delivery map: totalPrice and deliveryFee
   const carPrice    = d.totalPrice && d.deliveryFee ? d.totalPrice - d.deliveryFee : null;
   const deliveryFee = d.deliveryFee ?? null;
   const totalPrice  = d.totalPrice  ?? null;
 
+  // Firestore Timestamp → JS Date
   function parseDate(raw) {
     if (!raw) return null;
     if (raw?.seconds) return new Date(raw.seconds * 1000);
@@ -49,22 +42,12 @@ function DeliveryDetailsModal({ req, onClose }) {
   function Row({ icon, label, value, accent }) {
     return (
       <div className="flex items-start gap-3 py-3 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
-        <div className={`p-1.5 rounded-lg flex-shrink-0 mt-0.5
-          ${accent
-            ? "bg-brand-primary/10"
-            : "bg-zinc-100 dark:bg-zinc-800"}`}
-        >
+        <div className={`p-1.5 rounded-lg flex-shrink-0 mt-0.5 ${accent ? "bg-brand-primary/10" : "bg-zinc-100 dark:bg-zinc-800"}`}>
           {icon}
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-0.5">{label}</p>
-          <p className={`text-sm font-semibold break-words
-            ${accent
-              ? "text-brand-primary"
-              : "text-zinc-800 dark:text-zinc-200"}`}
-          >
-            {value || "—"}
-          </p>
+          <p className={`text-sm font-semibold break-words ${accent ? "text-brand-primary" : "text-zinc-800 dark:text-zinc-200"}`}>{value || "—"}</p>
         </div>
       </div>
     );
@@ -72,57 +55,51 @@ function DeliveryDetailsModal({ req, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/70 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="w-full max-w-md bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
 
-        {/* ── Header ─────────────────────────────────────────────────────── */}
-        <div className="bg-zinc-100 dark:bg-zinc-900 px-6 py-5 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800">
+        {/* Header — always dark */}
+        <div className="bg-zinc-950 px-6 py-5 flex items-center justify-between border-b-2 border-brand-primary/30">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-brand-primary/15 border border-brand-primary/30 flex items-center justify-center shadow-lg shadow-brand-primary/10">
               <Package className="w-4 h-4 text-brand-primary" />
             </div>
             <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-white leading-tight">
-                Delivery Details
-              </p>
-              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mt-0.5 font-medium">
+              <p className="text-sm font-bold uppercase tracking-widest text-white leading-tight">Delivery Details</p>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-widest mt-0.5 font-medium">
                 {req.carBrand} · {req.carName}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700
-                       flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-white
-                       hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-all duration-200"
+            className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 hover:border-zinc-500 transition-all duration-200"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* ── Status bar ─────────────────────────────────────────────────── */}
+        {/* Status bar */}
         <div className={`px-6 py-2.5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border-b
           ${req.status === 'approved'
-            ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400'
+            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
             : req.status === 'rejected'
-              ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/30 text-red-500 dark:text-red-400'
-              : 'bg-brand-primary/5 dark:bg-brand-primary/10 border-brand-primary/10 dark:border-brand-primary/20 text-brand-primary'}`}
-        >
+              ? 'bg-red-500/10 border-red-500/20 text-red-500'
+              : 'bg-brand-primary/10 border-brand-primary/20 text-brand-primary'}`}>
           {req.status === 'approved' && <BadgeCheck className="w-3.5 h-3.5" />}
-          {req.status === 'rejected' && <XCircle    className="w-3.5 h-3.5" />}
-          {req.status === 'pending'  && <Clock      className="w-3.5 h-3.5" />}
+          {req.status === 'rejected' && <XCircle className="w-3.5 h-3.5" />}
+          {req.status === 'pending'  && <Clock className="w-3.5 h-3.5" />}
           Request {req.status} · {new Date(req.timestamp).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
         </div>
 
-        {/* ── Scrollable body ─────────────────────────────────────────────── */}
-        <div className="p-6 space-y-5 max-h-[70vh] overflow-y-auto bg-white dark:bg-zinc-950">
+        <div className="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
 
           {/* Customer */}
           <div>
             <SectionLabel>Customer</SectionLabel>
-            <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl px-4 border border-zinc-100 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl px-4 divide-y divide-zinc-100 dark:divide-zinc-800">
               <Row icon={<User className="w-3.5 h-3.5 text-zinc-400" />} label="Name"  value={req.userName} />
               <Row icon={<Mail className="w-3.5 h-3.5 text-zinc-400" />} label="Email" value={req.userEmail} />
             </div>
@@ -132,30 +109,57 @@ function DeliveryDetailsModal({ req, onClose }) {
           {hasDelivery ? (
             <div>
               <SectionLabel>Delivery</SectionLabel>
-              <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl px-4 border border-zinc-100 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
+              <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl px-4 divide-y divide-zinc-100 dark:divide-zinc-800">
                 {d.address  && <Row icon={<MapPin   className="w-3.5 h-3.5 text-zinc-400" />} label="Address"        value={d.address} />}
                 {d.phone    && <Row icon={<Phone    className="w-3.5 h-3.5 text-zinc-400" />} label="Primary Phone"   value={d.phone} />}
-                {d.altPhone && <Row icon={<Phone    className="w-3.5 h-3.5 text-zinc-400" />} label="Alternate Phone" value={d.altPhone} />}
-                {d.date     && <Row icon={<Calendar className="w-3.5 h-3.5 text-zinc-400" />} label="Delivery Date"  value={parseDate(d.date)?.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />}
-                {d.slot     && <Row icon={<Clock    className="w-3.5 h-3.5 text-zinc-400" />} label="Time Window"    value={d.slot} />}
+                {d.altPhone && <Row icon={<Phone    className="w-3.5 h-3.5 text-zinc-400" />} label="Alternate Phone"  value={d.altPhone} />}
+                {d.date     && <Row icon={<Calendar className="w-3.5 h-3.5 text-zinc-400" />} label="Delivery Date"   value={parseDate(d.date)?.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />}
+                {d.slot     && <Row icon={<Clock    className="w-3.5 h-3.5 text-zinc-400" />} label="Time Window"     value={d.slot} />}
               </div>
             </div>
           ) : (
             <div className="text-center py-6 px-4 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800">
-              <Package className="w-8 h-8 text-zinc-300 dark:text-zinc-700 mx-auto mb-2" />
+              <Package className="w-8 h-8 text-zinc-200 dark:text-zinc-700 mx-auto mb-2" />
               <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">No delivery details submitted</p>
               <p className="text-[10px] text-zinc-400/70 mt-1">Customer hasn't completed the booking form yet.</p>
             </div>
           )}
 
+          {/* Pricing — always shown when totalPrice exists */}
+          {totalPrice && (
+            <div>
+              <SectionLabel>Order Pricing</SectionLabel>
+              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden">
+                {/* Breakdown rows */}
+                <div className="bg-zinc-50 dark:bg-zinc-900/60 px-4 divide-y divide-zinc-100 dark:divide-zinc-800">
+                  {carPrice !== null && (
+                    <Row icon={<Car className="w-3.5 h-3.5 text-zinc-400" />} label="Vehicle Price" value={`$${carPrice.toLocaleString()}`} />
+                  )}
+                  {deliveryFee !== null && (
+                    <Row icon={<Package className="w-3.5 h-3.5 text-zinc-400" />} label="Delivery Fee" value={`$${deliveryFee.toLocaleString()}`} />
+                  )}
+                </div>
+                {/* Total */}
+                <div className="bg-zinc-950 px-5 py-4 flex items-center justify-between">
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Total Due</p>
+                    <p className="text-[10px] text-zinc-500 mt-0.5">Full payment at delivery</p>
+                  </div>
+                  <p className="text-2xl font-bold text-brand-primary tracking-tighter leading-none">
+                    ${totalPrice.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Payment method */}
           {hasPayment && (
             <div>
               <SectionLabel>Payment Method</SectionLabel>
-              <div className={`rounded-2xl px-4 border divide-y
+              <div className={`rounded-2xl px-4 divide-y border
                 ${paymentMode === "finance"
                   ? "bg-brand-primary/5 border-brand-primary/10 divide-brand-primary/10"
-                  : "bg-emerald-50 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-900/30 divide-emerald-100 dark:divide-emerald-900/30"}`}
+                  : "bg-emerald-50/60 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-900/30 divide-emerald-100 dark:divide-emerald-900/30"}`}
               >
                 <Row
                   icon={paymentMode === "finance"
@@ -169,7 +173,6 @@ function DeliveryDetailsModal({ req, onClose }) {
                     icon={<TrendingUp className="w-3.5 h-3.5 text-brand-primary" />}
                     label="Loan Term"
                     value={`${financeTerm} months · 4.9% APR`}
-                    accent
                   />
                 )}
                 {paymentMode === "finance" && monthlyPayment && (
@@ -177,48 +180,28 @@ function DeliveryDetailsModal({ req, onClose }) {
                     icon={<TrendingUp className="w-3.5 h-3.5 text-brand-primary" />}
                     label="Est. Monthly Payment"
                     value={`$${monthlyPayment.toLocaleString()}/mo`}
-                    accent
                   />
                 )}
               </div>
             </div>
           )}
-
-          {/* Order pricing */}
-          {totalPrice && (
-            <div>
-              <SectionLabel>Order Pricing</SectionLabel>
-              <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <div className="bg-zinc-50 dark:bg-zinc-900/60 px-4 divide-y divide-zinc-100 dark:divide-zinc-800">
-                  {carPrice !== null && (
-                    <Row icon={<Car     className="w-3.5 h-3.5 text-zinc-400" />} label="Vehicle Price" value={`$${carPrice.toLocaleString()}`} />
-                  )}
-                  {deliveryFee !== null && (
-                    <Row icon={<Package className="w-3.5 h-3.5 text-zinc-400" />} label="Delivery Fee"  value={`$${deliveryFee.toLocaleString()}`} />
-                  )}
-                </div>
-
-                {/* Total row — light: zinc-900 banner, dark: zinc-950 */}
-                <div className="bg-zinc-100 dark:bg-zinc-950 px-5 py-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Total Due</p>
-                    <p className="text-[10px] text-zinc-500 mt-0.5">Full payment at delivery</p>
-                  </div>
-                  <p className="text-2xl font-bold text-brand-primary tracking-tighter leading-none">
-                    ${totalPrice.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────────
+function SectionLabel({ children }) {
+  return (
+    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2 flex items-center gap-2">
+      <span className="h-px flex-1 bg-zinc-100 dark:bg-zinc-800" />
+      {children}
+      <span className="h-px flex-1 bg-zinc-100 dark:bg-zinc-800" />
+    </p>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function Requests() {
   const { requests, loading, updateRequestStatus } = useRequests();
   const { users } = useUsers();
@@ -226,15 +209,19 @@ export default function Requests() {
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  const [searchTerm,    setSearchTerm]    = useState("");
-  const [statusFilter,  setStatusFilter]  = useState("all");
-  const [isFilterOpen,  setIsFilterOpen]  = useState(false);
-  const [selectedReq,   setSelectedReq]   = useState(null);
+  const [searchTerm, setSearchTerm]     = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedReq,  setSelectedReq]  = useState(null);
+  const [currentPage,  setCurrentPage]  = useState(1);
+  const itemsPerPage = 8;
   const filterRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (filterRef.current && !filterRef.current.contains(e.target)) setIsFilterOpen(false);
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setIsFilterOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -248,8 +235,8 @@ export default function Requests() {
         ...req,
         userName:  user ? `${user.firstName || user.name || ''} ${user.lastName || ''}`.trim() : "Unknown User",
         userEmail: user?.email || "N/A",
-        carName:   car?.name   || "Unknown Vehicle",
-        carBrand:  car?.brand  || "N/A",
+        carName:   car?.name  || "Unknown Vehicle",
+        carBrand:  car?.brand || "N/A",
       };
     });
   }, [requests, users, cars]);
@@ -262,6 +249,12 @@ export default function Requests() {
       return matchesSearch && matchesStatus;
     });
   }, [enrichedRequests, searchTerm, statusFilter]);
+
+  // Reset to page 1 whenever filter/search changes
+  useEffect(() => { setCurrentPage(1); }, [searchTerm, statusFilter]);
+
+  const totalPages      = Math.ceil(filteredRequests.length / itemsPerPage) || 1;
+  const paginatedRequests = filteredRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const handleStatusChange = async (id, newStatus, carId) => {
     try {
@@ -298,7 +291,6 @@ export default function Requests() {
   return (
     <>
       <div className="space-y-6 animate-in">
-
         {/* Page header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex items-center gap-3">
@@ -306,9 +298,7 @@ export default function Requests() {
               <Car className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">
-                Purchase Requests
-              </h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-100 tracking-tightest leading-tight">Purchase Requests</h1>
               <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-1">
                 {requests.length} total orders · <span className="text-brand-primary">{pendingCount} pending review</span>
               </p>
@@ -321,7 +311,6 @@ export default function Requests() {
         </div>
 
         <Card className="border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
-
           {/* Toolbar */}
           <CardHeader className="bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row gap-4 justify-between pb-4 pt-6 px-6">
             <div className="relative max-w-sm w-full">
@@ -341,10 +330,7 @@ export default function Requests() {
               >
                 <Filter className="h-3.5 w-3.5 text-brand-primary flex-shrink-0" />
                 <span className="flex-1 text-left">
-                  {statusFilter === 'all'      ? 'All Interactions'
-                   : statusFilter === 'pending'  ? 'Pending'
-                   : statusFilter === 'approved' ? 'Accepted'
-                   : 'Rejected'}
+                  {statusFilter === 'all' ? 'All Interactions' : statusFilter === 'pending' ? 'Pending' : statusFilter === 'approved' ? 'Accepted' : 'Rejected'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-zinc-400 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -404,7 +390,7 @@ export default function Requests() {
                         </td>
                       </tr>
                     ) : (
-                      filteredRequests.map(req => (
+                      paginatedRequests.map(req => (
                         <tr key={req.id || req.firestoreId} className="hover:bg-brand-primary/[0.02] dark:hover:bg-brand-primary/[0.02] transition-colors group">
 
                           {/* Customer */}
@@ -446,11 +432,11 @@ export default function Requests() {
                           {/* Status */}
                           <td className="px-6 py-4">{getStatusBadge(req.status)}</td>
 
-                          {/* Delivery */}
+                          {/* Delivery column */}
                           <td className="px-6 py-4">
                             <button
                               onClick={() => setSelectedReq(req)}
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all duration-200
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all duration-200 group/btn
                                 ${req.delivery?.address
                                   ? "border-brand-primary/20 bg-brand-primary/5 text-brand-primary hover:bg-brand-primary/10 hover:border-brand-primary/40"
                                   : "border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-600 dark:hover:text-zinc-300"}`}
@@ -490,6 +476,33 @@ export default function Requests() {
                 </table>
               </div>
             )}
+          {/* Pagination footer */}
+          <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-zinc-950">
+            <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 italic">
+              Showing {filteredRequests.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredRequests.length)} of {filteredRequests.length} results
+            </span>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline" size="sm"
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1 || loading}
+                className="h-8 w-8 p-0 min-w-0"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 min-w-[5rem] text-center">
+                Page {currentPage} of {totalPages}
+              </div>
+              <Button
+                variant="outline" size="sm"
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages || loading}
+                className="h-8 w-8 p-0 min-w-0"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
           </CardContent>
         </Card>
       </div>

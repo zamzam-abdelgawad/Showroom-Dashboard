@@ -11,10 +11,10 @@ import { Skeleton } from "../../shared/components/ui/Skeleton";
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const statCardStyles = [
-  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-brand-primary/5", iconColor: "text-brand-primary", shadowColor: "shadow-sm" },
-  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-emerald-500/5", iconColor: "text-emerald-600 dark:text-emerald-400", shadowColor: "shadow-sm" },
-  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-amber-500/5", iconColor: "text-amber-600", shadowColor: "shadow-sm" },
-  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-zinc-100 dark:bg-zinc-800", iconColor: "text-zinc-600 dark:text-zinc-400", shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-brand-primary/5",       iconColor: "text-brand-primary",                       shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-emerald-500/5",          iconColor: "text-emerald-600 dark:text-emerald-400",    shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-amber-500/5",            iconColor: "text-amber-600",                            shadowColor: "shadow-sm" },
+  { border: "border-zinc-100 dark:border-zinc-800", iconBg: "bg-zinc-100 dark:bg-zinc-800", iconColor: "text-zinc-600 dark:text-zinc-400",      shadowColor: "shadow-sm" },
 ];
 
 export default function Dashboard() {
@@ -36,27 +36,63 @@ export default function Dashboard() {
     );
   }
 
-  // ── Stat card values (all derived from real Firestore data via CarsContext) ──
+  // ── Stat card values ───────────────────────────────────────────────────────
   const availableCarsCount = cars.filter(c => c.status === "Available" && c.count > 0).length;
-  const soldCarsCount = cars.filter(c => c.status === "Sold").length;
-  const totalSalesValue = cars
-    .filter(c => c.status === "Sold")
-    .reduce((acc, curr) => acc + (curr.sellingPrice || 0), 0);
+  const soldCarsCount      = cars.filter(c => c.status === "Sold").length;
 
-  // ── Chart: monthly revenue grouped by soldAt timestamp ──
-  // Requires cars to have a `soldAt` Firestore Timestamp written when a request is approved.
-  // Falls back gracefully (all zeros) if soldAt is not yet present on older records.
+  // Revenue = sum of approved requests' car prices
+  // Consistent with the chart so both numbers always agree
+  const totalSalesValue = requests
+    .filter(r => r.status === "approved")
+    .reduce((acc, req) => {
+      const car = cars.find(c => String(c.id) === String(req.carId));
+      return acc + (car?.sellingPrice || req.delivery?.totalPrice || 0);
+    }, 0);
+
   const currentYear = new Date().getFullYear();
 
+  // ── Chart: monthly revenue ─────────────────────────────────────────────────
+  // Primary source: approved requests (always have a timestamp).
+  // Secondary: cars with soldAt field (written by newer CarsContext versions).
+  // This ensures the chart works even before soldAt was added to your schema.
   const chartData = (() => {
     const monthlySales = Array(12).fill(0);
 
+    // Helper: parse any timestamp form → JS Date
+    const toDate = (raw) => {
+      if (!raw) return null;
+      if (raw?.toDate) return raw.toDate();          // Firestore Timestamp object
+      if (raw?.seconds) return new Date(raw.seconds * 1000); // plain { seconds }
+      const d = new Date(raw);
+      return isNaN(d) ? null : d;
+    };
+
+    // Use approved requests as the primary revenue signal
+    requests
+      .filter(r => r.status === "approved")
+      .forEach(req => {
+        const date = toDate(req.timestamp);
+        if (!date || date.getFullYear() !== currentYear) return;
+
+        // Find the car's selling price for this request
+        const car = cars.find(c => String(c.id) === String(req.carId));
+        const price = car?.sellingPrice || req.delivery?.totalPrice || 0;
+        monthlySales[date.getMonth()] += price;
+      });
+
+    // Also include cars with soldAt (for future-proofing once you add it)
     cars
       .filter(c => c.status === "Sold" && c.soldAt)
       .forEach(car => {
-        // Support both Firestore Timestamp objects and ISO strings
-        const date = car.soldAt?.toDate ? car.soldAt.toDate() : new Date(car.soldAt);
-        if (!isNaN(date) && date.getFullYear() === currentYear) {
+        const date = toDate(car.soldAt);
+        if (!date || date.getFullYear() !== currentYear) return;
+
+        // Only add if this car doesn't already have a matching approved request
+        // (avoids double-counting)
+        const alreadyCounted = requests.some(
+          r => r.status === "approved" && String(r.carId) === String(car.id)
+        );
+        if (!alreadyCounted) {
           monthlySales[date.getMonth()] += car.sellingPrice || 0;
         }
       });
@@ -64,22 +100,24 @@ export default function Dashboard() {
     return monthlySales.map((sales, i) => ({ name: MONTH_NAMES[i], sales }));
   })();
 
-  // ── Recent requests enriched with user & car names ──
+  // ── Recent requests enriched with user & car names ─────────────────────────
   const recentRequests = requests.slice(0, 5).map(req => {
-    const user = users.find(u => u.id === req.userId);
-    const car = cars.find(c => c.id === req.carId);
+    const user = users.find(u => u.id === req.userId || u.firestoreId === req.userId);
+    const car  = cars.find(c => String(c.id) === String(req.carId));
     return {
       ...req,
-      userName: user ? `${user.firstName} ${user.lastName}` : "User",
+      userName: user
+        ? `${user.firstName || user.name || ""} ${user.lastName || ""}`.trim() || "User"
+        : "Unknown User",
       carName: car?.name || "Vehicle",
     };
   });
 
   const statCards = [
-    { title: "Total Vehicles", value: cars.length, icon: <Car className="h-5 w-5" />, trend: `${cars.length} total`, onClick: () => navigate('/admin/cars') },
-    { title: "Available", value: availableCarsCount, icon: <Activity className="h-5 w-5" />, trend: `${availableCarsCount} in stock`, onClick: () => navigate('/admin/cars?status=available') },
-    { title: "Sold", value: soldCarsCount, icon: <CheckCircle className="h-5 w-5" />, trend: `${soldCarsCount} units`, onClick: () => navigate('/admin/cars?status=sold') },
-    { title: "Revenue", value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, trend: `${currentYear}`, onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Total Vehicles",  value: cars.length,                    icon: <Car          className="h-5 w-5" />, trend: `${cars.length} total`,           onClick: () => navigate('/admin/cars') },
+    { title: "Available",       value: availableCarsCount,             icon: <Activity     className="h-5 w-5" />, trend: `${availableCarsCount} in stock`,  onClick: () => navigate('/admin/cars?status=available') },
+    { title: "Sold",            value: soldCarsCount,                  icon: <CheckCircle  className="h-5 w-5" />, trend: `${soldCarsCount} units`,          onClick: () => navigate('/admin/cars?status=sold') },
+    { title: "Revenue",         value: `$${totalSalesValue.toLocaleString()}`, icon: <DollarSign className="h-5 w-5" />, trend: `${currentYear}`, onClick: () => navigate('/admin/cars?status=sold') },
   ];
 
   return (
@@ -118,7 +156,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Charts + Recent Requests */}
+      {/* Chart + Recent Requests */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border border-zinc-100 dark:border-zinc-900 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
           <CardHeader className="flex flex-row items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 bg-zinc-50/30 dark:bg-zinc-900/20">
@@ -134,7 +172,7 @@ export default function Dashboard() {
                 </div>
                 <p className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">No sales data yet</p>
                 <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium mt-2 leading-relaxed max-w-xs">
-                  Monthly revenue will appear here once approved sales include a <span className="font-mono text-zinc-500">soldAt</span> timestamp.
+                  Monthly revenue will appear once requests are approved.
                 </p>
               </div>
             ) : (
@@ -143,17 +181,35 @@ export default function Dashboard() {
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.15} />
+                        <stop offset="5%"  stopColor="#7c3aed" stopOpacity={0.15} />
                         <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#18181b' : '#f3f4f6'} />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }} dy={10} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }} tickFormatter={(value) => `$${value / 1000}k`} />
+                    <XAxis
+                      dataKey="name"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                      dy={10}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: theme === 'dark' ? '#52525b' : '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                      tickFormatter={value => `$${value / 1000}k`}
+                    />
                     <Tooltip
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #27272a', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px', backgroundColor: theme === 'dark' ? '#09090b' : '#ffffff', color: theme === 'dark' ? '#f1f5f9' : '#0f172a' }}
+                      contentStyle={{
+                        borderRadius: '12px',
+                        border: '1px solid #27272a',
+                        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                        padding: '12px 16px',
+                        backgroundColor: theme === 'dark' ? '#09090b' : '#ffffff',
+                        color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
+                      }}
                       cursor={{ stroke: theme === 'dark' ? '#27272a' : '#e2e8f0', strokeWidth: 1 }}
-                      formatter={(value) => [`$${value.toLocaleString()}`, "Revenue"]}
+                      formatter={value => [`$${value.toLocaleString()}`, "Revenue"]}
                     />
                     <Area type="monotone" dataKey="sales" stroke="#7c3aed" strokeWidth={4} fillOpacity={1} fill="url(#colorSales)" />
                   </AreaChart>
@@ -185,9 +241,9 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="space-y-2">
-                {recentRequests.map((req) => (
+                {recentRequests.map(req => (
                   <div
-                    key={req.id}
+                    key={req.id || req.firestoreId}
                     className="flex items-center justify-between p-4 rounded-2xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-all duration-300 cursor-pointer group border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800"
                     onClick={() => navigate('/admin/requests')}
                   >
