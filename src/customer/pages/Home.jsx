@@ -5,7 +5,7 @@ import { CardContent } from "../../shared/components/ui/Card";
 import { Input } from "../../shared/components/ui/Input";
 import { Skeleton } from "../../shared/components/ui/Skeleton";
 import { StaggeredGrid, StaggeredCard } from "../../shared/components/animations/StaggeredGrid";
-import { Search, Filter, Car, Calendar, ArrowRight, Sparkles, Package, CheckCircle2, ShieldCheck, LineChart, RefreshCw, Headset } from "lucide-react";
+import { Search, Filter, Car, Calendar, ArrowRight, Sparkles, Package, CheckCircle2, ShieldCheck, LineChart, RefreshCw, Headset, ArrowDown } from "lucide-react";
 import { useCustomerRequests } from "../context/CustomerRequestsContext";
 import { useAuth } from "../../shared/context/AuthContext";
 import { ShowroomActivity } from "../components/home/ShowroomActivity";
@@ -115,14 +115,12 @@ export default function Home() {
       <div className="py-8 overflow-hidden relative z-10 border-b border-zinc-200/50 dark:border-zinc-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            {/* ── EDIT 1: Brand hover — underline-reveal + sharp color pop ── */}
             {['BMW', 'Mercedes-Benz', 'Audi', 'Porsche', 'Lexus', 'Range Rover'].map((brand) => (
               <span
                 key={brand}
                 className="relative text-lg md:text-xl font-black tracking-widest text-zinc-400 dark:text-zinc-600 cursor-default select-none transition-colors duration-300 ease-out hover:text-zinc-950 dark:hover:text-zinc-100 group/brand"
               >
                 {brand.toUpperCase()}
-                {/* animated underline accent */}
                 <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-brand-primary rounded-full transition-all duration-500 ease-out group-hover/brand:w-full" />
               </span>
             ))}
@@ -131,11 +129,8 @@ export default function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-10">
-        {/* Live Showroom Activity - Hidden when searching/filtering to focus on results */}
-        {/* {!searchTerm && statusFilter === 'all' && } */}
         <ShowroomActivity />
 
-        
         {/* Search & Filter */}
         <div className="flex flex-row gap-3 items-center justify-between bg-zinc-50/50 dark:bg-zinc-900/20 backdrop-blur-2xl rounded-2xl border border-zinc-200/50 dark:border-zinc-800/30 p-2 md:p-3 relative z-10 mx-auto max-w-4xl transition-all duration-700 focus-within:scale-[1.005] hover:border-zinc-300 dark:hover:border-zinc-700/50">
           <div className="relative flex-1 min-w-0">
@@ -216,17 +211,14 @@ export default function Home() {
                       alt={car.name}
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03] grayscale-[0.3] group-hover:grayscale-0 rounded-xl"
                     />
-                    <div className="absolute top-4 left-4 flex gap-2">
-                      <div className="relative">
-                        {/* ── EDIT 3: Available badge — emerald tint for in-stock, zinc for out ── */}
-                        <span className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-xl backdrop-blur-md transition-all duration-700 ${
-                          (car.status === 'Available' && (car.count ?? 0) > 0)
-                            ? 'bg-emerald-50/95 text-emerald-700 border border-emerald-200/60 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/20'
-                            : 'bg-zinc-100/90 text-zinc-400 border border-black/5 dark:bg-zinc-900/80 dark:text-zinc-500 dark:border-white/5'
-                          }`}>
-                          {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Out of Stock'}
-                        </span>
-                      </div>
+                    <div className="absolute top-4 left-4">
+                      <span className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-xl backdrop-blur-md transition-all duration-700 ${
+                        (car.status === 'Available' && (car.count ?? 0) > 0)
+                          ? 'bg-emerald-50/95 text-emerald-700 border border-emerald-200/60 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/20'
+                          : 'bg-zinc-100/90 text-zinc-400 border border-black/5 dark:bg-zinc-900/80 dark:text-zinc-500 dark:border-white/5'
+                        }`}>
+                        {(car.status === 'Available' && (car.count ?? 0) > 0) ? 'Available' : 'Out of Stock'}
+                      </span>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000" />
                   </div>
@@ -260,8 +252,8 @@ export default function Home() {
                           Pending <CheckCircle2 className="h-3.5 w-3.5" />
                         </span>
                       ) : (
-                        <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-brand-primary group-hover:bg-brand-primary/5 px-4 py-2 rounded-xl border border-transparent group-hover:border-brand-primary/10 tracking-widest uppercase transition-all duration-[800ms] cursor-pointer">
-                          View Asset
+                        <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-brand-primary group-hover:bg-brand-primary/5 px-4 py-2 rounded-xl border border-transparent group-hover:border-brand-primary/10 tracking-widest uppercase transition-all duration-[800ms] cursor-pointer flex items-center gap-2">
+                          View Asset <ArrowRight className="h-3 w-3" />
                         </span>
                       )}
                     </div>
@@ -272,21 +264,20 @@ export default function Home() {
           </StaggeredGrid>
         )}
 
-        {/* ── EDIT 2: "See 6 more" button — outlined pill with brand-primary fill on hover ── */}
         {!carsLoading && visibleCars.length > 0 && visibleCount < filteredCars.length && (
-          <div className="pt-8 flex justify-center">
+          <div className="pt-12 flex justify-center">
             <button
               onClick={() => setVisibleCount(prev => prev + 6)}
-              className="group relative px-10 py-3 rounded-full border border-zinc-300 dark:border-zinc-700 bg-transparent hover:bg-brand-primary hover:border-brand-primary text-[10px] font-bold text-zinc-500 dark:text-zinc-400 hover:text-white uppercase tracking-widest transition-all duration-300 ease-out overflow-hidden shadow-sm hover:shadow-brand-primary/20 hover:shadow-lg"
+              className="group relative inline-flex items-center justify-center gap-2.5 px-8 sm:px-12 py-3.5 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-transparent hover:bg-brand-primary hover:border-brand-primary text-[11px] sm:text-[10px] font-bold text-zinc-600 dark:text-zinc-400 hover:text-white uppercase tracking-widest transition-all duration-300 ease-out overflow-hidden shadow-sm hover:shadow-brand-primary/30 hover:shadow-xl"
             >
-              {/* ripple fill */}
               <span className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-out bg-brand-primary rounded-full -z-10" />
-              See 6 more
+              <span>See 6 more</span>
+              <ArrowDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" />
             </button>
           </div>
         )}
 
-        {/* Why Choose Us - Operational Value */}
+        {/* Why Choose Us */}
         <div className="mt-8 bg-zinc-100/50 dark:bg-zinc-900/30 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 p-8 sm:p-12 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {[
@@ -308,7 +299,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
